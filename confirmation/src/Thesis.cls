@@ -24,6 +24,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    
 \NeedsTeXFormat{LaTeX2e}[1996/12/01]
 \ProvidesClass{Thesis}
               [2007/22/02 v1.0
@@ -58,6 +59,8 @@
 %\cleardoublepage
 }
 
+
+
 \newcommand\btypeout[1]{\bhrule\typeout{\space #1}\bhrule}
 \def\today{\ifcase\month\or
   January\or February\or March\or April\or May\or June\or
@@ -74,9 +77,10 @@
 %----------------------------------------------------------------------------------------
 %	MARGINS
 %----------------------------------------------------------------------------------------
-\setmarginsrb  { 1.5in}  % left margin
+%\setmarginsrb  { 1.5in}  % left margin DEFAULT
+\setmarginsrb  { 1.2in}  % left margin
                         { 0.6in}  % top margin
-                        { 1.0in}  % right margin
+                        { 1.0in}  % right margin - 1.0in default
                         { 0.8in}  % bottom margin
                         {  20pt}  % head height
                         {0.25in}  % head sep
@@ -158,6 +162,8 @@
    \let\\\space
 }
 \newcommand*{\supervisor}[1]{\def\supname{#1}}
+\newcommand*{\cosupervisorA}[1]{\def\cosupnameA{#1}}
+\newcommand*{\cosupervisorB}[1]{\def\cosupnameB{#1}}
 \newcommand*{\thesistitle}[1]{\def\ttitle{#1}}
 \newcommand*{\examiner}[1]{\def\examname{#1}}
 \newcommand*{\degree}[1]{\def\degreename{#1}}
@@ -182,10 +188,12 @@
 %	defined as \examname above so you cite it as \examname
 %----------------------------------------------------------------------------------------
 
-\thesistitle{Computing biopolymer networks} % Your thesis title - this is used
-% in the title and abstract -------------------------------------------------  
-\supervisor{Dr. Bill Williams} % You supervisor's name - this is used
+\thesistitle{Biopolymer networks: reconstruction and image analysis} % Your
+% thesis title - this is used in the title and abstract -------------------------------------------------  
+\supervisor{Prof. Bill Williams} % You supervisor's name - this is used
 % in the title page -------------------------------------------------   
+\cosupervisorA{Prof. Geoff Jameson}
+\cosupervisorB{Prof. Shean Hendy}
 \examiner{} % Your examiner's name - this is not currently used anywhere in the template, cite it with \examname if you want it
 %-------------------------------------------------   
 \degree{Doctor of Philosophy} % Your degree name - this is currently used in the title page and abstract
@@ -299,22 +307,24 @@
   \btypeout{Abstract Page}
   \thispagestyle{empty}
   \null\vfil
-  \begin{center}
-    \setlength{\parskip}{0pt}
-    {\normalsize \UNIVNAME \par} % University name in capitals
-    \bigskip
-    {\huge{\textit{Abstract}} \par}
-    \bigskip
-    {\normalsize \facname \par} % Faculty name
-    {\normalsize \deptname \par} % Department name
-    \bigskip
-    {\normalsize \degreename\par} % Degree name
-    \bigskip
-    {\normalsize\bf \@title \par} % Thesis title
-    \medskip
-    {\normalsize by \authornames \par} % Author name
-    \bigskip
-  \end{center}
+%   \begin{center}
+%     \setlength{\parskip}{0pt}
+%     {\normalsize \UNIVNAME \par} % University name in capitals
+%     \bigskip
+    {\huge{\textbf{Abstract}} \par}
+%         {\huge{\textit{Abstract}} \par} % DEFAULT
+    
+%     \bigskip
+%     {\normalsize \facname \par} % Faculty name
+%     {\normalsize \deptname \par} % Department name
+%     \bigskip
+%     {\normalsize \degreename\par} % Degree name
+%     \bigskip
+%     {\normalsize\bf \@title \par} % Thesis title
+%     \medskip
+%     {\normalsize by \authornames \par} % Author name
+%     \bigskip
+%   \end{center}
 }
 %----------------------------------------------------------------------------------------
 {
