@@ -155,10 +155,10 @@
         commentstyle=\color[rgb]{0.13,0.55,0.13}\em,
         stringstyle=\color[rgb]{0.7,0,0} }
 \usepackage[pdfpagemode={UseOutlines},bookmarks=true,bookmarksopen=true,
-   bookmarksopenlevel=0,bookmarksnumbered=true,hypertexnames=false,
-   colorlinks,linkcolor={blue},citecolor={blue},urlcolor={red},
-   pdfstartview={FitV},unicode,breaklinks=true]{hyperref}
-\pdfstringdefDisableCommands{
+   bookmarksopenlevel=0,bookmarksnumbered=true,
+   colorlinks,linkcolor={blue},citecolor={blue},urlcolor={cyan},
+   pdfstartview={FitV},unicode,breaklinks=true,plainpages=false,pdfpagelabels]{hyperref}
+   \pdfstringdefDisableCommands{
    \let\\\space
 }
 \newcommand*{\supervisor}[1]{\def\supname{#1}}
@@ -179,7 +179,7 @@
 \newcommand*{\FACULTY}[1]{\def\FACNAME{#1}}
 \newcommand*{\subject}[1]{\def\subjectname{#1}}
 \newcommand*{\keywords}[1]{\def\keywordnames{#1}}
-
+\newcommand*{\macdiarmidinst}[1]{\def\macdiarmid{#1}}
 %----------------------------------------------------------------------------------------
 %	DOCUMENT VARIABLES
 %	Fill in the lines below to update the thesis template
@@ -193,9 +193,12 @@
 \supervisor{Prof. Bill Williams} % You supervisor's name - this is used
 % in the title page -------------------------------------------------   
 \cosupervisorA{Prof. Geoff Jameson}
-\cosupervisorB{Prof. Shean Hendy}
-\examiner{} % Your examiner's name - this is not currently used anywhere in the template, cite it with \examname if you want it
-%-------------------------------------------------   
+\cosupervisorB{Prof. Sean Hendy}
+\macdiarmidinst{\texorpdfstring{\href{http://www.macdiarmid.ac.nz}
+{MacDiarmid Institute}}
+{MacDiarmid Institute}}
+\examiner{} % Your examiner's name - this is not currently used
+% anywhere in the template, cite it with \examname if you want it -------------------------------------------------   
 \degree{Doctor of Philosophy} % Your degree name - this is currently used in the title page and abstract
 %-------------------------------------------------   
 \authors{Pablo Hernandez-Cerdan} % Your name - this is used in the
@@ -399,7 +402,7 @@
     \chapter*{\listsymbolname
       \@mkboth{
           \MakeUppercase\listsymbolname}{\MakeUppercase\listsymbolname}}
-\begin{longtable}[c]{#1}#2\end{longtable}\par
+\begin{longtable}[l]{#1}#2  \end{longtable}\par
     \cleardoublepage
 }
 \newcommand\listconstants{Physical Constants}

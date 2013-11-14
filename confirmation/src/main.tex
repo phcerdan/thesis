@@ -39,20 +39,33 @@
 #1\par\nobreak\vspace{40 pt}}}
 \makeatother
 %%%%%%%%%%%%%%%%%%%%%%%%
-
+ 
 \graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
 
 % \usepackage[square, numbers, comma, sort&compress]{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers' 
-
-\usepackage[square, sort,numbers]{natbib} % Use the natbib reference package -
-% read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers'
-\hypersetup{urlcolor=blue, colorlinks=true} % Colors hyperlinks in blue - change to black if annoying
+    
+\usepackage[square, numbers, sort&compress,comma,]{natbib} % Use the natbib
+% reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers'
+%PACKAGES, added my me. MODIFIED
+\usepackage[T1]{fontenc} %non-english compatibility. Always recommended.
+\usepackage{glossaries}
+   \makeglossaries
+\usepackage{siunitx} %Units, etc.
+\newcommand{\angm}{\si{\angstrom}}
+\newcommand{\nm}{\si{\nano\meter}}
+\newcommand{\lp}{\ell_p} % persistence length
+\newcommand{\kbend}{\kappa_\perp} %Kbend: bending stiffness
+\newcommand{\kbolt}{k_B} %K boltzman
+% \hypersetup{urlcolor=blue, colorlinks=true} % Colors hyperlinks in blue -
+% change to black if annoying
+    
 \title{\ttitle} % Defines the thesis title - don't touch this
 
 \begin{document}
-
-\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
-
+    
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the
+% pre-content pages
+%\pagenumbering{Roman} 
 \setstretch{1.3} % Line spacing of 1.3
 
 % Define the page headers using the FancyHdr package and set up for one-sided printing
@@ -78,42 +91,58 @@
 \begin{center}
 
 % \textsc{\LARGE \univname}\\[1.5cm] % University name
-\href{http://www.massey.ac.nz}{\includegraphics[width=0.5\textwidth]{./Pictures/masseyUniversityLogo.png}}\\[1.5cm]
 \textsc{\Large PhD.Confirmation Report}\\[0.5cm] % Thesis type
 
 \HRule \\[0.4cm] % Horizontal line
 {\huge \bfseries \ttitle}\\[0.4cm] % Thesis title
-\HRule \\[1.5cm] % Horizontal line
+\HRule \\[0.5cm] % Horizontal line
  
 
-
-\emph{Author:}
-\href{http://pablohernandezcerdan.wordpress.com}{\authornames} % Author name -
+ 
+\Large\emph{Author:~}{\authornames} % Author name -
 % remove the \href bracket to remove the link
+\\[1.0cm]
+% \large
+% Supervisor name - remove the
+\begin{longtable}{rl}
+\emph{Supervisor:}& \href{http://www.biophysics.ac.nz}{\supname} \\
+\emph{Co-supervisors:} & \cosupnameA{}\\
+& \cosupnameB\\
+& \\
+& \\
+\large\emph{Date of report:} & {\large \today}\\
+\large\emph{PhD. term:} & \large2013-2016\\[0.7cm]
+\end{longtable}
 
-\begin{minipage}{0.4\textwidth}
-\begin{flushright} \large
-\emph{Supervisor:} 
-\href{http://www.biophysicis.ac.nz}{\supname} % Supervisor name - remove the
-\cosupnameA
-
-hola hola
 % \href bracket to remove the link
-\end{flushright}
-\end{minipage}\\[3cm]
- 
+
 \large \textit{A report submitted in fulfilment of the requirements for the \\
- first year confirmation of the degree of \degreename}\\[0.3cm] % University
+ confirmation of the degree of \degreename}\\[0.3cm] % University
 % requirement text
 \textit{in the}\\[0.4cm]
-\groupname\\\deptname\\[2cm] % Research group name and department name
+\groupname\\\deptname\\[1cm] % Research group name and department name
  
-{\large \today}\\[4cm] % Date
 %\includegraphics{Logo} % University/department logo - uncomment to place it
-  
-\vfill
-\end{center}
 
+
+
+
+% \noindent\begin{minipage}[l]{0.45\linewidth}
+% \includegraphics[width=0.9\textwidth]{./Pictures/MacDlogo.jpg}
+% \end{minipage}
+% \hskip 1cm
+% \noindent\begin{minipage}[r]{0.45\linewidth}
+% \includegraphics[width=1\textwidth]{./Pictures/Riddet-Logo.jpg}
+% 
+% \end{minipage}
+
+% \end{figure}
+
+\href{http://www.massey.ac.nz}{\includegraphics[width=0.5\textwidth]{./Pictures/masseyUniversityLogo.png}}\\[1.5cm]
+
+\vfill
+
+\end{center}
 \end{titlepage}
 
 %----------------------------------------------------------------------------------------
@@ -163,10 +192,10 @@ hola hola
 % 
 % \clearpage % Start a new page
 
+%------------------------------------http://macdiarmid.ac.nz/----------------------------------------------------
+% ABSTRACT PAGE
 %----------------------------------------------------------------------------------------
-%	ABSTRACT PAGE
-%----------------------------------------------------------------------------------------
-
+ 
 \addtotoc{Abstract} % Add the "Abstract" page entry to the Contents
 
 \abstract{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
@@ -230,20 +259,26 @@ of the dynamics,
 %	ACKNOWLEDGEMENTS
 %----------------------------------------------------------------------------------------
 
-%  \setstretch{1.3} % Reset the line-spacing to 1.3 for body text (if it has changed)
-%
-% \acknowledgements{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
-%
-% The acknowledgements and the people to thank go here, don't forget to include your project advisor\ldots
-% }
-% \clearpage % Start a new page
+\setstretch{1.3} % Reset the line-spacing to 1.3 for body text (if it has changed)
 
+\acknowledgements{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+A special thank to Prof.Bill Williams whose support, openness, and vision of
+science is encouraging. Also thanks to all my group mates from the \groupname{}
+for doing comfortable my settlement in these antipodes from Spain. Finally, I am
+grateful to the \macdiarmid{} for constantly
+providing the enrichment opportunity to meet other peer students and
+researchers.
+}
+\clearpage
+% Start a new page
+  
 %----------------------------------------------------------------------------------------
 %	LIST OF CONTENTS/FIGURES/TABLES PAGES
 %----------------------------------------------------------------------------------------
 
 \pagestyle{fancy} % The page style headers have been "empty" all this time, now use the "fancy" headers as defined before to bring them back
-
+ 
 \lhead{\emph{Contents}} % Set the left side page header to "Contents"
 \tableofcontents % Write out the Table of Contents
 
@@ -252,22 +287,43 @@ of the dynamics,
 % 
 % \lhead{\emph{List of Tables}} % Set the left side page header to "List of Tables"
 % \listoftables % Write out the List of Tables
+ 
+%%%%%%%%%%%%%%%%GLOSSARY ENTRIES%%%%%%%%%%%%%%%%%%%%%%%%
+\input{Glossary/glossary.tex} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %----------------------------------------------------------------------------------------
 %	ABBREVIATIONS
 %----------------------------------------------------------------------------------------
+%      
+      
+ 
+\clearpage
+% Start a new page
 
-% \clearpage % Start a new page
-% 
-% \setstretch{1.5} % Set the line spacing to 1.5, this makes the following tables easier to read
-% 
-% \lhead{\emph{Abbreviations}} % Set the left side page header to "Abbreviations"
-% \listofsymbols{ll} % Include a list of Abbreviations (a table of two columns)
-% {
-% \textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere \\
-% %\textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
-% }
+\setstretch{1.5} % Set the line spacing to 1.5, this makes the following tables easier to read
 
+\lhead{\emph{Abbreviations}} % Set the left side page header to "Abbreviations"
+\listofsymbols{ll} % Include a list of Abbreviations (a table of two
+% columns)
+{ 
+\textbf{\gls{AFM}} &  Atomic  force  microscopy \\
+\textbf{CG} &  Conjugate  gradient \\
+\textbf{DWS} &  Diffusion  Wave  Spectroscopy \\
+\textbf{FE} &  Force extension \\
+\textbf{MSD} &  Mean  square  displacement \\
+\textbf{PME} &  Pectin-methylesterase \\
+\textbf{SAXS} &  Small  angle  X-ray  scattering  \\
+\textbf{SEM} &  Scanning  electron  microscopy \\
+\textbf{TEM} &  Transmission  electron  microscopy \\
+\textbf{WLC} &  Worm  like  chain \\
+\\
+
+%\textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
+}       
+ 
 %----------------------------------------------------------------------------------------
 %	PHYSICAL CONSTANTS/OTHER DEFINITIONS
 %----------------------------------------------------------------------------------------
@@ -282,10 +338,10 @@ of the dynamics,
 % % Constant Name & Symbol & = & Constant Value (with units) \\
 % }
  
-%----------------------------------------------------------------------------------------
-%	SYMBOLS
-%----------------------------------------------------------------------------------------
- 
+% ----------------------------------------------------------------------------------------
+% 	SYMBOLS
+% ----------------------------------------------------------------------------------------
+
 % \clearpage % Start a new page
 % 
 % \lhead{\emph{Symbols}} % Set the left side page header to "Symbols"
@@ -317,7 +373,7 @@ of the dynamics,
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - CHAPTERS
 %----------------------------------------------------------------------------------------
-
+  
 \mainmatter % Begin numeric (1,2,3...) page numbering
 
 \pagestyle{fancy} % Return the page headers back to the "fancy" style
@@ -325,17 +381,19 @@ of the dynamics,
 % Include the chapters of the thesis as separate files from the Chapters folder
 % Uncomment the lines as you write the chapters
 
+%\pagenumbering{arabic}
+   
 \input{Chapters/Chapter1} 
 \input{Chapters/Chapter2} 
 \input{Chapters/Chapter3}
 \input{Chapters/Chapter4} 
 %\input{Chapters/Chapter6} 
 %\input{Chapters/Chapter7} 
-% \input{Chapters/Chapter0-Template_tutorial} 
+% \input{Chapters/Chapter0-Template_tutorial}  
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
 %----------------------------------------------------------------------------------------
-  
+   
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
  
 \appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
@@ -347,6 +405,8 @@ of the dynamics,
 \input{Appendices/AppendixB}
 %\input{Appendices/AppendixC}
 
+
+
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 
 \backmatter
@@ -354,7 +414,7 @@ of the dynamics,
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
-
+ 
 \label{Bibliography}
 
 \lhead{\emph{Bibliography}} % Change the page header to say "Bibliography"
@@ -363,5 +423,8 @@ of the dynamics,
 
 \bibliography{MyLibrary} % The references (bibliography) information are stored
 % in the file named "Bibliography.bib"
+\addcontentsline{toc}{chapter}{Glossary}
+\glsaddall 
+\printglossaries 
 
 \end{document}  
