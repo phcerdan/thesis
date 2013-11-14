@@ -25,7 +25,8 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\documentclass[11pt, a4paper, oneside]{Thesis} % Paper size, default font size and one-sided paper
+\documentclass[11pt, a4paper, oneside]{Thesis} % Paper size, default font size
+% and one-sided paper
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Pasted from internet. Delete Chapter X, in the beginings of the chapters
 \makeatletter
@@ -43,7 +44,7 @@
 \graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
 
 % \usepackage[square, numbers, comma, sort&compress]{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers' 
-    
+\usepackage{pdfpages}    
 \usepackage[square, numbers, sort&compress,comma,]{natbib} % Use the natbib
 % reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers'
 %PACKAGES, added my me. MODIFIED
@@ -312,12 +313,13 @@ researchers.
 \textbf{\gls{AFM}} &  Atomic  force  microscopy \\
 \textbf{CG} &  Conjugate  gradient \\
 \textbf{DWS} &  Diffusion  Wave  Spectroscopy \\
+\textbf{EtE} &  End to end \\
 \textbf{FE} &  Force extension \\
 \textbf{MSD} &  Mean  square  displacement \\
 \textbf{PME} &  Pectin-methylesterase \\
 \textbf{SAXS} &  Small  angle  X-ray  scattering  \\
-\textbf{SEM} &  Scanning  electron  microscopy \\
-\textbf{TEM} &  Transmission  electron  microscopy \\
+\textbf{\gls{SEM}} &  Scanning  electron  microscopy \\
+\textbf{\gls{TEM}} &  Transmission  electron  microscopy \\
 \textbf{WLC} &  Worm  like  chain \\
 \\
 
@@ -362,13 +364,15 @@ researchers.
 %	DEDICATION
 %----------------------------------------------------------------------------------------
 
-% \setstretch{1.3} % Return the line spacing back to 1.3
-% 
-% \pagestyle{empty} % Page style needs to be empty for this page
-% 
-% \dedicatory{For/Dedicated to/To my\ldots} % Dedication text
-%   
-% \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+\setstretch{1.3} % Return the line spacing back to 1.3
+
+\pagestyle{empty} % Page style needs to be empty for this page
+
+\dedicatory{It is not about the end ; it's all about the
+path.\\ \hfil ¡Buen camino!. }
+% Dedication text
+
+\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - CHAPTERS
@@ -402,7 +406,8 @@ researchers.
 % Uncomment the lines as you write the Appendices
       
 \input{Appendices/AppendixA}
-\input{Appendices/AppendixB}
+\input{Appendices/Appendix-Reconstruct} 
+% \input{Appendices/AppendixDoxygen} 
 %\input{Appendices/AppendixC}
 
 
