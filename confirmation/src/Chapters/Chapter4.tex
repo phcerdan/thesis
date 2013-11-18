@@ -1,40 +1,115 @@
 % Chapter Template
 
-\chapter{Conclusion and future work} % Main
+\chapter{Schedule and future work} % Main
 % chapter title
 
 \label{Chapter-future} % Change X to a consecutive number; for
 % referencing this chapter elsewhere, use \ref{ChapterX}
 
-\lhead{Chapter 3. \emph{Conclusion and future work}} % Change X to a consecutive
+\lhead{Chapter 3. \emph{Schedule and future work}} % Change X to a consecutive
 % number; this is for the header on each page - perhaps a shortened title
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-\section{Conclusion/results}
+\section{Schedule}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
+\begin{description}
+  \item[0-6 months] Literature overview. Planification and research on
+  computational tools.
+  \item[6-12 months] Reconstruct-network software development.
+   Access to image analysis tools. Avizo and Matlab.
+  \item[12-18 months] Selection/development of proper model in order to simulate
+  the strain of the network. Think about how simulate long time behavior in the
+  networks.
+  \item[18-24 months] Explore models and other theoretical frameworks.
+  Scaling and renormalization group theory, graph theory to explore strain
+  pathways and other networks properties. Plausible experimental experience if
+  required.
+  \item[24-30 months] Put all together with a solid bottom-up and up-bottom
+   approach convergent in the mesoscale. Image analysis of real networks,
+   dynamics simulation and in-silico reconstructed networks.
+   \item[30-36 months] Conclusions and writing of the
+   thesis report.
+\end{description}
+
+\subsection{Funding:}
+This PhD project is funded by the MacDiarmid and Riddet
+institute. I belong to a group formed by $2$ post-docs and $2$ PhD. students,
+studying network of protein fibers from the mesoscale point of view. We have a
+meeting every $6$ months to report advances and choose new directions. A group
+member is able to measure with optical tweezers the force-extension curve of
+fibrils. Then, a bottom-up approach can be
+followed\citep{schuster_investigating_2012} to model the mechanical properties of the
+ whole networks from the single-chain properties. My developed software about
+ reconstructing network will permit us to study how the architecture of the
+ network affect the bulk properties of the
+ material.
 
 %-----------------------------------
 %	SUBSECTION 1
 %-----------------------------------
-\subsection{Subsection 1}
+\section{Future directions and interesting questions}
 
-Nunc posuere quam at lectus tristique eu ultrices augue venenatis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Vivamus sodales tortor eget quam adipiscing in vulputate ante ullamcorper. Sed eros ante, lacinia et sollicitudin et, aliquam sit amet augue. In hac habitasse platea dictumst.
+The field is full of opportunities and in continuous development. The exact
+direction to follow will rely on further discussion with my supervisor, and the necessities
+of the project from which I am receiving funding.
+
 
 %-----------------------------------
 %	SUBSECTION 2
 %-----------------------------------
 
-\subsection{Subsection 2}
-Morbi rutrum odio eget arcu adipiscing sodales. Aenean et purus a est pulvinar pellentesque. Cras in elit neque, quis varius elit. Phasellus fringilla, nibh eu tempus venenatis, dolor elit posuere quam, quis adipiscing urna leo nec orci. Sed nec nulla auctor odio aliquet consequat. Ut nec nulla in ante ullamcorper aliquam at sed dolor. Phasellus fermentum magna in augue gravida cursus. Cras sed pretium lorem. Pellentesque eget ornare odio. Proin accumsan, massa viverra cursus pharetra, ipsum nisi lobortis velit, a malesuada dolor lorem eu neque.
+\subsection{Network quakes at long times and aging}
+There are reports in the literature \citep{kajiya_slow_2013}, and also by group
+mates, that at long times the network is affected by sudden de-correlations over
+a few tenths of a second occur. The more plausible conjecture is that such quakes are associated with the release of chain constraint due to unbinding of
+cross-links. This is reported experimentally in our group with micro-rheology
+DWS techniques in the lab. Current model of networks as the Glassy WLC model,
+cannot predict this behaviour. A computer simulation may shed some light on the
+topic.
 
-%----------------------------------------------------------------------------------------
-%	SECTION 2
-%----------------------------------------------------------------------------------------
+Aging, i.e. slow change of the physical properties over time, and non-ergodicity
+i.e. the time average of a succession of events is not the same as the
+ensemble average. This behaviour is related to glassy systems, where long
+orders correlations(solids) no longer exists, but there is still local order and
+homogeneities.\citep{cipelletti_slow_????}
 
-\section{Future work}
+\subsection{Cluster of nodes as mesoscale objects}
+The resolution of image analysis is not enough to provide the network
+architecture in some high density areas of the material. These clusters could
+then be treated as new mesocule object, similar to nodes, but with different
+properties to those that represent cross-links. This scaling approach could be
+study with the renormalization group theory, which has been successful to explain
+scaling behavior of polymers in the past.\citep{gennes_scaling_1979}
 
-Sed ullamcorper quam eu nisl interdum at interdum enim egestas. Aliquam placerat justo sed lectus lobortis ut porta nisl porttitor. Vestibulum mi dolor, lacinia molestie gravida at, tempus vitae ligula. Donec eget quam sapien, in viverra eros. Donec pellentesque justo a massa fringilla non vestibulum metus vestibulum. Vestibulum in orci quis felis tempor lacinia. Vivamus ornare ultrices facilisis. Ut hendrerit volutpat vulputate. Morbi condimentum venenatis augue, id porta ipsum vulputate in. Curabitur luctus tempus justo. Vestibulum risus lectus, adipiscing nec condimentum quis, condimentum nec nisl. Aliquam dictum sagittis velit sed iaculis. Morbi tristique augue sit amet nulla pulvinar id facilisis ligula mollis. Nam elit libero, tincidunt ut aliquam at, molestie in quam. Aenean rhoncus vehicula hendrerit.
+\subsection{Different computational methods}  
+The last Nobel prize in Chemistry was given "for the development of multi-scale
+models for complex chemical systems" \citep{nobel:chemistry2013} These methods
+allow the simulation of protein structures,  docking of drugs in cells and
+multiple complex chemical reactions.
+
+These coarse-graining methods study really complex
+systems,\citep{de_pablo_coarse-grained_2011} impossible to compute with  the
+fine detail potentials of molecular dynamics, but with effective potentials 
+derived from scaling, coarse grain and renormalization group theories. These
+effective potentials contain the information of the lower scales and can be
+tweaked if that information changes, but it is not necessary to simulate all the
+degrees of freedom of the fine structure. The communication over scales is the
+responsible of the success of the method, where changes in the lower scales are
+highly correlated with scales larger by several orders of magnitude. To achieve
+this advanced Monte Carlo methods are in continuous development.
+\citep{karayiannis_novel_2002}
+
+Other interesting and widely used way of simulation is finite element methods
+(FEM). This method solves differential equations with boundary conditions,
+connecting many simple element equation over many small subdomains, named finite
+elements. This connexion approximate a more complex equation over a larger
+domain.
+
+
+% ---------------------------------------------------------------------------------------
+
+% \section{Future work}
+

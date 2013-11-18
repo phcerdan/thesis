@@ -62,7 +62,7 @@ The follow distributions are used because they fit the data taken from image
 analysis, but I make no claim about their use in other systems. The
 direction cosines distribution has a lot of variability. I have experienced
 these differences between actin and collagen data.
-\begin{enumerate}
+\begin{enumerate} 
 \item The node degrees follow a shifted geometric distribution. Shifted because
 the minimum degree of a node is $p=3$.$p=1$ corresponds to dead-ends nodes, and
 $p=2$ correspond to bending nodes. We can ignore dead-ends because they don't
@@ -96,15 +96,15 @@ Using these $3$ distributions, the network can be reconstructed with five
 independent parameters: $\mu$, s, $Z$, $b_1$ and $b_2$.
 
 These parameters are enough to fully characterize the architecture of a
-network if you are interested in computing
-mechanical properties of the network.
+network if you are interested in computing the
+mechanical properties of the system.
 
-The output of the algorithm is spatial \gls{graph}, which is built with $2$
+The output of the algorithm is spatial \gls{graph}, which is formed by $2$
 sets. The first set is associated with the nodes, and contains the data of node
 position and degree. The second set is a list of edges, an edge is defined
 by two nodes which the edge is connecting. The software does not allow parallel
 edges, i.e. two edges connected the same pair of nodes, and the network is fully
-connected, there are no nodes or cluster of nodes unconnected from the main
+connected, there are no nodes or clusters of nodes isolated from the rest of the
 network.
  
  
