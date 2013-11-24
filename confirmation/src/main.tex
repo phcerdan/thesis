@@ -273,7 +273,9 @@ for doing comfortable my settlement in these antipodes from Spain. Finally, I am
 grateful to the \macdiarmid{} for constantly
 providing the enrichment opportunity to meet other peer students and
 researchers.
-}
+
+This research is supported by the MacDiarmid Institute and the Riddet Institute,
+New Zealand. }
 \clearpage
 % Start a new page
      
@@ -291,18 +293,13 @@ researchers.
 
 \lhead{\emph{List of Tables}} % Set the left side page header to "List of Tables"
 \listoftables % Write out the List of Tables
- 
-%%%%%%%%%%%%%%%%GLOSSARY ENTRIES%%%%%%%%%%%%%%%%%%%%%%%%
-\input{Glossary/glossary.tex} 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+  
 
 %----------------------------------------------------------------------------------------
 %	ABBREVIATIONS
 %----------------------------------------------------------------------------------------
 %      
-       
+\input{Glossary/glossary.tex}  
  
 \clearpage
 % Start a new page
@@ -327,7 +324,7 @@ researchers.
 \textbf{\gls{TEM}} &  Transmission  electron  microscopy \\
 \textbf{WLC} &  Worm  like  chain \\
 \\
-
+ 
 %\textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
 }       
  
@@ -354,7 +351,7 @@ researchers.
 % \lhead{\emph{Symbols}} % Set the left side page header to "Symbols"
 % 
 % \listofnomenclature{lll} % Include a list of Symbols (a three column table)
-% {
+% { 
 % $a$ & distance & m \\
 % $P$ & power & W (Js$^{-1}$) \\
 % % Symbol & Name & Unit \\
@@ -378,7 +375,7 @@ path.\\ \hfil ¡Buen camino!. }
 % Dedication text
 
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
-
+ 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - CHAPTERS
 %----------------------------------------------------------------------------------------
@@ -410,31 +407,46 @@ path.\\ \hfil ¡Buen camino!. }
 % Include the appendices of the thesis as separate files from the Appendices folder
 % Uncomment the lines as you write the Appendices
       
-\input{Appendices/AppendixA}
+\input{Appendices/AppendixTools}
 \input{Appendices/Appendix-Reconstruct} 
 % \input{Appendices/AppendixDoxygen} 
 %\input{Appendices/AppendixC}
+
+%%%%%%%%%%%%%%%%GLOSSARY ENTRIES%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\setstretch{1.5} % Set the line spacing to 1.5, this makes the following tables easier to read
+ 
+\lhead{\emph{Glossary}} % Set the left side page header to "Abbreviations"
+
+
+\addcontentsline{toc}{chapter}{Glossary}
+\glsaddall 
+\printglossaries 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 
 \backmatter
-
+   
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
  
-\label{Bibliography}
+\label{References}
 
-\lhead{\emph{Bibliography}} % Change the page header to say "Bibliography"
+\lhead{\emph{References}} % Change the page header to say "Bibliography"
 
 \bibliographystyle{unsrtnat} % Use the "unsrtnat" BibTeX style for formatting the Bibliography
 
 \bibliography{MyLibrary} % The references (bibliography) information are stored
 % in the file named "Bibliography.bib"
-\addcontentsline{toc}{chapter}{Glossary}
-\glsaddall 
-\printglossaries 
+%----------------------------------------------------------------------------------------
+%	GLOSSARY
+%----------------------------------------------------------------------------------------
+ 
 
 \end{document}  

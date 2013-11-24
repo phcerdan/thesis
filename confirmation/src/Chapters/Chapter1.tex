@@ -37,14 +37,141 @@ mater'' received the Nobel Prize in physics in $1991$ ``for discovering that
 methods developed for studying order phenomena in simple systems can be 
 generalized to more complex forms of matter, in particular to liquid  crystals
 and polymers''\citep{de_gennes_pierre-gilles_????}
-
+ 
 The biological soft materials spam as well different length scales. From sugar
 chains structures to active gels inside cells. In the
 lowest scale, we find the biopolymers, which are classified as polysaccharides
 (cellulose, pectin),  polynucleotides (RNA, DNA) or polypeptides (proteins).
-
+ 
 Most of biopolymers are considered semi-flexible. Something in between
-rigid rods and completely flexible (loose) chains. Suppose both ends of a chain
+rigid rods and completely flexible (loose) chains.  To formalize this
+distinction we need to introduce $2$ parameters that characterize a polymer
+chain: the \emph{persitence length} \gls{Lp} which is the typical length scale
+for the decay of tangent-tanget correlations, and the \emph{countour length}
+\gls{Lc}, which is defined as the maximum end-to-end distance of a linear
+polymer chain.
+
+A chain is considered flexible when $\ell_p<<L_c$, and rigid when the opposite
+holds. Completely flexible chains exhibit a purely entropic elastic
+response, and rigid filaments display no entropic, but purely enthalpic
+response. Semi-flexible biopolymers have a similar magnitude of $\ell_p$ and
+$L_c$. These kind of filaments does not form loops or knots, but they are
+flexible enough to have thermal bending
+fluctuations\citep{storm_nonlinear_2005}. They behave like rods scales smaller
+than $\ell_p$ and like random coils in larger scales where the entropic behavior
+dominates.
+
+Single semiflexible chains can be modeled with great success with the
+\emph{worm-like chain} (WLC) also known as \emph{Kratky-Porod} model.
+\citep{rubinstein_polymer_2003, schuster_hierarchical_2011}. This model has
+became a standard in the field thanks to the agreement with experiments in low
+and large scales.
+But it is not completely satisfactory in middle scales, where occurs the
+crossover between enthalpic and entropic behavior.\citet{hsu_breakdown_2011}
+
+$$H_{bend}=\frac{\kappa}{2} \int ds|\frac{\partial \textbf{t}}{\partial s}|$$
+
+where $k\equiv\kbend{}$ is the bending modulus, \textbf{t} is a unit tangent
+vector along the chain and $s$ is the coordinate of the position along the
+backbone. In the WLC model we can relate the persistance length with the bending
+modulus via: $\lp{}=2\kbend{}/((d-1)\kbolt{}T)$ where $d$ is the space
+dimensionality.
+
+For nearly straight filaments $\frac{\partial \textbf{t}}{\partial s}$ can be
+expressed via the transverse deviation $u(x)$ of the chain from its straight
+conformation. $\frac{\partial \textbf{t}}{\partial s}=u''(x)$. If the chain is
+under a tensional force from one end (and the other end fixed), we can add the
+term $-fL$ to the Hamiltonian, where L being the end to end distance. The
+Hamiltonian with this force $f_B$ in transverse coordinates :
+\begin{equation}\label{WLC_H}
+H=\frac{1}{2}\int_0^{L_c} dx\Big[\kappa|u''|^2 + f_B|u'|^2\Big]
+\end{equation}
+
+where $L_c$ is the contour length of the chain.
+The applicability of\ref{WLC_H} must be questioned in some cases since it
+neglects excluded volume (steric repulsion effects) between the
+chain constituents completely.\citet{hsu_breakdown_2011}. For very stiff polymer
+these excluded volume considerations could be safely ignored.
+
+Such a chain can respond to transverse and also to longitudinal forces by either
+bending or stretching/compressing. We can explore further the force-extension
+(FE) relationship, decomposing u in Fourier series:
+\begin{equation}\label{WLC_ufourier}
+u(x)=\sum_q u_q \sin(qx)
+\end{equation}
+with the wave vector $q=n\pi/L_c$. We can rewrite \ref{WLC_H} as:
+\begin{equation}\label{WLC_Hq}
+H=\frac{1}{2}\int_0^{L_c} dx\Big[\kappa|u''|^2 + f_B|u'|^2\Big] =
+\frac{L_c}{4}\sum_q (\kappa q^4 + f_Bq^2)u_q^2
+\end{equation}
+
+To calculate the equilibrium amplitude we shall use the equipartition theorem:
+\begin{equation}\label{equipartition}
+\Big\langle x_m\frac{\partial H}{\partial x_n} \Big\rangle= \delta_{mn}\kbolt{}T
+\end{equation}
+
+where H is the Hamiltonian or energy function and $x_n$ corresponds to the
+% degrees of freedom in the phase space. Note than the system must be ergodic and in
+thermal equilibrium to apply the equipartition theorem. A system is ergodic when
+the ensemble average (mean over all the possible states) is equal to the time average (mean over all time
+steps). Also the equipartition theorem does not hold when the
+thermal energy $\kbolt{}T$ is smaller than the quantum energy spacing for a
+particular degree of freedom because the breakage of the energy continuum. This
+strong requirement does not hold for many soft matter systems. The idea behind
+the equipartition theorem is that the energy in thermal equilibrium is shared
+equally among all its components.
+
+Applying \ref{equipartition}to \ref{WLC_Hq}, the equilibrium amplitudes
+$u_q^{eq} $ satisfy:
+\begin{equation}\label{equipartition_uq}
+\langle u_q^{eq}\rangle=\frac{2\kbolt{}T}{L_c(\kappa{}q^4+f_Bq^2)}
+\end{equation}
+We can now calculate $\delta L$, the difference between the filament's contour
+length and the equilibrium length.
+\begin{equation}\label{deltaL}
+\Delta L= \int dx \Big[ \sqrt{1+|\partial u/\partial x|^2} -1\Big]\simeq
+\frac{1}{2} \int dx |\partial u/\partial x|^2 = L_c \sum_q q^2 u_q^2
+\end{equation}
+
+Using \ref{equipartition_uq} and including a factor of $2$ due to both
+degrees of freedom of the transverse displacements from the straight
+conformation:
+\begin{equation}\label{deltaLmean}
+\langle\Delta L\rangle = \kbolt{}T\sum_q \frac{1}{\kappa{}q^2+f_B}
+\end{equation}
+
+The result is most convenient expressed un terms of scaled difference between
+the extension at force $f_B$ and that at zero force\citep{storm_nonlinear_2005}:
+\begin{equation}\label{WLCdisplacement}
+\delta l=\langle\Delta L\rangle_{f=0} - \langle\Delta L\rangle_{f_B} =
+\frac{L_c^2}{\ell_p\pi^2} \sum_q \frac{\varphi}{n^2(n^2 + \varphi)}
+\end{equation} 
+where $\varphi = f_BL_c^2/\kappa{}\pi^2$
+
+\ref{WLCdisplacement} can be inverted to yield a force-extension (FE)
+relation:\citep{marko_stretching_1995}:
+\begin{equation}\label{FEMarko}
+f(x)=\frac{\kbolt{}T}{\ell_p} \Big[ \frac{1}{4(1-(x/L_c)^2)}
+-\frac{1}{4}+\frac{x}{L_c} \Big]
+\end{equation}
+
+which diverges as $f \sim (x - L_c)^{-2}$ as $x\rightarrow L_c$
+%TODO: ADD INFO ABOUT FE
+
+This force-extension curve is of central importance in this project. This FE can
+be measured using optical tweezers, experimental technique available in our
+group. Optical tweezers are able to trap and manipulate beads of nanometric
+size with high precision\cite{dasdsa}. Biopolymer chains can be attached to
+these beads using linkage molecules, and then study the force-extension of the
+chain when the force is applied by the movement of the trap in the tweezers, and
+the extension is measured tracking the beads under the microscopy.
+%  Since the bending rigidity of the polymer is
+% of the thermal energy order, the equilibrium length L_{eq} is determined by the
+% transverse fluctuations of u.
+
+
+
+ Suppose both ends of a chain
 are fixed in space. If the chain is rigid -a rod-, there is only one possible conformation
 (if we assume there is rotational symmetry), if the chain is flexible, there
 are a lot possible conformations or paths between the two ends. In the later
@@ -73,9 +200,18 @@ Talk about Glassy worm like chain in networks
 
 
 
-\subsection{Subsection 1}
+\section{Worm like chain}
+From botton up. WLC (chains) - Network level
+\begin{enumerate}
+  \item Freely joined .. Rubinstein
+  \item WLC Rubinstein and Erich
+  \item Experimental measure with optical traps.
+\end{enumerate}
 
+\section{Network}
 
+\section{Rheology measurement - Modulus}
+DWS, cylinders, optical traps. Full of methods.
 
 
 
@@ -83,6 +219,3 @@ Talk about Glassy worm like chain in networks
 %	SECTION 2
 %----------------------------------------------------------------------------------------
 
-\section{Complex Networks}
-
-\subsection{Subsection 2}
