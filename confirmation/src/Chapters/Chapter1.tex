@@ -291,11 +291,65 @@ where the chains overlap.
 
 Gels: -> introduction of G
 
-Semiflexible networks: Affine and non-affine deformations
+\section{Bulk Rheology}
+\subsection{Linear viscoelasticity}
+Any elastic material can be studied as a linear spring, whereby the
+extension (strain) $\gamma$ is proportional to the applied stress $\sigma$ (force/area) :
+$\sigma=G'\gamma$ , where G' is called the elastic modulus, and it is a measure
+of sample's elasticity.
+
+However the material response to the force, is not always that simple. Some
+materials such as silk, rubber, and glass are subjected to a shear
+stress and the corresponding Hooke's law deformation occurs, however it is
+followed by a unexpected continious deformation termed as ``creep''. Upon
+removal of the shear stress, certain materials come back to the initial state,
+while other are permanently deformed. The phenomena of a time dependant shear
+response is called viscolelasticity. \citep{macosko_rheology:_1994}.
+
+To study the rheological (response of a material relating stress
+and strain in fucntion of frequency) properties of a viscoelastic material, it
+is applied an external sinusoidal strain, $\gamma(t)=\gamma_0\sin(\omega t)$. We
+can expect (not always) that the stress output of the material will be:
+$\sigma(t) = \sigma_0 \sin(\omega t + \delta)$. This stress output can be
+analyzed by decomposition into two waves of frequency $\omega$, one in phase
+with the strain, and the other $\pi/2$ out of phase:
+
+\begin{equation}\label{viscoelastic-stress}
+\sigma(t) = \sigma'(t) \sin(\omega t) + \sigma''(t)\cos(\omega t)
+\end{equation}
+
+where $ \tan \delta=\sigma''(t)/\sigma'(t)$. This allows the definition of two
+moduli: $G'=\sigma'(t)/\gamma_0$ and $G''=\sigma''(t)/\gamma_0$ which are the
+elastic (i.e. storage) modulus and viscous (i.e. loss) modulus respectively.
+
+The stress can be expressed in terms of these two moduli:
+\begin{equation}\label{viscoelastic-stress-G}
+\sigma(t) = G'\gamma_0 \sin(\omega t) + G''\gamma_0\cos(\omega t)
+\end{equation}
+
+G'' has a physical meaning, it is associated with the energy dissipation per
+cycle of deformation, which provides and indication of viscous loss
+\citep{macosko_rheology:_1994}.
+\subsection{Nonlinear behaviour: strain stiffening}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.7\textwidth,height=0.5\textwidth]{Figures/strainstiffening_storm.png}%
+
+\caption[Strain-stiffening in semiflexible
+polymers]{ Elastic shear moduli versus
+strain. Strain-stiffening in a great range of different cross-linked biopolymer
+networks\citep{storm_nonlinear_2005,carrillo_nonlinear_2013}}
+\label{fig:strainstiffening-storm}
+\end{center}
+\end{figure}
+ TODO
+ Semiflexible networks:
+Affine and non-affine deformations
 
 Motivation of the topics selected:
 Conclussion related with my role in the project. Bottom-up,networks,
-entropic/enthalpic papers.
+entropic/enthalpic ways to describe strain-stiffening.
 
 Ampliation of this topics will be done in function of future needs. A review of
 the ignored dynamics of networks will be done for the final version of the
@@ -304,26 +358,6 @@ literature review.
 END
 
 
-
-
-\gls{Lp}  
- (\citet{storm_nonlinear_2005})
-\citet{stein_algorithm_2008}
-
-
-
-
-From botton up. WLC (chains) - Network level
-\begin{enumerate}
-  \item Freely joined .. Rubinstein
-  \item WLC Rubinstein and Erich
-  \item Experimental measure with optical traps.
-\end{enumerate}
-
-
-
-\section{Rheology measurement - Modulus}
-DWS, cylinders, optical traps. Full of methods.
 
 
 

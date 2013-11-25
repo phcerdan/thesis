@@ -331,9 +331,10 @@
 %   \end{center}
 }
 %----------------------------------------------------------------------------------------
+
 {
   \vfil\vfil\vfil\null
-  \cleardoublepage
+   \cleardoublepage
 }
 \addtocounter{secnumdepth}{1}
 \setcounter{tocdepth}{6}
