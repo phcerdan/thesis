@@ -61,6 +61,7 @@ fluctuations\citep{storm_nonlinear_2005}. They behave like rods scales smaller
 than $\ell_p$ and like random coils in larger scales where the entropic behavior
 dominates.
 
+\section{Semiflexible single chains: WLC model}
 Single semiflexible chains can be modeled with great success with the
 \emph{worm-like chain} (WLC) also known as \emph{Kratky-Porod} model.
 \citep{rubinstein_polymer_2003, schuster_hierarchical_2011}. This model has
@@ -151,7 +152,7 @@ where $\varphi = f_BL_c^2/\kappa{}\pi^2$
 \ref{WLCdisplacement} can be inverted to yield a force-extension (FE)
 relation:\citep{marko_stretching_1995}:
 \begin{equation}\label{FEMarko}
-f(x)=\frac{\kbolt{}T}{\ell_p} \Big[ \frac{1}{4(1-(x/L_c)^2)}
+f(x)=\frac{\kbolt{}T}{\ell_p} \Big[ \frac{1}{4(1 - x/L_c)^2} 
 -\frac{1}{4}+\frac{x}{L_c} \Big]
 \end{equation}
 
@@ -160,38 +161,149 @@ which diverges as $f \sim (x - L_c)^{-2}$ as $x\rightarrow L_c$
 
 This force-extension curve is of central importance in this project. This FE can
 be measured using optical tweezers, experimental technique available in our
-group. Optical tweezers are able to trap and manipulate beads of nanometric
-size with high precision\cite{dasdsa}. Biopolymer chains can be attached to
-these beads using linkage molecules, and then study the force-extension of the
+group. Optical tweezers are able to trap and manipulate beads of
+nanometric size with high
+precision\citep{svoboda_direct_1993,svoboda_biological_1994}.
+Biopolymer chains can be attached to these beads using linkage molecules, and then study the force-extension of the
 chain when the force is applied by the movement of the trap in the tweezers, and
 the extension is measured tracking the beads under the microscopy.
+
+\begin{figure}[h]
+
+\begin{minipage}{0.65\textwidth}
+\subfloat[]{%
+\includegraphics[width=0.9\textwidth]{Figures/tweezers_configuration.png}%
+\label{tweezers-configuration}}
+\end{minipage}
+\begin{minipage}{0.35\textwidth}
+% \begin{minipage}{0.5\textwidth}
+\subfloat[]{%
+\includegraphics[width=0.9\textwidth]{Figures/tweezers_particles.png}%
+\label{tweezers-particles}}
+
+\subfloat[]{%
+\includegraphics[width=0.9\textwidth,height=3cm]{Figures/tweezers_linkage.png}%
+\label{tweezers-linkage}}
+\end{minipage}
+
+
+
+\caption[Optical Tweezers]{\subref{tweezers-configuration} Current
+optical tweezers configuration in our lab. \subref{tweezers-particles}
+Exertion of force moving the right trap. One of the bead (red-left) is fixed by
+the most powerful trap. \subref{tweezers-linkage} Linkage of the
+ polymer stained with fluorescence particles (double stranded DNA) to the beads,
+ and below, visualization of the fluorescence. Images by courtesy of group mate,
+ Sandy Sue. }
+\label{fig:optical_tweezers}
+\end{figure}
+
 %  Since the bending rigidity of the polymer is
 % of the thermal energy order, the equilibrium length L_{eq} is determined by the
 % transverse fluctuations of u.
 
+Thanks to optical tweezers and Atomic Force Microscopy
+(AFM)\citep{janshoff_force_2000} force-extension curves of many
+biopolymers have been measured, e.g. DNA\citep{marko_stretching_1995},
+polysaccharides\citep{marszalek_atomic_1999} and others. At low strain, WLC
+model captures well the system behavior, but at higher forces, a hookean extension regime must be
+incorporated.
+Such a model is called \emph{extensible wormlike chain}
+(EWLC)\citep{wang_stretching_1997}:
+
+\begin{equation}\label{EWLC}
+f(x)=\frac{\kbolt{}T}{\ell_p} \Big[ \frac{1}{4(1 - x/L_c + f(x)/K_0)^2}
+-\frac{1}{4}+\frac{x}{L_c} + \frac{f(x)}{K_0}\Big]
+\end{equation}
 
 
- Suppose both ends of a chain
-are fixed in space. If the chain is rigid -a rod-, there is only one possible conformation
-(if we assume there is rotational symmetry), if the chain is flexible, there
-are a lot possible conformations or paths between the two ends. In the later
-case, the system will be dominated by entropic effects.
-
-A polymer chain can be characterized as an ideal chain, where there aren't
-interaction between monomers separated by many bonds. In ideal chains the free
-energy of the chain is completely entropic. The worm-like chain is an ideal
-model valid for stiff polymers, are shows an excellent agreement with stiff
-biopolymers as double stranded DNA.
- pg 88 Rubinstein:
-R
-P
-f= entropic spring.
-
-In a real chain, where correlation between monomers are included.
-For example with the excluded volume term because other monomers is included.
+where $K_0$ is the elastic spring constant. Other model, the
+\emph{clicklable extensible wormlike chain} (CEWLC) incorporates extra
+enthalpic components of the chain, for example taking into
+account the conformational changes of sugar rings induced by high forces in polysaccharides\citep{haverkamp_model_2007}.
 
 
-Talk about Glassy worm like chain in networks
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.7\textwidth,height=0.5\textwidth]{Figures/forceextension_CEWLC.png}%
+
+\caption[Force extension curve: CEWLC]{Force-extension curve of a CEWLC model
+that fits the experimental force-extension curve of a single polysaccharide
+(pectin) chain\citep{schuster_hierarchical_2011} }
+\label{fig:force_extension_CEWLC}
+\end{center}
+\end{figure}
+
+\section{Networks of semiflexible chains:}
+After the study of single chains, we have to study how all those chains interact
+with themselves, with each other and with the media where they are.
+The WLC is a model for ideal chains because the interaction between
+monomers of the chain are ignored. This is not a problem in straight
+(i.e. stiff) chains, but would be unreal in coiled chains, those are better
+modeled with a self avoiding walk, where distant monomers cannot occupy the
+same position, or with the inclusion of a excluded volume, that takes into
+account the interaction between monomers, and the forbidden configurations.
+
+The way the monomers of the chain interact with other monomers or with the
+solvent has been studied for long time. The Flory interaction parameter $\chi$
+which depends on temperature, and pressure of the system, is a way to
+characterize it.
+\begin{equation}\label{FloryInteraction}
+\chi=\chi_{MS} - \frac{1}{2}(\chi_{MM} + \chi_{SS})
+\end{equation}
+where  $\chi_{MM}$ is related with monomer-monomer interactions. $\chi_{MS}$
+with monomer-solvent, and $\chi_{SS}$ with solvent-solvent
+interactions.
+
+The relation between solvent, and monomers interaction can be classified using
+$\chi$:
+\begin{enumerate}
+  \item Athermal. $\chi=0$. Solvent is very similar to ohter monomers. Simple
+  examplest example of good solvent.
+  \item Good solvent. $\chi<1/2$. Monomers of the chain prefer to interact with
+  the solvent than with other monomers.
+  \item Poor solvent. $\chi>1/2$. Monomers prefer to be closer to other
+  monomers. For example, hydrophobic materials in water solvent.
+  \item Theta solvent. $\chi=1/2$. Occurs at a temperature $T=\Theta$, and
+  corresponds to the exact cancellation between steric repulsion and van der
+  Waals attaction between monomers. The excluded volume:
+  \begin{equation}\label{excludedvolume}
+  \upsilon=(1-2\chi)a^3
+  \end{equation}
+  where $a$ is the effective length between monomers, is zero in theta solvents,
+  and chains behaves as nearly ideal.\citep{gennes_scaling_1979}
+\end{enumerate}
+
+Also the concentration of polymers has important effects on the system. The
+overlap threshold parameter $c*$ acts as an order parameter to distinguish dilute
+polymer solutions, where the coils are separate, and more concentrated solution
+where the chains overlap.
+\begin{enumerate}
+  \item Dilute. $c<c*$
+  \item Dense. $c>c*$
+  \item Semi-dilute. The chains do overlap but the polymer fraction
+  $\phi=ca^3$ is still low $\phi*\ll\phi\ll1$. Since $\phi$ is small, the monomer-monomer interaction can
+  be described very simple, such as the excluded volume parameter $\upsilon$ in
+  \ref{excludedvolume}. In the case of dense systems we would need more complex
+  relations used in liquids/fluids systems. 
+\end{enumerate}
+
+
+Gels: -> introduction of G
+
+Semiflexible networks: Affine and non-affine deformations
+
+Motivation of the topics selected:
+Conclussion related with my role in the project. Bottom-up,networks,
+entropic/enthalpic papers.
+
+Ampliation of this topics will be done in function of future needs. A review of
+the ignored dynamics of networks will be done for the final version of the
+literature review.
+
+END
+
+
 
 
 \gls{Lp}  
@@ -200,7 +312,7 @@ Talk about Glassy worm like chain in networks
 
 
 
-\section{Worm like chain}
+
 From botton up. WLC (chains) - Network level
 \begin{enumerate}
   \item Freely joined .. Rubinstein
@@ -208,7 +320,7 @@ From botton up. WLC (chains) - Network level
   \item Experimental measure with optical traps.
 \end{enumerate}
 
-\section{Network}
+
 
 \section{Rheology measurement - Modulus}
 DWS, cylinders, optical traps. Full of methods.
