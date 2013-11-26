@@ -22,7 +22,7 @@ matter, comprising systems which:
 \begin{enumerate*}[label=\bfseries\alph*)]
  
 \item organize at many different length scales, into
-many different forms and it classifies as something in between the
+many different forms and classify as something in between the
 ordered solids and disordered liquids.\
 \item its conformation is heavily
 influenced by thermal fluctuations in the energy scale comparable to the room
@@ -38,12 +38,12 @@ methods developed for studying order phenomena in simple systems can be
 generalized to more complex forms of matter, in particular to liquid  crystals
 and polymers''\citep{de_gennes_pierre-gilles_????}
  
-The biological soft materials spam as well different length scales. From sugar
-chains structures to active gels inside cells. In the
+The biological soft materials span as well different length scales: from sugar
+chain structures to active gels inside cells. In the
 lowest scale, we find the biopolymers, which are classified as polysaccharides
 (cellulose, pectin),  polynucleotides (RNA, DNA) or polypeptides (proteins).
  
-Most of biopolymers are considered semi-flexible. Something in between
+Most of biopolymers are considered semi-flexible, something in between
 rigid rods and completely flexible (loose) chains.  To formalize this
 distinction we need to introduce $2$ parameters that characterize a polymer
 chain: the \emph{persitence length} \gls{Lp} which is the typical length scale
@@ -55,10 +55,10 @@ A chain is considered flexible when $\ell_p<<L_c$, and rigid when the opposite
 holds. Completely flexible chains exhibit a purely entropic elastic
 response, and rigid filaments display no entropic, but purely enthalpic
 response. Semi-flexible biopolymers have a similar magnitude of $\ell_p$ and
-$L_c$. These kind of filaments does not form loops or knots, but they are
+$L_c$. These kind of filaments do not form loops or knots, but they are
 flexible enough to have thermal bending
-fluctuations\citep{storm_nonlinear_2005}. They behave like rods scales smaller
-than $\ell_p$ and like random coils in larger scales where the entropic behavior
+fluctuations\citep{storm_nonlinear_2005}. They behave like rods at scales
+smaller than $\ell_p$ and like random coils in larger scales where the entropic behavior
 dominates.
 
 \section{Semiflexible single chains: WLC model}
@@ -89,8 +89,8 @@ H=\frac{1}{2}\int_0^{L_c} dx\Big[\kappa|u''|^2 + f_B|u'|^2\Big]
 \end{equation}
 
 where $L_c$ is the contour length of the chain.
-The applicability of\ref{WLC_H} must be questioned in some cases since it
-neglects excluded volume (steric repulsion effects) between the
+The applicability of equation \ref{WLC_H} must be questioned in some cases since
+it neglects excluded volume (steric repulsion effects) between the
 chain constituents completely.\citet{hsu_breakdown_2011}. For very stiff polymer
 these excluded volume considerations could be safely ignored.
 
@@ -122,8 +122,8 @@ strong requirement does not hold for many soft matter systems. The idea behind
 the equipartition theorem is that the energy in thermal equilibrium is shared
 equally among all its components.
 
-Applying \ref{equipartition}to \ref{WLC_Hq}, the equilibrium amplitudes
-$u_q^{eq} $ satisfy:
+Applying equation \ref{equipartition} to \ref{WLC_Hq}, the equilibrium
+amplitudes of the differed Fourier modes $u_q^{eq} $ satisfy:
 \begin{equation}\label{equipartition_uq}
 \langle u_q^{eq}\rangle=\frac{2\kbolt{}T}{L_c(\kappa{}q^4+f_Bq^2)}
 \end{equation}
@@ -134,14 +134,14 @@ length and the equilibrium length.
 \frac{1}{2} \int dx |\partial u/\partial x|^2 = L_c \sum_q q^2 u_q^2
 \end{equation}
 
-Using \ref{equipartition_uq} and including a factor of $2$ due to both
+Using equation \ref{equipartition_uq} and including a factor of $2$ due to both
 degrees of freedom of the transverse displacements from the straight
 conformation:
 \begin{equation}\label{deltaLmean}
 \langle\Delta L\rangle = \kbolt{}T\sum_q \frac{1}{\kappa{}q^2+f_B}
 \end{equation}
 
-The result is most convenient expressed un terms of scaled difference between
+The result is most conveniently expressed in terms of scaled difference between
 the extension at force $f_B$ and that at zero force\citep{storm_nonlinear_2005}:
 \begin{equation}\label{WLCdisplacement}
 \delta l=\langle\Delta L\rangle_{f=0} - \langle\Delta L\rangle_{f_B} =
@@ -149,24 +149,28 @@ the extension at force $f_B$ and that at zero force\citep{storm_nonlinear_2005}:
 \end{equation} 
 where $\varphi = f_BL_c^2/\kappa{}\pi^2$
 
-\ref{WLCdisplacement} can be inverted to yield a force-extension (FE)
+Equation \ref{WLCdisplacement} can be inverted to yield a force-extension (FE)
 relation:\citep{marko_stretching_1995}:
 \begin{equation}\label{FEMarko}
 f(x)=\frac{\kbolt{}T}{\ell_p} \Big[ \frac{1}{4(1 - x/L_c)^2} 
 -\frac{1}{4}+\frac{x}{L_c} \Big]
 \end{equation}
 
-which diverges as $f \sim (x - L_c)^{-2}$ as $x\rightarrow L_c$
+where the terms $-\frac{1}{4}+\frac{x}{L_c}$ are added after the inversion of
+equation \ref{WLCdisplacement}, to fit low force regimes observed
+experimentally \citep{marko_stretching_1995}.
+This equation diverges as $f \sim (x - L_c)^{-2}$ as $x\rightarrow L_c$.
 %TODO: ADD INFO ABOUT FE
 
 This force-extension curve is of central importance in this project. This FE can
-be measured using optical tweezers, experimental technique available in our
+be measured using optical tweezers, an experimental technique available in our
 group. Optical tweezers are able to trap and manipulate beads of
-nanometric size with high
+micron size with high
 precision\citep{svoboda_direct_1993,svoboda_biological_1994}.
-Biopolymer chains can be attached to these beads using linkage molecules, and then study the force-extension of the
-chain when the force is applied by the movement of the trap in the tweezers, and
-the extension is measured tracking the beads under the microscopy.
+Biopolymer chains can be attached to these beads using linkage molecules, and then the force-extension of the
+chain when the force is applied can be studied by the movement of the trap in
+the tweezers.
+The extension is measured tracking the beads using microscopy.
 
 \begin{figure}[h]
 
@@ -194,7 +198,7 @@ Exertion of force moving the right trap. One of the bead (red-left) is fixed by
 the most powerful trap. \subref{tweezers-linkage} Linkage of the
  polymer stained with fluorescence particles (double stranded DNA) to the beads,
  and below, visualization of the fluorescence. Images by courtesy of group mate,
- Sandy Sue. }
+ Sandy Suei. }
 \label{fig:optical_tweezers}
 \end{figure}
 
@@ -205,9 +209,10 @@ the most powerful trap. \subref{tweezers-linkage} Linkage of the
 Thanks to optical tweezers and Atomic Force Microscopy
 (AFM)\citep{janshoff_force_2000} force-extension curves of many
 biopolymers have been measured, e.g. DNA\citep{marko_stretching_1995},
-polysaccharides\citep{marszalek_atomic_1999} and others. At low strain, WLC
-model captures well the system behavior, but at higher forces, a hookean extension regime must be
-incorporated.
+polysaccharides\citep{marszalek_atomic_1999} and others. At low strain, the WLC
+model captures well the system behavior, but at higher forces, a hookean
+extension regime must be incorporated to account for enthalpic stretching
+beyond the contour length.
 Such a model is called \emph{extensible wormlike chain}
 (EWLC)\citep{wang_stretching_1997}:
 
@@ -229,7 +234,7 @@ account the conformational changes of sugar rings induced by high forces in poly
 
 \caption[Force extension curve: CEWLC]{Force-extension curve of a CEWLC model
 that fits the experimental force-extension curve of a single polysaccharide
-(pectin) chain\citep{schuster_hierarchical_2011} }
+(pectin) chain \citep{schuster_hierarchical_2011, haverkamp_model_2007} }
 \label{fig:force_extension_CEWLC}
 \end{center}
 \end{figure}
@@ -258,8 +263,7 @@ interactions.
 The relation between solvent, and monomers interaction can be classified using
 $\chi$:
 \begin{enumerate}
-  \item Athermal. $\chi=0$. Solvent is very similar to ohter monomers. Simple
-  examplest example of good solvent.
+  \item Athermal. $\chi=0$. Solvent is very similar to ohter monomers.
   \item Good solvent. $\chi<1/2$. Monomers of the chain prefer to interact with
   the solvent than with other monomers.
   \item Poor solvent. $\chi>1/2$. Monomers prefer to be closer to other
@@ -271,15 +275,18 @@ $\chi$:
   \upsilon=(1-2\chi)a^3
   \end{equation}
   where $a$ is the effective length between monomers, is zero in theta solvents,
-  and chains behaves as nearly ideal.\citep{gennes_scaling_1979}
+  and chains behave as nearly ideal.\citep{gennes_scaling_1979}
 \end{enumerate}
 
 Also the concentration of polymers has important effects on the system. The
 overlap threshold parameter $c*$ acts as an order parameter to distinguish dilute
 polymer solutions, where the coils are separate, and more concentrated solution
-where the chains overlap.
+where the chains overlap. This threshold is not sharp, it is more properly
+defined as a crossover between regions, but the scaling properties of $c*$ with
+concentration are essential.
 \begin{enumerate}
-  \item Dilute. $c<c*$
+  \item Dilute. $c<c*$. Chains can be studied as an ideal gas, with almost no
+  interaction between them.
   \item Dense. $c>c*$
   \item Semi-dilute. The chains do overlap but the polymer fraction
   $\phi=ca^3$ is still low $\phi*\ll\phi\ll1$. Since $\phi$ is small, the monomer-monomer interaction can
@@ -289,7 +296,21 @@ where the chains overlap.
 \end{enumerate}
 
 
-Gels: -> introduction of G
+In dilute systems polymer chains flow through
+the solvent, acting similar to a liquid state, in the other hand, dense system
+are more like solids, but they are not completely frozen. The transition between
+both regimes is called the gelation point. Th gelation is a connectivity
+transition, where parts of the system becomes correlated by a path of
+interconexion. In the gelation point, the chains stop to flow as a liquid. We
+can think in a incipient gel, where a cluster of chains started to form (giant cluster), connecting the boundaries of the
+material. This incipient gel will behave differently to a fully connected
+network, where the giant cluster is connecting all the chains.
+
+It is hard to give a proper definition of gels\citep{gennes_scaling_1979,rubinstein_polymer_2003}, I
+like to think about it in these terms: it is the point in the phase space of
+parameters, where appears a correlation between two points in the spatial
+domain, over a length scale of the system size.
+%Definition of gel, wikipedia UIAC.
 
 \section{Bulk Rheology}
 \subsection{Linear viscoelasticity}
@@ -301,15 +322,15 @@ of sample's elasticity.
 However the material response to the force, is not always that simple. Some
 materials such as silk, rubber, and glass are subjected to a shear
 stress and the corresponding Hooke's law deformation occurs, however it is
-followed by a unexpected continious deformation termed as ``creep''. Upon
+followed by an unexpected continuous deformation termed as ``creep''. Upon
 removal of the shear stress, certain materials come back to the initial state,
 while other are permanently deformed. The phenomena of a time dependant shear
 response is called viscolelasticity. \citep{macosko_rheology:_1994}.
 
-To study the rheological (response of a material relating stress
-and strain in fucntion of frequency) properties of a viscoelastic material, it
-is applied an external sinusoidal strain, $\gamma(t)=\gamma_0\sin(\omega t)$. We
-can expect (not always) that the stress output of the material will be:
+One way to study the rheology, i.e. the deformation and flow of materials under
+strain, of a viscoelastic material, is to externally apply a small amplitude
+sinusoidal strain:
+$\gamma(t)=\gamma_0\sin(\omega t)$. We can expect (not always) that the stress output of the material will be:
 $\sigma(t) = \sigma_0 \sin(\omega t + \delta)$. This stress output can be
 analyzed by decomposition into two waves of frequency $\omega$, one in phase
 with the strain, and the other $\pi/2$ out of phase:

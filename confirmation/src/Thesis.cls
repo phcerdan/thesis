@@ -189,9 +189,9 @@
 %	defined as \examname above so you cite it as \examname
 %----------------------------------------------------------------------------------------
 
-\thesistitle{Biopolymer networks: reconstruction and image analysis} % Your
-% thesis title - this is used in the title and abstract -------------------------------------------------  
-\supervisor{Prof. Bill Williams} % You supervisor's name - this is used
+\thesistitle{Biopolymer Networks: Image Analysis, Reconstruction and Modeling}
+% Your thesis title - this is used in the title and abstract -------------------------------------------------  
+\supervisor{A Prof. Bill Williams} % You supervisor's name - this is used
 % in the title page -------------------------------------------------   
 \cosupervisorA{Prof. Geoff Jameson}
 \cosupervisorB{Prof. Sean Hendy}
@@ -332,10 +332,10 @@
 }
 %----------------------------------------------------------------------------------------
 
-{
-  \vfil\vfil\vfil\null
-   \cleardoublepage
-}
+% {
+%   \vfil\vfil\vfil\null
+%    \cleardoublepage
+% }
 \addtocounter{secnumdepth}{1}
 \setcounter{tocdepth}{6}
 \newcounter{dummy}
