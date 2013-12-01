@@ -17,8 +17,8 @@ architecture}}
 The geometric structure, also called here: architecture or topology of a
 biopolymer network impacts its mechanical properties and biological functions.
 The goal of this chapter is to explain the algorithms and software used to
-obtain the network structure. To accomplish that, first we will introduce some
-filters and middle-steps used in the process. Second, we will explain the two
+obtain the network structure from experimental measurements. To accomplish that,
+first we will introduce some filters and middle-steps used in the process. Second, we will explain the two
 methods that we have tested, FIRE and Avizo. At the same time, using confocal
 images of actin networks obtained from our lab,  we will extract statistical
 distributions of some properties of the network using both algorithms. Finally
@@ -68,7 +68,7 @@ cumulative histograms of $I$.
 
 \section{Filters: steps of the process}
 The following filters are shared, with differences, in both methods of
-extraction of the network. A network or graph is defined by two sets:
+extraction of the spatial graph. A network or graph is defined by two sets:
 a set of nodes (i.e. cross-links), characterized by their spatial position; and
 by a list of edges (i.e. links), connecting pairs of those nodes.
 \subsection{Image thresholding}
@@ -146,8 +146,8 @@ method }
 \label{fig:binary}
 \end{figure}
 
-There a lot of research in thresholding, one of the most famous binary filter is
-the Otsu's method, which is usually implemented by default in commercial software.
+There is a lot of research in thresholding. One of the most famous binary
+filters is Otsu's method, which is usually implemented by default in commercial software.
 Otsu's method minimizes the weighted sum of within-class variances of the
 foreground and background pixels to establish an optimum threshold
 \citep{sezgin_survey_2004}. This method belongs to the clustering-based methods
@@ -182,7 +182,7 @@ unconnected pieces. If the threshold is too low, fibers that are clearly
 separated, will become blurred together.
 
 In Fig.\ref{fig:binary}
-we compare the topology of a small area of an actin network after
+we compare the geometry of a small area of an actin network after
 applying different binary thresholds. The stack of images of
 networks used here was obtained in our group by Dr. Allan
 Raudsepp using confocal microscopy on actin.
@@ -248,13 +248,12 @@ with different normalized thresholds $T_P$}
 \end{figure}
  
 \subsection{Skeletonization}
-The skeleton of an object is a representation of the object, which contain both
+The skeleton of an object is a representation of the object, which contain both,
 shape features and topological structures of the original object. It is widely
 used in computer graphics, character recognition, and analysis of biomedical
-images.\citep{bai_skeleton_2007,golland_fixed_2000,ge_generation_1996} The
+images.\citep{bai_skeleton_2007,golland_fixed_2000,ge_generation_1996}. The
 skeletonization is very sensitive to noise and boundary deformations, which generates redundant skeleton branches that disturb the
-topology of the skeleton graph. For example Fig.\ref{fig:skeleton-fixedtopo}(b)
-has a lot of redundant branches.
+topology of the skeleton graph (Fig.\ref{fig:skeleton-fixedtopo}(b)).
 
 To overcome this instability, the methods used are based on skeleton pruning,
 i.e. eliminating the spurious branches. What are then the desirable properties
@@ -309,8 +308,9 @@ FIRE has been developed by Andrew M.Stein
   images. It can be downloaded, and upgrades can be uplodaded in
   \url{https://github.com/uw-loci/fiber-extraction}. The method
   \citep{stein_algorithm_2008} is based on an original idea of
-  \citet{wu_automated_2003}. The main upgrade is the use of multiple nucleation points  and the restriction that each branch extend only  in a single direction from a nucleation point. In \citet{wu_automated_2003}  the
-network has a single nucleation point at the global maximum of the distance function D.
+  \citet{wu_automated_2003}. The main upgrade is the use of multiple nucleation
+  points   and the restriction that each branch extends only  in a single 
+  direction from a nucleation point. In \citet{wu_automated_2003}  the network has a single nucleation point at the global maximum of the distance function D.
 
 
  \begin{enumerate}[label=\textbf{\Alph*}]
@@ -380,7 +380,14 @@ have been cropped due to the slowness of FIRE
 processing big networks. From an original image of Actin of
 $V=1024\times1024\times39$, we have cropped it to $V=200\times200\times20$. 
 
-\begin{figure}[h]
+In Fig.\ref{fig:fire_stepbystep} we can see the different steps of the FIRE
+algorithm. In Fig.\ref{fig:fire_histograms} we plot the statistical distribution
+of length and degree for different thresholds $T_P$. Further analysis is
+required, and a bigger network for better statistics, but it seems that length
+follow a log-normal distribution, and the degree, a geometrical distribution. We
+will say more about distributions in chapter \ref{Chapter-Reconstruction}.
+
+ \begin{figure}[h]
 
 \begin{center}
 \includegraphics[width=0.9\textwidth]{Figures/chapter-image/fire/fire012.png}%
@@ -423,8 +430,9 @@ actin netwoks.}
 \label{fig:fire_histograms}
 \end{figure}
 
-I am currently working on a way to extract the cosines distributions from
-FIRE.
+An useful statistical distribution is the one studying the angles between edges
+that are incident to the same node. I am currently working on a way to extract
+the director cosines (angles) distribution from FIRE.
 
 \section{Avizo: XSkeleton}
  Avizo is a software commercialized by
@@ -477,10 +485,21 @@ threshold ($5$ in the image)}
 
 \subsection{Avizo results:}
 We have analyzed the whole stack of our confocal images of actin
-($V=1024\times1024\times39$). The key parameters in Avizo are the binarization 
-and the pruning threshold.
+($V=1024\times1024\times39$). The key parameters in Avizo are the binarization
+$T$ and the pruning threshold $P$.
 
-\begin{figure}[h!]
+In Fig.\ref{fig:avizo_workspace}, a regular workspace in Avizo can be seen. The
+different filters, the key parameters, and the result of the process, the actin
+network are visualized.
+
+In Fig.\ref{fig:avizo_histograms30} we have extracted statistical distributions
+from the network that will be used in chapter \ref{Chapter-Reconstruction} for
+the reconstruction of the network. 
+
+In Fig.\ref{fig:avizo_histograms21} we can check that statistical distributions
+are quite robust versus small changes in the key parameters $T$ and $P$.
+
+ \begin{figure}[h!]
 
 \begin{minipage}{0.32\textwidth}
 \begin{center}
@@ -619,13 +638,13 @@ images of stiff collagen filaments.
 \end{itemize}
 \end{itemize}
 FIBER algorithm seems very reliable, but I think it has
-room for at least technical improvement, such as parallel implementation.
+room for at least, technical improvement, such as parallel implementation.
 The way it expands nucleation points using traces along the maximal ridges
 of the distance map doesn't seem to be based in any well
 established/optimized skeletonization algorithm from the computer vision
 community. The free access to the code allow us to improve it or change it at our will.
 
-The main drawback of Avizo is that I cannot access, neither alter the
+The main drawback of Avizo is that I cannot access or alter the
 skeletonization algorithm.
 To solve that, I should implement my own skeletonization algorithm, using the
 latest computer vision techniques\citep{bai_skeleton_2007}, and then interact with Avizo to represent the network.
@@ -634,8 +653,8 @@ requirements will be the key input to decide the way to follow.
 
 Despite the algorithm used, we have to choose the set of parameters that best reproduces the topology (i.e.
 architecture) of the network at the end of the image analysis process.
-\citep{stein_algorithm_2008} say ``We have found that with confocal images of
-fluorescently labeled collagen, it is relatively straight forward
+I cite \citet{stein_algorithm_2008}: ``We have found that with confocal
+images of fluorescently labeled collagen, it is relatively straight forward
 to chose a threshold that qualitatively appears to maintain
 network topology". I agree with that affirmation but if it holds with
 other materials, or other microscopy techniques (TEM) have to be tested. The
@@ -650,7 +669,7 @@ it is straight forward to choose, at least, a short range of threshold values th
  information extracted from the image analysis process seems to be quite robust
 against the fine tuning of the parameters, sharing the same shape with the
 changes.
-These distributions, specially the angle, differ along
+These distributions, especially the angle, differ along
 different materials, as shown in the literature
 \citep{lindstrom_finite-strain_2013}, and also comparing actin data from our lab
 with collagen data from the literature\citep{lindstrom_biopolymer_2010}. These

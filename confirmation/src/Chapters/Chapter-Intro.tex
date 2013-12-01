@@ -18,17 +18,13 @@
 
 \section{Soft matter and biopolymers}
 Soft matter, also known as complex fluids, is a subfield of condensed
-matter, comprising systems which:
-\begin{enumerate*}[label=\bfseries\alph*)]
- 
-\item organize at many different length scales, into
+matter, comprising systems which organize at many different length scales, into
 many different forms and classify as something in between the
-ordered solids and disordered liquids.\
-\item its conformation is heavily
+ordered solids and disordered liquids. Its conformation is heavily
 influenced by thermal fluctuations in the energy scale comparable to the room
 temperature. This characteristic allows conformational changes where complex
 behaviour can occur, life as the outermost example.
-\end{enumerate*}
+
 
 Soft matter includes liquids, colloids, polymers, foams, gels, granular
 materials, surfactants, liquids crystals and some biological materials.
@@ -46,8 +42,8 @@ lowest scale, we find the biopolymers, which are classified as polysaccharides
 Most of biopolymers are considered semi-flexible, something in between
 rigid rods and completely flexible (loose) chains.  To formalize this
 distinction we need to introduce $2$ parameters that characterize a polymer
-chain: the \emph{persitence length} \gls{Lp} which is the typical length scale
-for the decay of tangent-tanget correlations, and the \emph{countour length}
+chain: the \emph{persistence length} \gls{Lp} which is the typical length scale
+for the decay of tangent-tangent correlations, and the \emph{contour length}
 \gls{Lc}, which is defined as the maximum end-to-end distance of a linear
 polymer chain.
 
@@ -81,7 +77,7 @@ conformation. $\frac{\partial \textbf{t}}{\partial s}=u''(x)$. If the chain is
 under a tensional force from one end (and the other end fixed), we can add the
 term $H_{external}=-fL$ to the Hamiltonian, where L being the end to end
 distance.
-The Hamiltonian with this force $f_B$ in transverse coordinates :
+The Hamiltonian with this force $f_B$ in transverse coordinates is
 \begin{equation}\label{WLC_H}
 H=\frac{1}{2}\int_0^{L_c} dx\Big[\kappa|u''|^2 + f_B|u'|^2\Big]
 \end{equation}
@@ -89,8 +85,8 @@ H=\frac{1}{2}\int_0^{L_c} dx\Big[\kappa|u''|^2 + f_B|u'|^2\Big]
 where $L_c$ is the contour length of the chain.
 The applicability of equation \ref{WLC_H} must be questioned in some cases since
 it neglects excluded volume (steric repulsion effects) between the
-chain constituents completely \citep{hsu_breakdown_2011}. For very stiff polymer
-these excluded volume considerations could be safely ignored.
+chain constituents completely \citep{hsu_breakdown_2011}. However for very stiff
+polymer these excluded volume considerations could be safely ignored.
 
 Such a chain can respond to transverse and also to longitudinal forces by either
 bending or stretching/compressing.  We can explore further the force-extension
@@ -111,17 +107,17 @@ To calculate the equilibrium amplitude we shall use the equipartition theorem:
 
 where H is the Hamiltonian or energy function and $x_n$ corresponds to the
 % degrees of freedom in the phase space. Note than the system must be ergodic and in
-thermal equilibrium to apply the equipartition theorem. A system is ergodic when
+thermal equilibrium for an ergodic system. A system is ergodic when
 the ensemble average (mean over all the possible states) is equal to the time average (mean over all time
 steps). Also the equipartition theorem does not hold when the
 thermal energy $\kbolt{}T$ is smaller than the quantum energy spacing for a
 particular degree of freedom because the breakage of the energy continuum. This
 strong requirement does not hold for many soft matter systems. The idea behind
 the equipartition theorem is that the energy in thermal equilibrium is shared
-equally among all its components.
+equally among all its degrees of freedom.
 
 Applying equation \ref{equipartition} to \ref{WLC_Hq}, the equilibrium
-amplitudes of the differed Fourier modes $u_q^{eq} $ satisfy:
+amplitudes of the different Fourier modes $u_q^{eq} $ satisfy:
 \begin{equation}\label{equipartition_uq}
 \langle u_q^{eq}\rangle=\frac{2\kbolt{}T}{L_c(\kappa{}q^4+f_Bq^2)}
 \end{equation}
@@ -229,7 +225,7 @@ f(x)=\frac{\kbolt{}T}{\ell_p} \Big[ \frac{1}{4(1 - x/L_c + f(x)/K_0)^2}
 \end{equation}
 
 
-where $K_0$ is the elastic spring constant. Other model, the
+where $K_0$ is the elastic spring constant. Another model, the
 \emph{clicklable extensible wormlike chain} (CEWLC) incorporates extra
 enthalpic components of the chain, for example taking into
 account the conformational changes of sugar rings induced by high forces in polysaccharides\citep{haverkamp_model_2007}.
@@ -251,7 +247,7 @@ After the study of single chains, we have to study how all those chains interact
 with themselves, with each other and with the media where they are.
 The WLC is a model for ideal chains because the interaction between
 monomers of the chain are ignored. This is not a problem in straight
-(i.e. stiff) chains, but would be unreal in coiled chains, those are better
+(i.e. stiff) chains, but would be unrealistic in coiled chains, which are better
 modeled with a self avoiding walk, where distant monomers cannot occupy the
 same position, or with the inclusion of a excluded volume, that takes into
 account the interaction between monomers, and the forbidden configurations.
@@ -297,8 +293,8 @@ concentration are essential.
   \item Dense. $c>c*$
   \item Semi-dilute. The chains do overlap but the polymer fraction
   $\phi=ca^3$ is still low $\phi*\ll\phi\ll1$. Since $\phi$ is small, the monomer-monomer interaction can
-  be described very simple, such as the excluded volume parameter $\upsilon$ in
-  \ref{excludedvolume}. In the case of dense systems we would need more complex
+  be described very simply, such as with the excluded volume parameter
+  $\upsilon$ in \ref{excludedvolume}. In the case of dense systems we would need more complex
   relations used in liquids/fluids systems. 
 \end{enumerate}
 
@@ -375,10 +371,11 @@ about the nature of the non-linearities.
 \citep{storm_nonlinear_2005,mackintosh_elasticity_1995,yao_nonlinear_2011,sheinman_nonlinear_2012,carrillo_nonlinear_2013}.
 
 Fig. \ref{fig:strainstiffening-storm} shows that most of the biopolymer networks
-share the same non-linear behaviour at high strains: strain-stiffening. In plain words, the higher your strain is, tougher
-the material becomes or alternatively: the more you pull, the harder is to
-pull more. The universal behavior in biopolymers may have an evolutionary
-origin, due to the role of the strain-stiffening in biological functions such as cell motility
+share the same non-linear behaviour at high strains: strain-stiffening. In plain
+words,  the higher the strain is, the tougher the material becomes or
+alternatively:
+the more you pull, the harder it is to pull more. The universal behavior in
+biopolymers may have an evolutionary origin, due to the role of the strain-stiffening in biological functions such as cell motility
 and mechano-transduction.
 
 One way to study strain-stiffening experimentally is to use a \emph{large
@@ -457,7 +454,8 @@ transfer is from fibril to fibril, with no matrix of fibrils involved.
 Non-affinity and network architecture or connectivity are closely related, which
 will exploited along this work.
 
-\emph{Note: Ampliation of this topics will be done in function of future needs.
+\emph{Note: Amplification of these topics will be carried out as a function of
+future needs.
 A review of the ignored dynamics of networks will be done for the final version of the
 literature review.}
 
