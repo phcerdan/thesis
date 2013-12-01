@@ -28,6 +28,32 @@
 \documentclass[11pt, a4paper, oneside]{Thesis} % Paper size, default font size
 % and one-sided paper
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% From Elsa Guillot. Graphs, boxes, arrows
+% \usepackage{geometry}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+% \newlength{\arrowsize}   
+% \pgfarrowsdeclare{biggertip}{biggertip}{  
+%   \setlength{\arrowsize}{0.7pt}  
+%   \addtolength{\arrowsize}{.5\pgflinewidth}  
+%   \pgfarrowsrightextend{0}  
+%   \pgfarrowsleftextend{-5\arrowsize}  
+% }{  
+%   \setlength{\arrowsize}{0.7pt}  
+%   \addtolength{\arrowsize}{.5\pgflinewidth}  
+%   \pgfpathmoveto{\pgfpoint{-5\arrowsize}{4\arrowsize}}  
+%   \pgfpathlineto{\pgfpointorigin}  
+%   \pgfpathlineto{\pgfpoint{-5\arrowsize}{-4\arrowsize}}  
+%   \pgfusepathqstroke  
+% } %to use:\draw[-biggertip] (0,0) -- (0,1);
+\tikzstyle{blockimage} = [rectangle, draw, fill=green!10,
+  text width=10em, text centered,rounded corners, minimum height=5em]
+\tikzstyle{blocknetwork} = [rectangle, draw, fill=blue!10,
+  text width=11em, text centered,rounded corners, minimum height=5em]
+\tikzstyle{blockmodel} = [rectangle, draw, fill=red!10, 
+  text width=11em, text centered,rounded corners, minimum height=5em]
+
 %Pasted from internet. Delete Chapter X, in the beginings of the chapters
 \makeatletter
 \renewcommand{\@makechapterhead}[1]{%
@@ -42,11 +68,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%
     
 \graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
-  
+    
 
 % \usepackage[square, numbers, comma, sort&compress]{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers' 
 \usepackage[inline]{enumitem}
 \usepackage{pdfpages}    
+\renewcommand\bibname{References} %TO CHANGE BIBLIOGRAPHY title TO REFERENCES
 \usepackage[square, numbers, sort&compress,comma,]{natbib} % Use the natbib
 % reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers'
 %PACKAGES, added my me. MODIFIED
@@ -59,7 +86,14 @@
 \newcommand{\nm}{\si{\nano\meter}}
 \newcommand{\lp}{\ell_p} % persistence length
 \newcommand{\kbend}{\kappa_\perp} %Kbend: bending stiffness
+\newcommand{\kstretch}{\kappa_\parallel} %Kbend: bending stiffness
 \newcommand{\kbolt}{k_B} %K boltzman
+
+\newcommand{\vect}[1]{\boldsymbol{#1}} % Bold vectors
+%\newcommand{\vect}[1]{\vec{#1}} %Vectors with arrows
+\newcommand{\eps}{\,\epsilon \,} % Bold vectors
+
+
 % \hypersetup{urlcolor=blue, colorlinks=true} % Colors hyperlinks in blue -
 % change to black if annoying
 
@@ -331,20 +365,21 @@ New Zealand. }
 % columns)
 { 
 \textbf{\gls{AFM}} &  Atomic  force  microscopy \\
-\textbf{CEWLC} &  Clickable extensible worm like chain \\
+\textbf{CEWLC} &  Clickable extensible wormlike chain \\
 % \textbf{CG} &  Conjugate  gradient \\
 % \textbf{DWS} &  Diffusion  Wave  Spectroscopy \\
 \textbf{EtE} &  End to end \\
-\textbf{EWLC} &  Extensible worm like chain \\
+\textbf{EWLC} &  Extensible wormlike chain \\
 \textbf{FE} &  Force extension (curve) \\
-\textbf{LMP} & Local Maximum Point \\
+\textbf{LAOS} &  Large amplitude oscillatory shear (rheology) \\
+\textbf{LMP} & Local maximum point \\
 \textbf{MSD} &  Mean  square  displacement \\
 \textbf{NP} & Nucleation point \\
 \textbf{PME} &  Pectin-methylesterase \\
 \textbf{SAXS} &  Small  angle  X-ray  scattering  \\
 \textbf{\gls{SEM}} &  Scanning  electron  microscopy \\
 \textbf{\gls{TEM}} &  Transmission  electron  microscopy \\
-\textbf{WLC} &  Worm  like  chain \\
+\textbf{WLC} &  Wormlike  chain \\
 \\
  
 %\textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
@@ -411,10 +446,10 @@ path.\\ \hfil ¡Buen camino!. }
 
 %\pagenumbering{arabic}
    
-\input{Chapters/Chapter1} 
-\input{Chapters/Chapter2} 
-\input{Chapters/Chapter3}
-\input{Chapters/Chapter4} 
+\input{Chapters/Chapter-Intro} 
+\input{Chapters/Chapter-Image} 
+\input{Chapters/Chapter-Reconstruct}
+\input{Chapters/Chapter-Future} 
 %\input{Chapters/Chapter6} 
 %\input{Chapters/Chapter7} 
 % \input{Chapters/Chapter0-Template_tutorial}  
@@ -428,12 +463,12 @@ path.\\ \hfil ¡Buen camino!. }
  
 % Include the appendices of the thesis as separate files from the Appendices folder
 % Uncomment the lines as you write the Appendices
-      
+       
 \input{Appendices/AppendixTools}
 % \input{Appendices/Appendix-Reconstruct} 
 %   \input{Appendices/AppendixDoxygen} 
 %\input{Appendices/AppendixC}
-
+    
 %%%%%%%%%%%%%%%%GLOSSARY ENTRIES%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \setstretch{1.5} % Set the line spacing to 1.5, this makes the following tables easier to read

@@ -1,0 +1,353 @@
+% Chapter Template
+
+\chapter{Reconstructing networks from statistical distributions} % Main
+% chapter title
+
+\label{Chapter-Reconstruction} % Change X to a consecutive number; for
+% referencing this chapter elsewhere, use \ref{ChapterX}
+
+\lhead{Chapter 3. \emph{Reconstructing the network from statistical
+distributions}} % Change X to a consecutive number; this is for the header on each page - perhaps a shortened title
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+\section{Brief intro}
+
+\section{Methods}
+
+The  software used has been independently developed here, but is based on the
+idea of \citet{lindstrom_biopolymer_2010} about reconstructing the network
+architecture of polymers networks from a statistical description. They were
+based on \citet{yeong_reconstructing_1998,yeong_reconstructing_1998-1} work
+about  reconstructing random porosity media.\\
+The input for the reconstruction is the
+statistical distributions of $3$ properties in this case. This is the minimal 
+set to reconstruct the correct architecture of the network to study the
+mechanical properties, but other parameters could be added to study other or
+more complex situations.  For example, if the structure of the edges / chains is
+heterogeneous  (bio-functional areas, or different charge distribution), extra
+statistical distributions can be added with minimal effort.
+
+So in order to regenerate the network in-silico, the following distributions
+should be obtained from the image analysis:
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{Figures/chapter-reconstruct/lindstrom-paper-images.png}
+
+\caption[Collagen distributions]{Collagen I distribution measured by Lindstrom
+\citep{lindstrom_biopolymer_2010}}
+
+\end{center}
+\end{figure}
+
+\begin{enumerate} 
+\item \textbf{Degree of nodes $N(p)$.} i.e. number of edges per node
+or cross-link.
+\item \textbf{Length of edges $P(\ell$).} Length of the edges
+between connected
+% nodes.
+There are two options to define this length.
+\begin{itemize}
+\item End to end vector distance (EtE-length). Consider the edge as a straight
+line between nodes.
+
+\item Contour length (curved). Take into account all the path of the chain,
+usually curved.
+\end{itemize}
+
+The difference between both is less that one
+might have expected at a first glance. \citet{nisslert_identification_2007},
+who use a different reconstructing algorithm, report that straight and curved
+lengths have similar distribution, although the straight lines were about a
+$15\%$ shorter.\\
+I expect that high flexibility of the chains and/or low density of cross-links
+will increase the differences between them. Biopolymer are semi-flexible, stiff
+enough to keep this difference low.
+In any case, if both cases are following the same distribution is just a matter
+of scaling the length parameters.\\
+The difference between these lengths can be used as a measure of the
+persistence length (\gls{Lp}) of the chains.
+  
+
+\item \textbf{Cosine director $B(\beta$)} between incident edges. Take into
+account the relative orientation of the edges incident to a node.
+
+
+\end{enumerate}
+
+These parameters can be obtained using \textbf{image analysis} of data from
+\gls{confocal}, transmission electron microscopy (\gls{TEM}) or
+scanning electron microscopy \gls{SEM}. See chapter \ref{Chapter-Image} for
+more information about this process.
+
+The following distributions are used to develop the software as seen in
+Lindstrom paper \citep{lindstrom_biopolymer_2010}. He chose these distributions
+because they fit the data taken from image analysis of collagen I, but they make
+no claim about their use in other systems. I have noticed differences comparing
+ the collagen distribution proposed here with our data in actin networks. The
+ direction cosines distribution has a lot of variability, and it seems to
+ follow a different distribution, however the degree and length distribution
+ have similar shape in both systems.
+
+
+\begin{enumerate} 
+\item \textbf{$N(p)$}. The node degree follow a shifted geometric distribution.
+
+\begin{equation} \label{degree-dist}
+N(p)=q(1-q)^{p-3} 
+\end{equation}
+where $q=1/(Z-2)$ , and Z is the average node degree.
+
+The distribution is shifted because the minimum degree of a node is $p=3$.$p=1$
+corresponds to dead-ends nodes, and $p=2$ correspond to bending nodes. We can ignore dead-ends because they don't
+affect to the mechanical properties of the bulk network. And the bending nodes
+can be ignored if its $2$ edges are merged into a unique, larger edge,
+connecting the neighbors of this bending node between them. Some information is lost in this
+process if we are characterizing the length of edges by end to end
+vectors.
+
+\item \textbf{$P(\ell)$} The length distribution was found to be
+logarithmic-normal
+\begin{equation} \label{length-dist}
+P(\ell)=\frac{1}{\ell
+s\sqrt{2\pi}}\exp{\bigg[-\frac{(\mu-\ln{\ell})^2}{2s^2}\bigg]}
+\end{equation}
+where $\mu$ and s are the mean and standard deviation of $\ln{\ell}$
+respectively.
+
+%CHECK THAT LINDSTROM SAYS THAT \ell is normalized by n^{-1/3}
+\item \textbf{$B(\beta)$} The director cosines distribution could be represented
+by a truncated power series in the case of collagen.
+\begin{equation} \label{cosines-dist}
+B(\beta)=\sum_{k=1}^{m} b_k(1-\beta)^{2k-1}
+\end{equation}
+If we truncate it at $m=3$, and $B(\beta)$ is normalized to unity, then there
+are two parameters left, $b_1$ and $b_2$ (or other combination).
+\end{enumerate}
+
+These $3$ distributions are enough to fully characterize the architecture of a
+network of collagen. So, the network can be reconstructed with five
+independent parameters:
+$\mu$, s, $Z$, $b_1$ and $b_2$.
+
+
+The output of the algorithm is a network or spatial \gls{graph}, which is formed
+by $2$ sets: a set of nodes, containing the nodes
+position and the degree; and a second set of edges, which connect pair of
+nodes. The software
+does not allow parallel edges, i.e. two edges connected the same pair of nodes,
+and the network is fully connected,  there are no nodes or clusters of nodes
+isolated  from the rest of the network. Not allowing parallel edges could be
+unrealistic in some situations, to deal with that, edges could be characterized
+by a thickness parameter, this parameter could be associated to the number of
+parallel edges in that edges.
+\section{Euclidean Graph Generation Algorithm}
+The Euclidean graph generation (EGG) algorithm is used to reconstruct a $3D$
+network on a periodic cube domain $\Sigma$ of size $\Lambda$. The algorithm uses
+a Monte Carlo method with Simulated annealing, this is a general heuristic
+method for global optimization which avoid the convergence to local minimums on
+the energy landscape.
+
+The following steps describe the algorithm:
+\begin{enumerate}[label=\textbf{\Roman*}]
+  \item A \textbf{initial graph configuration $H_0$} is generated by placing
+  nodes drawn from a randomly uniform distribution inside the domain $\Sigma$. Then a
+  valency drawn from the degree distribution $N(p)$ is assigned to each node.
+  And finally, pairs of nodes are connected by edges, but not exceeding the
+  fixed degree of any node. The initial configuration does not follow neither
+  the length not the director cosine distribution.
+  
+  In practice, I have used the complex systems library Igraph to generate $H_0$
+  with the described constraints, see the attached code documentation for more
+  details.
+  \item There are two possible movements to \textbf{update} from a graph $H$ to
+  $H'$.
+    \begin{enumerate}[label=\textbf{\alph*)}]
+    \item Remove at random two edges from $H$ and then add other two edges
+    without changing the valence of the nodes. This hard constraint only allows
+    $2$ possible edge configuration.
+    \item Move the position of a node a random distance in the range $[0,\rho]$,
+    where $\rho$ can be tuned to enhance convergence.
+    
+    Note that the valence of the nodes is unchanged by any of these updates.
+  \end{enumerate} 
+  
+  \item We define a non-negative \textbf{``energy'' function} in a graph:
+  $E(H)=A_P(H) + A_B(H)$, where $A_P$ and $A_B$ are the Cramer-von Mises test
+  statistics for the distributions P and B respectively. The Cramer-von Mises
+  test \citep{anderson_distribution_1962} compares a set of variables $x_1<x2<\ldots<x_n$ with a
+  distribution $f$ and produces an associated value $A_f$. The smaller $A_f$ the better the set
+  of data $\{x\}$ fit the distribution $f$.
+  
+  With this definition of energy, $E(H)$ has a global minimum for graphs with
+  the target length,$P(\ell)$ and direction cosine $B(\beta)$ distributions.
+  
+  \item To find the graph with minimal $E(H)$ we use a \textbf{simulated
+  annealing} algorithm. Starting at $H=H_0$, we attempt to update the graph to
+  $H'$ with the equally probable transitions \textbf{a)} or \textbf{b)}.  If the
+  energy of the new graph is lower than before $E(H')\leq E(H)$ the transition
+  is accepted. If the energy of the new graph is greater, $E(H')> E(H)$, the
+  transition still can be accepted with a probability $\exp\{[E(H)-E(H')]/T\}$. Here $T$ is an analogous to temperature, and it is
+  the main characteristic of simulated annealing algorithms. This temperature
+  decays exponentially with the number of accepted transitions, which reduces
+  progressively the number of ``unfavorable" accepted transitions, but avoid the
+  network to get stuck in local energy minimums.
+  \item \textbf{Convergence} criteria. We will stop the algorithm, assuming
+  that we have already converged to the desired graph, when the energy $E(H)$ is
+  close to zero or lesser than a threshold.
+  The threshold will depend on the number of nodes (size) of the network.
+\end{enumerate} 
+
+\section{Results}
+\subsection{Testing in collagen I}
+The code engine has been successfully tested, and it is able to reconstruct
+generate a network from the $3$ statistical distributions. To test we have used
+the collagen distributions that \citet{lindstrom_biopolymer_2010} measured in
+the collagen data. In Fig.\ref{fig:collagen-network}\subref{collagen_param} we
+can see a reduction of $99.9\%$ from the initial graph energy $E(H_0)$ to the
+final graph, that as we can see in Fig.
+\ref{fig:collagen-distributions} successfully follow the target distributions. 
+Note that the
+simulated and target-distributions are superimposed with each other, no fit is involved. 
+
+\begin{figure}[h!]
+
+\begin{minipage}{0.5\textwidth}
+% \begin{minipage}{0.5\textwidth}
+\begin{center}
+\subfloat[]{%
+\includegraphics[width=1\textwidth]{Figures/chapter-reconstruct/networkN10000.png}%
+\label{collagen_network}}
+\end{center}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\begin{center}
+% \begin{minipage}{0.5\textwidth}
+\subfloat[]{%
+\includegraphics[width=1\textwidth]{Figures/chapter-reconstruct/parametersN10000.png}%
+\label{collagen_param}}
+\end{center}
+\end{minipage}
+
+\caption[Testing with theoretical collagen data]{ Reconstructed collagen
+network \subref{collagen_network} Visualization of reconstructed collagen
+network using Matlab. \subref{collagen_param} Simulation parameters from the reconstruction
+algorithm.}
+\label{fig:collagen-network}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+
+\begin{minipage}{0.32\textwidth}
+% \begin{minipage}{0.5\textwidth}
+\begin{center}
+\subfloat[]{%
+\includegraphics[width=1\textwidth]{Figures/chapter-reconstruct/lengthN10000.png}%
+\label{collagen_length}}
+\end{center}
+\end{minipage}
+\begin{minipage}{0.32\textwidth}
+\begin{center}
+% \begin{minipage}{0.5\textwidth}
+\subfloat[]{%
+\includegraphics[width=1\textwidth]{Figures/chapter-reconstruct/degreeN10000.png}%
+\label{collagen_degree}}
+\end{center}
+\end{minipage}
+\begin{minipage}{0.32\textwidth}
+\begin{center}
+\subfloat[]{%
+\includegraphics[width=1\textwidth]{Figures/chapter-reconstruct/cosinesN10000.png}%
+\label{collagen_cosines}}
+\end{center}
+\end{minipage}
+
+\caption[Collagen: comparing target and simulated distributions]{ Comparison
+between target distributions and simulated results in the reconstructed collagen
+network.
+\subref{collagen_length} Length Distribution $P(\ell)$.
+\subref{collagen_degree} Degree distribution $N(p)$.
+\subref{collagen_cosines} Director cosines distribution $B(\beta)$.
+}
+\label{fig:collagen-distributions}
+\end{figure}
+
+\subsection{Actin data}
+The real use of the algorithm will be to reconstruct networks with different
+statistical distribution. These statistics will be gathered from image analysis,
+but also we can input any statistical distribution ``engineered'' by us, to
+study the generated network architecture.
+
+The image analysis of our data,(Chapter.\ref{Chapter-Image}) generates the
+needed input for the reconstruction algorithm, i.e. the statistical
+distributions of length, degree, and director cosines.
+The length and degree distributions of actin data seems to follow a log-normal
+and geometrical distribution respectively. These are the same distributions
+proposed by Lindstrom for collagen (changing the parameters). But actin seems to
+follow a different distribution for cosine directors, (see
+Fig.\ref{fig:avizo_histograms30}) at least with the image analysis resulted from
+Avizo.  I am currently working on a way to extract the cosines distributions from FIRE algorithm.  
+
+ When we will have the parameters of the cosines distributions of actin, we
+can easily implement it in the reconstruct software, and then generate
+the network following those distributions.
+
+The step in the future is to study the relation of the network architecture to
+mechanical properties and dynamics of the network.
+
+\begin{figure}[h!]
+  \begin{center}
+    \begin{tikzpicture}[scale=0.8]
+      \node[blockimage] (A) at (2,8.5) {
+      \includegraphics[width=1.0\textwidth]{Figures/chapter-image/fire/fire017.png}
+      \textsc{Image Analysis}};
+      \node[blocknetwork] (B) at (8.5,3) {%
+%         \begin{minipage}{0.5\textwidth}
+        \begin{center}
+        \includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinAllan11jun132_BIN12LEN5.png}%
+        \end{center}
+%         \end{minipage}
+%         \begin{minipage}{0.5\textwidth}
+%         \begin{center}
+%         \includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinAllan11jun132_BIN18LEN5.png}%
+%         \end{center}
+%         \end{minipage}
+        
+       \textsc{Network /}\\
+       \textsc{Spatial Graph}
+        };
+
+      \node[blockimage] (C) at (1.5,0) {
+      \textsc{Reconstruction}\\
+      \textsc{Algorithm}
+      };
+      \node[blocknetwork] (F) at (0,3.5) {
+      \includegraphics[width=1.0\textwidth]{Figures/chapter-reconstruct/lindstrom-paper-images.png}%
+      
+      \textsc{Statistics}
+      };
+%       \node (M) at (2,11) {X};
+
+      \node[blockmodel] (D) at (15,3) {\textsc{Modeling}}; 
+
+%       \draw[pink,->] (A) -- (B);
+%       \draw[pink,->] (B) -- (Q);
+%       \draw[pink,->] (G) -- (M); 
+      \draw[green,arrows={-triangle 45}] (A) -- (B);
+      \draw[blue,arrows={-triangle 45}] (B) -- (F);
+      \draw[blue,arrows={-triangle 45}] (F) -- (C);
+      \draw[red,arrows={-triangle 45}] (B) -- (D);
+      \draw[green,arrows={-triangle 45}] (C) -- (B);
+
+%       \draw[green,->] (I) -- (S);
+%       \draw[blue,->] (H) -- (R);
+%       \draw[red,->] (A) -- (B);
+%       \draw[red,->] (E) -- (T);
+    \end{tikzpicture}
+  \end{center}
+  \caption[Scheme of the thesis]{Scheme of the project. }
+\end{figure}
+

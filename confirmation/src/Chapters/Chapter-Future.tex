@@ -1,0 +1,150 @@
+% Chapter Template
+
+\chapter{Schedule and future work} % Main
+% chapter title
+
+\label{Chapter-future} % Change X to a consecutive number; for
+% referencing this chapter elsewhere, use \ref{ChapterX}
+
+\lhead{Chapter 3. \emph{Schedule and future work}} % Change X to a consecutive
+% number; this is for the header on each page - perhaps a shortened title
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Schedule}
+
+\begin{description}
+  \item[0-6 months] Landing. Literature overview. Planification and research on
+  computational tools.
+  \item[6-12 months] Reconstruct-network software development.
+   Access to image analysis tools. Avizo and Matlab.
+  \item[12-18 months] Selection/development of proper model in order to simulate
+  the strain of the network. Think about how simulate long time behavior in the
+  networks. Further exploration of image analysis.
+  \item[18-24 months] Explore models and other theoretical frameworks.
+  Scaling and renormalization group theory, graph theory to explore strain
+  pathways and other networks properties. Plausible experimental experience if
+  required.
+  \item[24-30 months] Put all together with a solid bottom-up and up-bottom
+   approach convergent in the mesoscale. Image analysis of real networks,
+   dynamics simulation and in-silico reconstructed networks.
+   \item[30-36 months] Conclusions and writing of the
+   thesis report.
+   
+\end{description}
+Stimated date of submission: January $2016$
+\subsection{Funding:}
+This PhD project is funded by the MacDiarmid and Riddet
+institute. 
+
+%-----------------------------------
+%	SUBSECTION 1
+%-----------------------------------
+\section{Future directions and interesting questions}
+
+The field is full of opportunities and in continuous development. The exact
+direction to follow will rely on further discussion with my supervisor, and the necessities
+of the project from which I am receiving funding. The structure of that project,
+and my role on it is clear.
+
+\subsection{``Mesocule'' project}
+My PhD fundings come from a project which aim is to explore the hierarchical
+structures exhibited by many biomaterials. These structured are organized on
+multiple length-scales, with emergent properties not shown by individual
+components. The mesoscale, the scale between the bottom and the top, may be  a
+important source of new knowledge of these biomaterials.
+
+The project is formed by
+$3$ PIs from Victoria, Canterbury and Massey universities, $2$ Post-docs
+ and $2$ PhD. students. We have meetings every $6$ months to report advances and
+ to choose new directions.
+I will briefly summarize the proposed structure of the project: using optical
+tweezers, one of the members is able to  measure force
+extension curves of a single biopolymer chain. This expertise can also be  used
+to measure protein fibrils that other member of the group can create,  different
+properties of the fibril can be tweaked in the growth process. These protein
+fibrils can be assembled into gelled materials.
+
+Then, having measured the mechanical properties of these engineered
+fibrils, and with the network architecture information, gathered after doing
+image analysis on microscopy images of the network, we will follow a
+bottom-up approach \citep{brown_multiscale_2009,schuster_investigating_2012} to
+model and compute the mechanical properties of the whole networks from the single-fibril properties.
+Then we will compare those simulated results to
+bulk rheology measurements in the macro-scale, done by a fourth member.
+Also the developed software about reconstructing network will permit us to 
+study how the architecture of the network affect the bulk properties of the material.
+ 
+
+
+
+
+
+%-----------------------------------
+%	SUBSECTION 2
+%-----------------------------------
+
+\subsection{Long time behaviour: network quakes and aging}
+There are reports in the literature \citep{kajiya_slow_2013}, and also by group
+mates\citep{vincent_micro-rheological_2013}, that at long times, physical
+biopolymer networks can be affected by sudden de-correlations that occur over a
+few tenths of a second. The more plausible conjecture is that such quakes are associated with the release of
+chain constraint due to unbinding of cross-links.  This is reported
+experimentally in our group  with micro-rheology DWS techniques.
+Current models of networks, such as the Glassy WLC model
+\citep{kroy_glassy_2007}, cannot predict this behaviour \citep{vincent_micro-rheological_2013}.  A
+computer simulation may shed some light on the topic.
+
+It is also interesting the aging phenomena: the slow change of the physical
+properties over time. This behaviour is related with non-ergodic systems and
+with glassy systems, where long orders correlations(solids) no longer exists,
+but there is still some local order.\citep{cipelletti_slow_????}
+
+\subsection{Non-affine networks}
+As discussed in section \ref{intro-strainstiffening}, at low densities of
+cross-links the network behaves in a non-affine way, where the chain
+straining depends on the local heterogeneity of the media.
+This non-affinity is governed by the micro-architecture of the network
+\citep{head_deformation_2003,wilhelm_elasticity_2003,huisman_three-dimensional_2007,chandran_affine_2006}.
+So, in collaboration with a member of my group, an approach to study the
+dynamics modes of non-affine biopolymer networks for different strain
+frequencies might be pursued.
+
+\subsection{Cluster of nodes as mesoscale objects}
+The resolution of image analysis is not enough to provide the network
+architecture in some high density areas of the material. These clusters could
+then be treated as new mesocule objects, similar to nodes, but with different
+properties to those that represent cross-links. This scaling approach could be
+studied with the renormalization group theory, which has been successful to
+explain scaling behavior of polymers in the past.\citep{gennes_scaling_1979}
+
+
+\subsection{Computational methods}  
+The last Nobel prize in Chemistry was given "for the development of multi-scale
+models for complex chemical systems" \citep{nobel:chemistry2013} These methods
+allow the simulation of protein structures,  docking of drugs in cells and
+multiple complex chemical reactions.
+
+These coarse-graining methods study really complex
+systems \citep{de_pablo_coarse-grained_2011}, impossible to compute with  the
+fine detail potentials of molecular dynamics, but with effective potentials 
+derived from scaling, coarse graining and renormalization group theories. These
+effective potentials contain the information of the lower scales and can be
+tweaked if that information changes, but it is not necessary to simulate all the
+degrees of freedom of the fine structure. The communication over scales is the
+responsible of the success of the method, where changes in the lower scales are
+highly correlated with scales larger by several orders of magnitude. Advanced
+Monte Carlo methods are in continuous development to achieve this
+\citep{karayiannis_novel_2002}.
+
+There are plenty of other methods to explore, finite element methods (FEM),
+conjugate gradients, and a plethora of lattice models seem the most popular in
+the literature.  A future review about this topic will be needed.
+
+
+% ---------------------------------------------------------------------------------------
+
+% \section{Future work}
+
