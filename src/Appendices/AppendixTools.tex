@@ -1,0 +1,79 @@
+% Appendix A
+
+\chapter{Acquired tools} % Main appendix title
+
+\label{Appendix-tools} % For referencing this appendix elsewhere, use
+% \ref{AppendixA}
+
+\lhead{Acquired tools} % This is for the header on each page -
+% perhaps a shortened title
+
+\section{Coding : C++}
+At the beginning of my PhD, I was not sure about what language to choose for the
+development of tools to compute in-silico polymer networks. I had previous
+experience with Fortran and Python, but each of them has some drawbacks, and I wanted to start
+the project with the most sharp tools available. From my point of
+view, the more important characteristics of a language are three :
+\begin{enumerate*}[label=\bfseries\alph*)]
+\item Fast computation. 
+\item Community support and development tools.
+\item Learning curve.
+\end{enumerate*}
+ 
+Fortran is really fast, its vector/matrix multiplication is unbeatable. The main
+drawback of Fortran is that is hard to develop complex projects on it(it easy
+to end with a unstructured/messy code), no Object Oriented Programming (OOP)
+support and also it has no use at all in any other field different from hardcore numerical computing. Also the community is
+tiny, and the language lacks of some really useful libraries.
+Even though it is still used in many big projects, sometimes because the project has inherited old code,
+ or sometimes because the Fortran speed is needed. 
+
+Python has a huge community, it is a pretty modern language, easy development,
+OOP support, widely used in a lot of fields. Programming in Python is kind of a
+pleasure because it is closer to the regular way of thinking than any other
+language. The unique drawback is that it is really slow, by orders of magnitude
+in comparison to Fortran or C++. 
+
+So, I chose to learn C++. I have access to tons of libraries (I am using
+Boost Graph Library -to generate the spatial graph-, and Igraph -complex
+networks- in my Reconstruct-Network software), it is also the language of $3D$  computing
+graphics, in case I want to visualize the networks at fast speed.  It is almost
+as fast as Fortran (even faster in some points thanks to the continuous
+development of compilers). The drawback of C++ is that is hard to enter and
+start learning, but with help of
+\href{http://www.stackoverflow.com}{StackOverflow},
+\citet{stroustrup_c++_2013}, and \citet{lippman_c++_2013}, I have developed the
+Reconstruct-Network software (Chapter \ref{Chapter-Reconstruction}),
+and I think I have gained enough expertise in C++ to face future challenges in this project.
+
+\emph{``Premature optimization is the root of all evil.'' Donald Knuth}
+\section{Linux environment}
+
+I have gained expertise on Linux
+platform, the open source community, and also with some useful software that I
+use daily.
+ 
+ \begin{itemize}
+   \item Eclipse IDE. Graphic interface for different languages. I have used
+   it to work with C++, Python, and this latex manuscript.
+   \item Git. Version control software. Software to keep controlled all
+   changes in the software under development. Version control is vital to handle
+   complex software, and really useful to explore,add or remove modules  with no
+   risk of mess it up all previous work. It is also fundamental in collaboration
+   projects with other programmers. \href{https://github.com/}{GitHub} is really the hub
+   of amazing open source projects created and maintained from the open source community.
+   \item Cmake. Multiplatform assistant for managing the build process of
+   software. It is required for using computer graphic software, such VTK.
+   \item \href{http://www.zotero.org/}{Zotero}. It is a multiplatform open
+   source tool for bibliography management (alternative to EndNote, or
+   Mendelev).It can be used as an add-on to any internet browser (Firefox -open source- is recommended), and also has a 
+   stand-alone version.
+ 
+
+ \end{itemize}
+ 
+
+
+
+
+
