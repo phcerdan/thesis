@@ -1,5 +1,6 @@
 #Ignore output folder.
 */output/*
+output/*
 ## vim
 *.swp
 *~*
