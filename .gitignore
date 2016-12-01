@@ -1,8 +1,10 @@
 #Ignore output folder.
-output/*
+*/output/*
 ## vim
 *.swp
 *~*
+Session.vim
+.latexmkrc
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof

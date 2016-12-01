@@ -72,20 +72,6 @@
 \setlength{\parskip}{2.0ex plus0.5ex minus0.2ex}
 \usepackage{vmargin}
 
-\RequirePackage{ifxetex}
-\RequirePackage{ifluatex}
-\ifxetex
-  \RequirePackage[T1]{fontenc} % Xelatex international
-  \RequirePackage{fontspec} % Xelatex international
-\else
-  \ifluatex
-    \RequirePackage[utf8]{luainputenc} % Allows the use of international characters (e.g. Umlauts) in Luatex
-  \else
-    \RequirePackage[utf8]{inputenc} % Allows the use of international characters (e.g. Umlauts) in PdfLatex
-  \fi
-\fi
-% \RequirePackage[spanish,american]{babel} % Xelatex international
-
 %----------------------------------------------------------------------------------------
 %	MARGINS
 %----------------------------------------------------------------------------------------

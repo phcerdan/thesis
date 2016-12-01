@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Masters/Doctoral Thesis 
+% Masters/Doctoral Thesis
 % LaTeX Template
 % Version 1.41 (9/9/13)
 %
@@ -7,12 +7,12 @@
 % http://www.latextemplates.com
 %
 % Original authors:
-% Steven Gunn 
+% Steven Gunn
 % http://users.ecs.soton.ac.uk/srg/softwaretools/document/templates/
 % and
 % Sunil Patel
 % http://www.sunilpatel.co.uk/thesis-template/
-% 
+%
 % License:
 % CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
 %
@@ -20,11 +20,11 @@
 % Make sure to edit document variables in the Thesis.cls file
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
+
 %----------------------------------------------------------------------------------------
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
- 
+
 \documentclass[11pt, a4paper, oneside]{Thesis} % Paper size, default font size
 % and one-sided paper
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -33,25 +33,25 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows}
 
-% \newlength{\arrowsize}   
-% \pgfarrowsdeclare{biggertip}{biggertip}{  
-%   \setlength{\arrowsize}{0.7pt}  
-%   \addtolength{\arrowsize}{.5\pgflinewidth}  
-%   \pgfarrowsrightextend{0}  
-%   \pgfarrowsleftextend{-5\arrowsize}  
-% }{  
-%   \setlength{\arrowsize}{0.7pt}  
-%   \addtolength{\arrowsize}{.5\pgflinewidth}  
-%   \pgfpathmoveto{\pgfpoint{-5\arrowsize}{4\arrowsize}}  
-%   \pgfpathlineto{\pgfpointorigin}  
-%   \pgfpathlineto{\pgfpoint{-5\arrowsize}{-4\arrowsize}}  
-%   \pgfusepathqstroke  
+% \newlength{\arrowsize}
+% \pgfarrowsdeclare{biggertip}{biggertip}{
+%   \setlength{\arrowsize}{0.7pt}
+%   \addtolength{\arrowsize}{.5\pgflinewidth}
+%   \pgfarrowsrightextend{0}
+%   \pgfarrowsleftextend{-5\arrowsize}
+% }{
+%   \setlength{\arrowsize}{0.7pt}
+%   \addtolength{\arrowsize}{.5\pgflinewidth}
+%   \pgfpathmoveto{\pgfpoint{-5\arrowsize}{4\arrowsize}}
+%   \pgfpathlineto{\pgfpointorigin}
+%   \pgfpathlineto{\pgfpoint{-5\arrowsize}{-4\arrowsize}}
+%   \pgfusepathqstroke
 % } %to use:\draw[-biggertip] (0,0) -- (0,1);
 \tikzstyle{blockimage} = [rectangle, draw, fill=green!10,
   text width=10em, text centered,rounded corners, minimum height=5em]
 \tikzstyle{blocknetwork} = [rectangle, draw, fill=blue!10,
   text width=11em, text centered,rounded corners, minimum height=5em]
-\tikzstyle{blockmodel} = [rectangle, draw, fill=red!10, 
+\tikzstyle{blockmodel} = [rectangle, draw, fill=red!10,
   text width=11em, text centered,rounded corners, minimum height=5em]
 
 %Pasted from internet. Delete Chapter X, in the beginings of the chapters
@@ -66,44 +66,51 @@
 #1\par\nobreak\vspace{40 pt}}}
 \makeatother
 %%%%%%%%%%%%%%%%%%%%%%%%
-    
+
 \graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
-    
 
-% \usepackage[square, numbers, comma, sort&compress]{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers' 
 \usepackage[inline]{enumitem}
-\usepackage{pdfpages}    
+\usepackage{pdfpages}
 \renewcommand\bibname{References} %TO CHANGE BIBLIOGRAPHY title TO REFERENCES
-\usepackage[square, numbers, sort&compress,comma,]{natbib} % Use the natbib
+\usepackage[square, numbers, sort&compress,comma]{natbib} % Use the natbib
 % reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers'
-%PACKAGES, added my me. MODIFIED
 
-\usepackage[T1]{fontenc} %non-english compatibility. Always recommended.
-\usepackage{glossaries}
+%%%%% MY PACKAGES %%%%%%
+\RequirePackage{ifxetex}
+\RequirePackage{ifluatex}
+\RequirePackage[spanish,american]{babel} % Xelatex international
+\RequirePackage[T1]{fontenc} % non-english compat.
+\ifxetex
+  \RequirePackage{fontspec} % Xelatex international
+\else
+  \ifluatex
+    \RequirePackage[utf8]{luainputenc} % Allows the use of international characters (e.g. Umlauts) in Luatex
+  \else
+    \RequirePackage[utf8]{inputenc} % Allows the use of international characters (e.g. Umlauts) in PdfLatex
+  \fi
+\fi
+\usepackage[toc]{glossaries} % Require special compile with ./.latexmkrc file
    \makeglossaries
 \usepackage{siunitx} %Units, etc.
+%{{{ units shortcuts
 \newcommand{\angm}{\si{\angstrom}}
 \newcommand{\nm}{\si{\nano\meter}}
 \newcommand{\lp}{\ell_p} % persistence length
 \newcommand{\kbend}{\kappa_\perp} %Kbend: bending stiffness
 \newcommand{\kstretch}{\kappa_\parallel} %Kbend: bending stiffness
 \newcommand{\kbolt}{k_B} %K boltzman
-
 \newcommand{\vect}[1]{\boldsymbol{#1}} % Bold vectors
 %\newcommand{\vect}[1]{\vec{#1}} %Vectors with arrows
 \newcommand{\eps}{\,\epsilon \,} % Bold vectors
-
-
-% \hypersetup{urlcolor=blue, colorlinks=true} % Colors hyperlinks in blue -
-% change to black if annoying
+%}}}
 
 \title{\ttitle} % Defines the thesis title - don't touch this
 
 \begin{document}
-    
+
 \frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the
 % pre-content pages
-%\pagenumbering{Roman} 
+%\pagenumbering{Roman}
 \setstretch{1.3} % Line spacing of 1.3
 
 % Define the page headers using the FancyHdr package and set up for one-sided printing
@@ -129,14 +136,14 @@
 \begin{center}
 
 % \textsc{\LARGE \univname}\\[1.5cm] % University name
-\textsc{\Large PhD.Confirmation Report}\\[0.5cm] % Thesis type
+\textsc{\Large PhD.Thesis}\\[0.5cm] % Thesis type
 
 \HRule \\[0.4cm] % Horizontal line
 {\huge \bfseries \ttitle}\\[0.4cm] % Thesis title
 \HRule \\[0.5cm] % Horizontal line
- 
 
- 
+
+
 \Large\emph{Author:~}{\authornames} % Author name -
 % remove the \href bracket to remove the link
 \\[1.0cm]
@@ -159,10 +166,8 @@
 % requirement text
 \textit{in the}\\[0.4cm]
 \groupname\\\deptname\\[1cm] % Research group name and department name
- 
+
 %\includegraphics{Logo} % University/department logo - uncomment to place it
-
-
 
 
 % \noindent\begin{minipage}[l]{0.45\linewidth}
@@ -171,7 +176,7 @@
 % \hskip 1cm
 % \noindent\begin{minipage}[r]{0.45\linewidth}
 % \includegraphics[width=1\textwidth]{./Pictures/Riddet-Logo.jpg}
-% 
+%
 % \end{minipage}
 
 % \end{figure}
@@ -187,7 +192,7 @@
 %	DECLARATION PAGE
 %	Your institution may give you a different text to place here
 %----------------------------------------------------------------------------------------
-%
+
 % \Declaration{
 %
 % \addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
@@ -216,71 +221,69 @@
 %	QUOTATION PAGE
 %----------------------------------------------------------------------------------------
 
-% \pagestyle{empty} % No headers or footers for the following pages
-% 
-% \null\vfill % Add some space to move the quote down the page a bit
-% 
-% \textit{``Thanks to my solid academic training, today I can write hundreds of words on virtually any topic without possessing a shred of information, which is how I got a good job in journalism."}
-% 
-% \begin{flushright}
-% Dave Barry
-% \end{flushright}
-% 
-% \vfill\vfill\vfill\vfill\vfill\vfill\null % Add some space at the bottom to position the quote just right
-% 
-% \clearpage % Start a new page
+\pagestyle{empty} % No headers or footers for the following pages
 
-%------------------------------------http://macdiarmid.ac.nz/----------------------------------------------------
+\null\vfill % Add some space to move the quote down the page a bit
+
+\textit{``Premature optimization is the root of all evil"}
+
+\begin{flushright}
+Donald Knuth
+\end{flushright}
+
+\vfill\vfill\vfill\vfill\vfill\vfill\null % Add some space at the bottom to position the quote just right
+
+\clearpage % Start a new page
+
+%----------------------------------------------------------------------------------------
 % ABSTRACT PAGE
 %----------------------------------------------------------------------------------------
- 
-% \addtotoc{Abstract} % Add the "Abstract" page entry to the Contents
-% 
-% \abstract{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
-%  
-% In particular this thesis focuses in bio-polymers, that are polymers produced
-% by living organisms, as peptides (proteins), nucleic acids (DNA), and sugars.
-% 
-% The structure of it will be:
-% First, analysis of images from tomography electro microscopy (TEM) or confocal
-% Microscopy of biopolymers show us the architecture of the underlying network.
-% A spatial graph will be derived from this analysis, and the
-% physical network characterized.
-% 
-% Secondly, from this physical networks we will infer statistical distribution of
-% parameters that characterize the network, such as the length distribution
-% between nodes (cross-links), the number of branches from each node, the angle
-% distribution between those branches or the network clusters distribution.
-% From this statistical distribution, using the developed software, we will be
-% able to reconstruct in-silico the network, with the same characteristics than
-% the original physical network studied with image analysis.
-% 
-% Thirdly, our group has the expertise, using optical traps, to measure
-% force elongation curves of a single polymer chain. Following a bottom-up
-% approach with this single-chain energy function on the one hand and the network
-% architecture at the other, we will compute different bulk properties of
-% the polymeric material.
-% Then we will compare these simulated results to experiments in the macro-scale.
-% A well known bulk parameter is the complex shear modulus (G*), which is
-% accessible via rheometry techniques.
-% 
-% Finally, a simulation of the dynamics of the network will be pursued. The long
-% time dynamics of these biopolymer networks are not captured by the current
-% theoretical framework. A hypothesis associate them to the breakage of
-% cross-links and the release of chain constraints. There are multitude approaches
-% of the dynamics, 
-% 
-% 
-% 
-%    }
-% \clearpage % Start a new page
+
+\addtotoc{Abstract} % Add the "Abstract" page entry to the Contents
+
+\abstract{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+In particular this thesis focuses in bio-polymers, that are polymers produced
+by living organisms, as peptides (proteins), nucleic acids (DNA), and sugars.
+
+The structure of it will be:
+First, analysis of images from tomography electro microscopy (TEM) or confocal
+Microscopy of biopolymers show us the architecture of the underlying network.
+A spatial graph will be derived from this analysis, and the
+physical network characterized.
+
+Secondly, from this physical networks we will infer statistical distribution of
+parameters that characterize the network, such as the length distribution
+between nodes (cross-links), the number of branches from each node, the angle
+distribution between those branches or the network clusters distribution.
+From this statistical distribution, using the developed software, we will be
+able to reconstruct in-silico the network, with the same characteristics than
+the original physical network studied with image analysis.
+
+Thirdly, our group has the expertise, using optical traps, to measure
+force elongation curves of a single polymer chain. Following a bottom-up
+approach with this single-chain energy function on the one hand and the network
+architecture at the other, we will compute different bulk properties of
+the polymeric material.
+Then we will compare these simulated results to experiments in the macro-scale.
+A well known bulk parameter is the complex shear modulus (G*), which is
+accessible via rheometry techniques.
+
+Finally, a simulation of the dynamics of the network will be pursued. The long
+time dynamics of these biopolymer networks are not captured by the current
+theoretical framework. A hypothesis associate them to the breakage of
+cross-links and the release of chain constraints. There are multitude approaches
+of the dynamics,
+
+}
+\clearpage % Start a new page
 %----------------------------------------------------------------------------------------
 % Summary of chapters
 %----------------------------------------------------------------------------------------
 \addtotoc{Summary of chapters}
 \addtocontents{toc}{\vspace{0em}}
  {\huge{\textbf{Summary of chapters}} \par}
- 
+
 First, the field of soft matter is introduced, along with the main
 characteristics of semi-flexible polymers.  Then we will scale up
 from single biopolymer chains to networks and their associated stress-strain
@@ -321,7 +324,7 @@ thesis.
 
 \acknowledgements{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
 
-A special thank to Associate Prof.Bill Williams whose support, openness, and
+A special thank to Prof. Bill Williams whose support, openness, and
 vision of science is encouraging. Also thanks to all my group mates from the \groupname{}
 for doing comfortable my settlement in the antipodes. Finally, I am
 grateful to the \macdiarmid{} for constantly
@@ -332,13 +335,13 @@ This research is supported by the MacDiarmid Institute and the Riddet Institute,
 New Zealand. }
 \clearpage
 % Start a new page
-     
+
 %----------------------------------------------------------------------------------------
 %	LIST OF CONTENTS/FIGURES/TABLES PAGES
 %----------------------------------------------------------------------------------------
 
 \pagestyle{fancy} % The page style headers have been "empty" all this time, now use the "fancy" headers as defined before to bring them back
- 
+
 \lhead{\emph{Contents}} % Set the left side page header to "Contents"
 \tableofcontents % Write out the Table of Contents
 
@@ -347,14 +350,14 @@ New Zealand. }
 
 % \lhead{\emph{List of Tables}} % Set the left side page header to "List of Tables"
 % \listoftables % Write out the List of Tables
-  
+
 
 %----------------------------------------------------------------------------------------
 %	ABBREVIATIONS
 %----------------------------------------------------------------------------------------
-%      
-\input{Glossary/glossary.tex}  
- 
+%
+\input{Glossary/glossary.tex}
+
 \clearpage
 % Start a new page
 
@@ -363,7 +366,7 @@ New Zealand. }
 \lhead{\emph{Abbreviations}} % Set the left side page header to "Abbreviations"
 \listofsymbols{ll} % Include a list of Abbreviations (a table of two
 % columns)
-{ 
+{
 \textbf{\gls{AFM}} &  Atomic  force  microscopy \\
 \textbf{CEWLC} &  Clickable extensible wormlike chain \\
 % \textbf{CG} &  Conjugate  gradient \\
@@ -381,48 +384,48 @@ New Zealand. }
 \textbf{\gls{TEM}} &  Transmission  electron  microscopy \\
 \textbf{WLC} &  Wormlike  chain \\
 \\
- 
+
 %\textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
-}       
- 
+}
+
 %----------------------------------------------------------------------------------------
 %	PHYSICAL CONSTANTS/OTHER DEFINITIONS
 %----------------------------------------------------------------------------------------
 
 % \clearpage % Start a new page
-% 
+%
 % \lhead{\emph{Physical Constants}} % Set the left side page header to "Physical Constants"
-% 
+%
 % \listofconstants{lrcl} % Include a list of Physical Constants (a four column table)
 % {
 % Speed of Light & $c$ & $=$ & $2.997\ 924\ 58\times10^{8}\ \mbox{ms}^{-\mbox{s}}$ (exact)\\
 % % Constant Name & Symbol & = & Constant Value (with units) \\
 % }
- 
+
 % ----------------------------------------------------------------------------------------
 % 	SYMBOLS
 % ----------------------------------------------------------------------------------------
 
 % \clearpage % Start a new page
-% 
+%
 % \lhead{\emph{Symbols}} % Set the left side page header to "Symbols"
-% 
+%
 % \listofnomenclature{lll} % Include a list of Symbols (a three column table)
-% { 
+% {
 % $a$ & distance & m \\
 % $P$ & power & W (Js$^{-1}$) \\
 % % Symbol & Name & Unit \\
-% 
+%
 % & & \\ % Gap to separate the Roman symbols from the Greek
-% 
+%
 % $\omega$ & angular frequency & rads$^{-1}$ \\
 % % Symbol & Name & Unit \\
 % }
-      
+
 %----------------------------------------------------------------------------------------
 %	DEDICATION
 %----------------------------------------------------------------------------------------
- 
+
 \setstretch{1.3} % Return the line spacing back to 1.3
 
 \pagestyle{empty} % Page style needs to be empty for this page
@@ -432,11 +435,11 @@ path.\\ \hfil ¡Buen camino!. }
 % Dedication text
 
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
- 
+
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - CHAPTERS
 %----------------------------------------------------------------------------------------
-  
+
 \mainmatter % Begin numeric (1,2,3...) page numbering
 
 \pagestyle{fancy} % Return the page headers back to the "fancy" style
@@ -445,54 +448,51 @@ path.\\ \hfil ¡Buen camino!. }
 % Uncomment the lines as you write the chapters
 
 %\pagenumbering{arabic}
-   
-\input{Chapters/Chapter-Intro} 
-\input{Chapters/Chapter-Image} 
+
+\input{Chapters/Chapter-Intro}
+\input{Chapters/Chapter-Image}
 \input{Chapters/Chapter-Reconstruct}
-\input{Chapters/Chapter-Future} 
-%\input{Chapters/Chapter6} 
-%\input{Chapters/Chapter7} 
-% \input{Chapters/Chapter0-Template_tutorial}  
+\input{Chapters/Chapter-Future}
+%\input{Chapters/Chapter6}
+%\input{Chapters/Chapter7}
+% \input{Chapters/Chapter0-Template_tutorial}
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
 %----------------------------------------------------------------------------------------
-   
+
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
- 
+
 \appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
- 
+
 % Include the appendices of the thesis as separate files from the Appendices folder
 % Uncomment the lines as you write the Appendices
-       
+
 \input{Appendices/AppendixTools}
-% \input{Appendices/Appendix-Reconstruct} 
-%   \input{Appendices/AppendixDoxygen} 
+% \input{Appendices/Appendix-Reconstruct}
+%   \input{Appendices/AppendixDoxygen}
 %\input{Appendices/AppendixC}
-    
+
 %%%%%%%%%%%%%%%%GLOSSARY ENTRIES%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
+% \clearpage
 \setstretch{1.5} % Set the line spacing to 1.5, this makes the following tables easier to read
- 
+
 \lhead{\emph{Glossary}} % Set the left side page header to "Abbreviations"
 
 
-\addcontentsline{toc}{chapter}{Glossary}
-\glsaddall 
-\printglossaries 
+% \addcontentsline{toc}{chapter}{Glossary}
+\glsaddall
+\printglossaries
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 
 \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 
 \backmatter
-   
+
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
- 
+
 \label{References}
 
 \lhead{\emph{References}} % Change the page header to say "Bibliography"
@@ -504,6 +504,5 @@ path.\\ \hfil ¡Buen camino!. }
 %----------------------------------------------------------------------------------------
 %	GLOSSARY
 %----------------------------------------------------------------------------------------
- 
 
-\end{document}  
+\end{document}
