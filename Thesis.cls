@@ -138,7 +138,7 @@
 \usepackage{graphicx}
 \usepackage{epstopdf}
 % \usepackage[scriptsize]{subfig}
-\usepackage{subfig}
+% \usepackage{subfig}
 \usepackage{booktabs}
 \usepackage{rotating}
 \usepackage{listings}

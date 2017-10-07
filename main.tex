@@ -27,33 +27,6 @@
 
 \documentclass[11pt, a4paper, oneside]{Thesis} % Paper size, default font size
 % and one-sided paper
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% From Elsa Guillot. Graphs, boxes, arrows
-% \usepackage{geometry}
-\usepackage{tikz}
-\usetikzlibrary{arrows}
-
-% \newlength{\arrowsize}
-% \pgfarrowsdeclare{biggertip}{biggertip}{
-%   \setlength{\arrowsize}{0.7pt}
-%   \addtolength{\arrowsize}{.5\pgflinewidth}
-%   \pgfarrowsrightextend{0}
-%   \pgfarrowsleftextend{-5\arrowsize}
-% }{
-%   \setlength{\arrowsize}{0.7pt}
-%   \addtolength{\arrowsize}{.5\pgflinewidth}
-%   \pgfpathmoveto{\pgfpoint{-5\arrowsize}{4\arrowsize}}
-%   \pgfpathlineto{\pgfpointorigin}
-%   \pgfpathlineto{\pgfpoint{-5\arrowsize}{-4\arrowsize}}
-%   \pgfusepathqstroke
-% } %to use:\draw[-biggertip] (0,0) -- (0,1);
-\tikzstyle{blockimage} = [rectangle, draw, fill=green!10,
-  text width=10em, text centered,rounded corners, minimum height=5em]
-\tikzstyle{blocknetwork} = [rectangle, draw, fill=blue!10,
-  text width=11em, text centered,rounded corners, minimum height=5em]
-\tikzstyle{blockmodel} = [rectangle, draw, fill=red!10,
-  text width=11em, text centered,rounded corners, minimum height=5em]
- 
 %Pasted from internet. Delete Chapter X, in the beginings of the chapters
 \makeatletter
 \renewcommand{\@makechapterhead}[1]{%
@@ -66,8 +39,45 @@
 #1\par\nobreak\vspace{40 pt}}}
 \makeatother
 %%%%%%%%%%%%%%%%%%%%%%%%
-
 \graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
+
+% From Wavelet Article: {{{
+\usepackage{float}
+\usepackage{subcaption}
+\newcommand{\github}[1]{\href{https://github.com/phcerdan/ITKIsotropicWavelets/blob/master/include/itk#1.h}{itk::#1}}
+\newcommand{\doxygen}[1]{
+\href{http://www.itk.org/Doxygen/html/classitk_1_1#1.html}{itk::#1}}
+% \usepackage[subpreambles=true]{standalone}
+\usepackage[subpreambles=true,mode=buildnew]{standalone}
+\usepackage{physics} % write derivatives
+\usepackage{mathtools} % complex arrows
+\usepackage{bm} %easy usage of bold in math mode
+% \theoremstyle{definition}
+% \newtheorem{definition}{Definition}[section]
+% \newtheorem{proposition}{Proposition}
+% \newtheorem{remark}{Remark}
+\newcommand{\conj}[1]{#1^{\ast}}
+\newcommand{\fft}[1]{\hat{#1}}
+\newcommand{\trans}[1]{#1^{\mathsf{T}}}
+\def\w{\omega} % shortcut for omega
+\def\vn{\bm{n}} % shortcut for n vector
+\def\vx{\bm{x}} % shortcut for x vector
+\usepackage{xcolor}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{light-gray}{gray}{0.95} %the shade of grey that stack exchange uses
+\usepackage[draft]{minted} % Requires pygmentize and python-pygmentize.
+\setminted[c++]{%
+  % frame=single,
+  fontsize=\small,
+  style=borland,
+  breaklines,
+  % linenos,
+  bgcolor=light-gray
+}
+\newcommand{\inline}[1]{\mintinline{c++}/#1/}
+% }}} end wavelet article
 
 \usepackage[inline]{enumitem}
 \usepackage{pdfpages}
@@ -76,6 +86,7 @@
 \usepackage[natbib=true,backend=bibtex]{biblatex}
 \usepackage{csquotes}% Recommended for biblatex
 \addbibresource{MyLibrary.bib}
+\addbibresource{Wavelet.bib}
 % reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers'
 
 %%%%% MY PACKAGES %%%%%%
@@ -106,6 +117,35 @@
 %\newcommand{\vect}[1]{\vec{#1}} %Vectors with arrows
 \newcommand{\eps}{\,\epsilon \,} % Bold vectors
 %}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% From Elsa Guillot. Graphs, boxes, arrows
+% \usepackage{geometry}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+% \newlength{\arrowsize}
+% \pgfarrowsdeclare{biggertip}{biggertip}{
+%   \setlength{\arrowsize}{0.7pt}
+%   \addtolength{\arrowsize}{.5\pgflinewidth}
+%   \pgfarrowsrightextend{0}
+%   \pgfarrowsleftextend{-5\arrowsize}
+% }{
+%   \setlength{\arrowsize}{0.7pt}
+%   \addtolength{\arrowsize}{.5\pgflinewidth}
+%   \pgfpathmoveto{\pgfpoint{-5\arrowsize}{4\arrowsize}}
+%   \pgfpathlineto{\pgfpointorigin}
+%   \pgfpathlineto{\pgfpoint{-5\arrowsize}{-4\arrowsize}}
+%   \pgfusepathqstroke
+% } %to use:\draw[-biggertip] (0,0) -- (0,1);
+\tikzstyle{blockimage} = [rectangle, draw, fill=green!10,
+  text width=10em, text centered,rounded corners, minimum height=5em]
+\tikzstyle{blocknetwork} = [rectangle, draw, fill=blue!10,
+  text width=11em, text centered,rounded corners, minimum height=5em]
+\tikzstyle{blockmodel} = [rectangle, draw, fill=red!10,
+  text width=11em, text centered,rounded corners, minimum height=5em]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \title{\ttitle} % Defines the thesis title - don't touch this
 
@@ -159,16 +199,15 @@
 & \\
 & \\
 \large\emph{Date of report:} & {\large \today}\\
-\large\emph{PhD. term:} & \large2013-2016\\[0.7cm]
+%\large\emph{PhD. term:} & \large2013-2016\\[0.7cm]
 \end{longtable}
 
 % \href bracket to remove the link
 
-\large \textit{A report submitted in fulfilment of the requirements for the \\
- confirmation of the degree of \degreename}\\[0.3cm] % University
-% requirement text
-\textit{in the}\\[0.4cm]
-\groupname\\\deptname\\[1cm] % Research group name and department name
+\large \textit{Thesis submitted in partial fulfilment of the requirements\\
+for the degree of \degreename} \textit{in Physics}\\[2.0cm]
+%\\[0.3cm] % University
+\groupname\\\deptname\\[2.5cm] % Research group name and department name
 
 %\includegraphics{Logo} % University/department logo - uncomment to place it
 
@@ -379,13 +418,14 @@ New Zealand. }
 \textbf{FE} &  Force extension (curve) \\
 \textbf{LAOS} &  Large amplitude oscillatory shear (rheology) \\
 \textbf{LMP} & Local maximum point \\
-\textbf{MSD} &  Mean  square  displacement \\
+\textbf{MSD} &  Mean square displacement \\
 \textbf{NP} & Nucleation point \\
 \textbf{PME} &  Pectin-methylesterase \\
-\textbf{SAXS} &  Small  angle  X-ray  scattering  \\
-\textbf{\gls{SEM}} &  Scanning  electron  microscopy \\
-\textbf{\gls{TEM}} &  Transmission  electron  microscopy \\
-\textbf{WLC} &  Wormlike  chain \\
+\textbf{SAXS} &  Small angle X-ray scattering  \\
+\textbf{\gls{SEM}} &  Scanning electron microscopy \\
+\textbf{\gls{TEM}} &  Transmission electron microscopy \\
+\textbf{WLC} &  Wormlike chain \\
+\textbf{MRA} &  Multiresolution framework \\
 \\
 
 %\textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
@@ -453,6 +493,10 @@ path.\\ \hfil ¡Buen camino!. }
 %\pagenumbering{arabic}
 
 \input{Chapters/Chapter-Intro}
+\input{Chapters/Chapter-Wavelets}
+% \input{Chapters/Chapter-TEMValidation}
+% \input{Chapters/Chapter-Network}
+% \input{Chapters/Chapter-Reconstruct}
 \input{Chapters/Chapter-Image}
 \input{Chapters/Chapter-Reconstruct}
 \input{Chapters/Chapter-Future}

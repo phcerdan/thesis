@@ -108,30 +108,40 @@ in the case of high quality images of $16$ bits, the max value will rise to
 $2^{16} - 1 = 65535$. In both cases the max value corresponds to pure white and
 $0$ to black.
 
- \begin{figure}[h]
-
+\begin{figure}[h]
+\begin{subfigure}{0.5\textwidth}
+  \centering
+  \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_original.png}%
+  \caption{Input Image - Original}
+  \label{binoriginal}
+\end{subfigure}%
 \begin{minipage}{0.5\textwidth}
-\subfloat[Input Image - Original]{%
-\includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_original.png}%
-\label{binoriginal}}
-\end{minipage}
-\begin{minipage}{0.55\textwidth}
-% \begin{minipage}{0.5\textwidth}
-\subfloat[$T_P$=0.01]{%
-\includegraphics[width=0.45\textwidth]{Figures/chapter-image/binary/fig_bin_01.png}%
-\label{bin001}}
-\hspace{1pt}
-\subfloat[$T_P$=0.08]{%
-\includegraphics[width=0.45\textwidth]{Figures/chapter-image/binary/fig_bin_08.png}%
-\label{bin008}}
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_01.png}%
+    \caption{$T_P$=0.01}
+    \label{bin001}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_08.png}
+    \caption{$T_P$=0.08}
+    \label{bin008}
+  \end{subfigure}
 
-\subfloat[$T_P$=0.1176]{%
-\includegraphics[width=0.45\textwidth]{Figures/chapter-image/binary/fig_bin_01176Otsu.png}%
-\label{binotsu}}
-\hspace{1pt}
-\subfloat[$T_P$=0.20]{%
-\includegraphics[width=0.45\textwidth]{Figures/chapter-image/binary/fig_bin_20.png}%
-\label{bin020}}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_01176Otsu.png}%
+    \caption{$T_P$=0.1176}
+    \label{binotsu}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_20.png}%
+    \label{bin020}
+    \caption{$T_P$=0.20}
+  \end{subfigure}%
 \end{minipage}
 
 \caption[Different threshold values on networks]{Different threshold values in
@@ -202,44 +212,59 @@ been simplified from real to integers for clarity.
  
  
 \begin{figure}[h]
-
 \begin{minipage}{0.5\textwidth}
-\center{\textbf{Binarization}}\\
-% \begin{minipage}{0.5\textwidth}
-\subfloat[$T_P$=0.01]{%
-\includegraphics[width=0.45\textwidth]{Figures/chapter-image/binary/fig_bin_01.png}%
-}
-\hspace{1pt}
-\subfloat[$T_P$=0.08]{%
-\includegraphics[width=0.45\textwidth]{Figures/chapter-image/binary/fig_bin_08.png}%
-}
+  \centering
+  \center{\textbf{Binarization}}\\
+  % \begin{minipage}{0.5\textwidth}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_01.png}
+    \caption{$T_P$=0.01}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_08.png}
+    \caption{$T_P$=0.08}
+  \end{subfigure}
 
-\subfloat[0.1176]{%
-\includegraphics[width=0.45\textwidth]{Figures/chapter-image/binary/fig_bin_01176Otsu.png}%
-}
-\hspace{1pt}
-\subfloat[$T_P$=0.20]{%
-\includegraphics[width=0.45\textwidth]{Figures/chapter-image/binary/fig_bin_20.png}%
-}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_01176Otsu.png}
+    \caption{0.1176}
+  \end{subfigure}%
+  % \hspace{1pt}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_20.png}
+    \caption{$T_P$=0.20}
+  \end{subfigure}%
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
-\center{\textbf{Distance map}}\\
-% \begin{minipage}{0.5\textwidth}
-\subfloat[$T_P$=0.01]{%
-\includegraphics[width=0.45\textwidth]{Figures/chapter-image/distance/fig_dist_01.png}%
-}
-\hspace{1pt}
-\subfloat[$T_P$=0.08]{%
-\includegraphics[width=0.45\textwidth]{Figures/chapter-image/distance/fig_dist_08.png}%
-}
+  \centering
+  \center{\textbf{Distance map}}\\
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/distance/fig_dist_01.png}
+    \caption{$T_P$=0.01}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/distance/fig_dist_08.png}
+    \caption{$T_P$=0.08}
+  \end{subfigure}
 
-\subfloat[0.1176]{%
-\includegraphics[width=0.45\textwidth]{Figures/chapter-image/distance/fig_dist_01176Otsu.png}%
-\label{distotsu}}
-\hspace{1pt}
-\subfloat[$T_P$=0.20]{%
-\includegraphics[width=0.45\textwidth]{Figures/chapter-image/distance/fig_dist_20.png}%
-\label{dist014}}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/distance/fig_dist_01176Otsu.png}
+    \caption{0.1176}
+    \label{distotsu}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/distance/fig_dist_20.png}
+    \caption{$T_P$=0.20}
+    \label{dist014}
+  \end{subfigure}
 \end{minipage}
 
 \caption[Distance map - Actin]{ Distance maps calculated from binarized images
@@ -335,36 +360,29 @@ FIRE has been developed by Andrew M.Stein
  LMPs only if the direction of extension is straight enough
  (Fig. \ref{fig:fire_LMPS}\subref{LMP2}). If there is no LMP with that
  condition, or it arrives other nucleation point, the iteration ends.
- \end{enumerate} 
-     
+ \end{enumerate}
 
 
- 
 \begin{figure}[h]
-
-\begin{minipage}{0.5\textwidth}
-% \begin{minipage}{0.5\textwidth}
-\begin{center}
-\subfloat[Step 1]{%
-\includegraphics[width=0.8\textwidth]{Figures/chapter-image/fire/nucleation1.png}%
-\label{LMP1}}
-\end{center}
-\end{minipage}
-\begin{minipage}{0.5\textwidth}
-\begin{center}
-% \begin{minipage}{0.5\textwidth}
-\subfloat[Step 2]{%
-\includegraphics[width=0.8\textwidth]{Figures/chapter-image/fire/nucleation2.png}%
-\label{LMP2}}
-\end{center}
-\end{minipage}
-
-\caption[FIRE algorithm - Find LMP]{Tracing of the ridges of the distance
-map using FIRE from Ref.\citep{stein_algorithm_2008}: \subref{LMP1} Step 1:
-Pick a nucleation point (thick circle) and find all LMPs. \subref{LMP2} Step 2:
-Pick an LMP and find the next LMP which continues in the same direction. See
-text for details.}
-\label{fig:fire_LMPS}
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/chapter-image/fire/nucleation1.png}%
+    \caption{Step 1}
+    \label{LMP1}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/chapter-image/fire/nucleation2.png}
+    \caption{Step 2}
+    \label{LMP2}
+  \end{subfigure}
+  \caption[FIRE algorithm - Find LMP]{Tracing of the ridges of the distance
+    map using FIRE from Ref.\citep{stein_algorithm_2008}: \subref{LMP1} Step 1:
+    Pick a nucleation point (thick circle) and find all LMPs. \subref{LMP2} Step 2:
+    Pick an LMP and find the next LMP which continues in the same direction. See
+  text for details.}
+  \label{fig:fire_LMPS}
 \end{figure}
 
 
@@ -400,30 +418,25 @@ will say more about distributions in chapter \ref{Chapter-Reconstruction}.
 \end{figure}
 
 \begin{figure}[h]
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Figures/chapter-image/fire/fire017histo.png}%
+    \caption{$T_P=0.17$}
+    \label{firehisto017}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Figures/chapter-image/fire/fire012histo.png}%
+    \caption{$T_P=0.12$}
+    \label{firehisto012}
+  \end{subfigure}
 
-\begin{minipage}{0.5\textwidth}
-% \begin{minipage}{0.5\textwidth}
-\begin{center}
-\subfloat[$T_P=0.17$]{%
-\includegraphics[width=1.0\textwidth]{Figures/chapter-image/fire/fire017histo.png}%
-\label{firehisto017}}
-\end{center}
-\end{minipage}
-\begin{minipage}{0.5\textwidth}
-\begin{center}
-% \begin{minipage}{0.5\textwidth}
-\subfloat[$T_P=0.12$]{%
-\includegraphics[width=1.0\textwidth]{Figures/chapter-image/fire/fire012histo.png}%
-\label{firehisto012}}
-\end{center}
-\end{minipage}
- 
-\begin{center}
-% \begin{minipage}{0.5\textwidth}
-\subfloat[$T_P=0.08$]{%
-\includegraphics[width=0.50\textwidth]{Figures/chapter-image/fire/fire008histo.png}%
-\label{firehisto008}}
-\end{center}
+  \begin{subfigure}{0.5\textwidth}
+    \includegraphics[width=0.95\textwidth]{Figures/chapter-image/fire/fire008histo.png}%
+    \caption{$T_P=0.08$}
+    \label{firehisto008}
+  \end{subfigure}
 \caption[Distributions of length and degree in FIRE]{Extracting statistical
 distributions for different binary thresholds using FIRE from cropped
 actin netwoks.}
@@ -499,70 +512,59 @@ the reconstruction of the network.
 In Fig.\ref{fig:avizo_histograms21} we can check that statistical distributions
 are quite robust versus small changes in the key parameters $T$ and $P$.
 
- \begin{figure}[h!]
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}{0.32\textwidth}
+    \centering
+    \includegraphics[width=0.92\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l5-histo-length.png}%
+    \label{avizo305-length}
+  \end{subfigure}%
+  \begin{subfigure}{0.32\textwidth}
+    \centering
+    \includegraphics[width=0.92\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l5-histo-degree.png}%
+    \label{avizo305-degree}
+  \end{subfigure}%
+  \begin{subfigure}{0.32\textwidth}
+    \centering
+    \includegraphics[width=0.92\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l5-histo-cosines.png}
+    \label{avizo305-cosines}
+  \end{subfigure}
 
-\begin{minipage}{0.32\textwidth}
-\begin{center}
-\subfloat[]{%
-\includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l5-histo-length.png}%
-\label{avizo305-length}}
-\end{center}
-\end{minipage}
-\begin{minipage}{0.32\textwidth}
-\begin{center}
-\subfloat[]{%
-\includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l5-histo-degree.png}%
-\label{avizo305-degree}}
-\end{center}
-\end{minipage}
-\begin{minipage}{0.32\textwidth}
-\begin{center}
-\subfloat[]{%
-\includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l5-histo-cosines.png}%
-\label{avizo305-cosines}}
-\end{center}
-\end{minipage}
-
-\caption[Distributions of length, degree, and cosines with Avizo for
-actin with T=30,P=5]{Actin data analyzed with Avizo with binary threshold
-$T=30$ and pruning parameter $P=5$. \subref{avizo305-length} Length following a
-log-normal or exponential distribution. \subref{avizo305-degree} Degree
-following a geometrical distribution. \subref{avizo305-cosines}  Director
-cosines following an unknown distribution}
-\label{fig:avizo_histograms30} 
+  \caption[Distributions of length, degree, and cosines with Avizo for
+  actin with T=30,P=5]{Actin data analyzed with Avizo with binary threshold
+    $T=30$ and pruning parameter $P=5$. \subref{avizo305-length} Length following a
+    log-normal or exponential distribution. \subref{avizo305-degree} Degree
+    following a geometrical distribution. \subref{avizo305-cosines}  Director
+  cosines following an unknown distribution}
+  \label{fig:avizo_histograms30}
 \end{figure}
 
 \begin{figure}[h!]
-\begin{minipage}{0.32\textwidth}
-\begin{center}
-\includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l5-histo-length.png}%
-\end{center}
-\end{minipage}
-\begin{minipage}{0.32\textwidth}
-\begin{center}
-\includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l5-histo-degree.png}%
-\end{center}
-\end{minipage}
-\begin{minipage}{0.32\textwidth}
-\begin{center}
-\includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l5-histo-cosines.png}%
-\end{center}
-\end{minipage}
-\begin{minipage}{0.32\textwidth}
-\begin{center}
-\includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l8-histo-length.png}%
-\end{center}
-\end{minipage}
-\begin{minipage}{0.32\textwidth}
-\begin{center}
-\includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l8-histo-degree.png}%
-\end{center}
-\end{minipage}
-\begin{minipage}{0.32\textwidth}
-\begin{center}
-\includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l8-histo-cosines.png}%
-\end{center}
-\end{minipage}
+  \centering
+  \begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l5-histo-length.png}%
+  \end{minipage}
+  \begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l5-histo-degree.png}%
+  \end{minipage}
+  \begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l5-histo-cosines.png}%
+  \end{minipage}
+  \begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l8-histo-length.png}%
+  \end{minipage}
+  \begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l8-histo-degree.png}%
+  \end{minipage}
+  \begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[width=1.0\textwidth]{Figures/chapter-image/avizo/ActinZ39b21l8-histo-cosines.png}%
+  \end{minipage}
 
 \caption[Distributions of length, degree, and cosines with Avizo for
 actin with T=21,P=5]{Actin data analyzed with Avizo with binary threshold

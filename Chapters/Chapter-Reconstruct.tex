@@ -210,23 +210,17 @@ Note that the
 simulated and target-distributions are superimposed with each other, no fit is involved. 
 
 \begin{figure}[h!]
-
-\begin{minipage}{0.5\textwidth}
-% \begin{minipage}{0.5\textwidth}
-\begin{center}
-\subfloat[]{%
-\includegraphics[width=1\textwidth]{Figures/chapter-reconstruct/networkN10000.png}%
-\label{collagen_network}}
-\end{center}
-\end{minipage}
-\begin{minipage}{0.5\textwidth}
-\begin{center}
-% \begin{minipage}{0.5\textwidth}
-\subfloat[]{%
-\includegraphics[width=1\textwidth]{Figures/chapter-reconstruct/parametersN10000.png}%
-\label{collagen_param}}
-\end{center}
-\end{minipage}
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.92\textwidth]{Figures/chapter-reconstruct/networkN10000.png}%
+    \label{collagen_network}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.92\textwidth]{Figures/chapter-reconstruct/parametersN10000.png}%
+    \label{collagen_param}
+  \end{subfigure}
 
 \caption[Testing with theoretical collagen data]{ Reconstructed collagen
 network \subref{collagen_network} Visualization of reconstructed collagen
@@ -238,30 +232,22 @@ algorithm.}
 
 
 \begin{figure}[h!]
-
-\begin{minipage}{0.32\textwidth}
-% \begin{minipage}{0.5\textwidth}
-\begin{center}
-\subfloat[]{%
-\includegraphics[width=1\textwidth]{Figures/chapter-reconstruct/lengthN10000.png}%
-\label{collagen_length}}
-\end{center}
-\end{minipage}
-\begin{minipage}{0.32\textwidth}
-\begin{center}
-% \begin{minipage}{0.5\textwidth}
-\subfloat[]{%
-\includegraphics[width=1\textwidth]{Figures/chapter-reconstruct/degreeN10000.png}%
-\label{collagen_degree}}
-\end{center}
-\end{minipage}
-\begin{minipage}{0.32\textwidth}
-\begin{center}
-\subfloat[]{%
-\includegraphics[width=1\textwidth]{Figures/chapter-reconstruct/cosinesN10000.png}%
-\label{collagen_cosines}}
-\end{center}
-\end{minipage}
+  \centering
+  \begin{subfigure}{0.32\textwidth}
+    \centering
+    \includegraphics[width=0.92\textwidth]{Figures/chapter-reconstruct/lengthN10000.png}%
+    \label{collagen_length}
+  \end{subfigure}%
+  \begin{subfigure}{0.32\textwidth}
+    \centering
+    \includegraphics[width=0.92\textwidth]{Figures/chapter-reconstruct/degreeN10000.png}%
+    \label{collagen_degree}
+  \end{subfigure}%
+  \begin{subfigure}{0.32\textwidth}
+    \centering
+    \includegraphics[width=0.92\textwidth]{Figures/chapter-reconstruct/cosinesN10000.png}%
+    \label{collagen_cosines}
+  \end{subfigure}
 
 \caption[Collagen: comparing target and simulated distributions]{ Comparison
 between target distributions and simulated results in the reconstructed collagen
