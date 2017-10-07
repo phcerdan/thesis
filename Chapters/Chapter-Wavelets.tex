@@ -68,7 +68,7 @@ The short-time FFT add spatial/time localization dividing the original signal in
     \captionsetup{width=0.8\textwidth}
     \caption{Fourier Transform, time resolution is the duration of the signal.}
     \label{fig:grid_a_fft}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.33\textwidth}
     \centering
     % \input{Figures/chapter-wavelets/tikz/freq_time_grid2.tex}
@@ -76,7 +76,7 @@ The short-time FFT add spatial/time localization dividing the original signal in
     \captionsetup{width=0.8\textwidth}
     \caption{Windowed-FFT or Short-Time-FFT, fixed width window}
     \label{fig:grid_b_windowed}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.33\textwidth}
     \centering
     % \input{Figures/chapter-wavelets/tikz/freq_time_grid3.tex}
@@ -257,7 +257,7 @@ Condition 2 guarantees that the tiling from all the scales fills the frequency d
     \captionsetup{width=\textwidth}
     \caption{Vow.}
     \label{fig:mother_vow}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.49\textwidth}
     \centering
     \includegraphics[width=0.99\textwidth]{Figures/chapter-wavelets/figures/profileMotherWavelet_Held_5_Mother.png}
@@ -272,7 +272,7 @@ Condition 2 guarantees that the tiling from all the scales fills the frequency d
     \captionsetup{width=\textwidth}
     \caption{Simoncelli.}
     \label{fig:mother_simoncelli}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.49\textwidth}
     \centering
     \includegraphics[width=0.99\textwidth]{Figures/chapter-wavelets/figures/profileMotherWavelet_Shannon_5_Mother.png}
@@ -291,7 +291,7 @@ Condition 2 guarantees that the tiling from all the scales fills the frequency d
     \captionsetup{width=\textwidth}
     \caption{Vow.}
     \label{fig:subbands_vow}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.49\textwidth}
     \centering
     \includegraphics[width=0.99\textwidth]{Figures/chapter-wavelets/figures/profileMotherWavelet_Held_5_SubBands.png}
@@ -306,7 +306,7 @@ Condition 2 guarantees that the tiling from all the scales fills the frequency d
     \captionsetup{width=\textwidth}
     \caption{Simoncelli.}
     \label{fig:subbands_simoncelli}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.49\textwidth}
     \centering
     \includegraphics[width=0.99\textwidth]{Figures/chapter-wavelets/figures/profileMotherWavelet_Shannon_5_SubBands.png}
@@ -647,7 +647,7 @@ Here we show the results of the test \href{https://github.com/phcerdan/ITKIsotro
     \captionsetup{width=\textwidth}
     \caption{Original}
     \label{fig:phase_original}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.49\textwidth}
     \centering
     \includegraphics[width=\textwidth]{Figures/chapter-wavelets/images/phaseImages/checker_grayscale.png}
@@ -666,14 +666,14 @@ Here we show the results of the test \href{https://github.com/phcerdan/ITKIsotro
     \captionsetup{width=\textwidth}
     \caption{Levels: 1}
     \label{fig:phase11}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.333\textwidth}
     \centering
     \includegraphics[width=\textwidth]{Figures/chapter-wavelets/images/phaseImages/held2D_2_1.png}
     \captionsetup{width=\textwidth}
     \caption{Levels: 2}
     \label{fig:phase21}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.333\textwidth}
     \centering
     \includegraphics[width=\textwidth]{Figures/chapter-wavelets/images/phaseImages/held2D_3_1.png}
@@ -688,14 +688,14 @@ Here we show the results of the test \href{https://github.com/phcerdan/ITKIsotro
     \captionsetup{width=\textwidth}
     \caption{Levels: 4}
     \label{fig:phase41}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.333\textwidth}
     \centering
     \includegraphics[width=\textwidth]{Figures/chapter-wavelets/images/phaseImages/held2D_5_1.png}
     \captionsetup{width=\textwidth}
     \caption{Levels: 5}
     \label{fig:phase51}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.333\textwidth}
     \centering
     \includegraphics[width=\textwidth]{Figures/chapter-wavelets/images/phaseImages/held2D_6_1.png}
@@ -714,14 +714,14 @@ Here we show the results of the test \href{https://github.com/phcerdan/ITKIsotro
     \captionsetup{width=\textwidth}
     \caption{Level: 6, HighPassSubBands: 1}
     \label{fig:phase_bands61}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.333\textwidth}
     \centering
     \includegraphics[width=\textwidth]{Figures/chapter-wavelets/images/phaseImages/held2D_6_2.png}
     \captionsetup{width=\textwidth}
     \caption{HighPassSubBands: 2}
     \label{fig:phase_bands62}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.333\textwidth}
     \centering
     \includegraphics[width=\textwidth]{Figures/chapter-wavelets/images/phaseImages/held2D_6_3.png}
@@ -736,14 +736,14 @@ Here we show the results of the test \href{https://github.com/phcerdan/ITKIsotro
     \captionsetup{width=\textwidth}
     \caption{HighPassSubBands: 4}
     \label{fig:phase_bands64}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.333\textwidth}
     \centering
     \includegraphics[width=\textwidth]{Figures/chapter-wavelets/images/phaseImages/held2D_6_5.png}
     \captionsetup{width=\textwidth}
     \caption{HighPassSubBands: 5}
     \label{fig:phase_bands65}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.333\textwidth}
     \centering
     \includegraphics[width=\textwidth]{Figures/chapter-wavelets/images/phaseImages/held2D_6_10.png}
@@ -771,7 +771,7 @@ Here we show the results of the test \href{https://github.com/phcerdan/ITKIsotro
     \captionsetup{width=\textwidth}
     \caption{Levels: 8 (max), HighPassSubBands: 1}
     \label{fig:hermann_8_1}
-  \end{subfigure}
+  \end{subfigure}%
   \begin{subfigure}[t]{.4\textwidth}
     \centering
     \includegraphics[width=0.8\textwidth]{Figures/chapter-wavelets/images/phaseImages/hermann_simoncelli_8_10.png}
