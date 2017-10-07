@@ -210,7 +210,7 @@
 \end{pgfscope}%
 \end{pgfscope}%
 \begin{pgfscope}%
-\pgftext[x=0.903545in,y=2.840437in,left,base]{\sffamily\fontsize{10.000000}{12.000000}\selectfont −2}%
+\pgftext[x=0.903545in,y=2.840437in,left,base]{\sffamily\fontsize{10.000000}{12.000000}\selectfont -2}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -232,7 +232,7 @@
 \end{pgfscope}%
 \end{pgfscope}%
 \begin{pgfscope}%
-\pgftext[x=0.903545in,y=3.280215in,left,base]{\sffamily\fontsize{10.000000}{12.000000}\selectfont −1}%
+\pgftext[x=0.903545in,y=3.280215in,left,base]{\sffamily\fontsize{10.000000}{12.000000}\selectfont -1}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -1264,7 +1264,7 @@
 \end{pgfscope}%
 \end{pgfscope}%
 \begin{pgfscope}%
-\pgftext[x=0.771031in,y=0.669953in,left,base]{\sffamily\fontsize{10.000000}{12.000000}\selectfont −1.0}%
+\pgftext[x=0.771031in,y=0.669953in,left,base]{\sffamily\fontsize{10.000000}{12.000000}\selectfont -1.0}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
@@ -1286,7 +1286,7 @@
 \end{pgfscope}%
 \end{pgfscope}%
 \begin{pgfscope}%
-\pgftext[x=0.771031in,y=1.109713in,left,base]{\sffamily\fontsize{10.000000}{12.000000}\selectfont −0.5}%
+\pgftext[x=0.771031in,y=1.109713in,left,base]{\sffamily\fontsize{10.000000}{12.000000}\selectfont -0.5}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%
