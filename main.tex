@@ -46,11 +46,21 @@
 \renewcommand\bibname{References} %TO CHANGE BIBLIOGRAPHY title TO REFERENCES
 % \usepackage[square, numbers, sort&compress,comma]{natbib} % Use the natbib
 \usepackage[natbib=true,backend=bibtex]{biblatex}
+%%% Remove warnings for arxiv articles
+% From: https://tex.stackexchange.com/questions/386078/workaround-for-missing-archiveprefix-in-bib-entry
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldset=archivePrefix,fieldvalue=arxiv]
+    }
+  }
+}
+%%%
 \usepackage{csquotes}% Recommended for biblatex
-% \addbibresource{MyLibrary.bib}
-% \addbibresource{Wavelet.bib}
-% \addbibresource{TEMSAXS.bib}
-\addbibresource{merged.bib}
+\addbibresource{MyLibrary.bib}
+\addbibresource{Wavelet.bib}
+\addbibresource{TEMSAXS.bib}
+% \addbibresource{merged.bib}
 % reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers'
 
 %%%%% MY PACKAGES %%%%%%
@@ -502,16 +512,12 @@ path.\\ \hfil ¡Buen camino!. }
 
 \input{Chapters/Chapter-Intro}
 \input{Chapters/Chapter-Wavelets}
-% \input{Chapters/Chapter-TEMValidation}
-% \input{Chapters/Chapter-Network}
-% \input{Chapters/Chapter-Reconstruct}
-% \input{Chapters/Chapter-Image}
-% \input{Chapters/Chapter-Reconstruct}
-% \input{Chapters/Chapter-Future}
 \input{Chapters/Chapter-TEMSAXS}
-%\input{Chapters/Chapter6}
-%\input{Chapters/Chapter7}
-% \input{Chapters/Chapter0-Template_tutorial}
+% \input{Chapters/Chapter-Network}
+\input{Chapters/Chapter-Image}
+\input{Chapters/Chapter-Reconstruct}
+\input{Chapters/Chapter-Future}
+% \input{Chapters/Chapter-Conclusion}
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
 %----------------------------------------------------------------------------------------
