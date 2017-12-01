@@ -1,6 +1,12 @@
 #Ignore output folder.
 */output/*
 output/*
+#Ignore pdf result.
+main.pdf
+_minted-main/
+main.glsdefs
+main.pdf
+main.synctex
 ## vim
 *.swp
 *~*

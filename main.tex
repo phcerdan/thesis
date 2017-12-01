@@ -41,6 +41,46 @@
 %%%%%%%%%%%%%%%%%%%%%%%%
 \graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
 
+\usepackage[inline]{enumitem}
+\usepackage{pdfpages}
+\renewcommand\bibname{References} %TO CHANGE BIBLIOGRAPHY title TO REFERENCES
+% \usepackage[square, numbers, sort&compress,comma]{natbib} % Use the natbib
+\usepackage[natbib=true,backend=bibtex]{biblatex}
+\usepackage{csquotes}% Recommended for biblatex
+\addbibresource{MyLibrary.bib}
+\addbibresource{Wavelet.bib}
+\addbibresource{TEMSAXS.bib}
+% reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers'
+
+%%%%% MY PACKAGES %%%%%%
+\RequirePackage{ifxetex}
+\RequirePackage{ifluatex}
+\RequirePackage[spanish,american]{babel} % Xelatex international
+\RequirePackage[T1]{fontenc} % non-english compat.
+\ifxetex
+  \RequirePackage{fontspec} % Xelatex international
+\else
+  \ifluatex
+    \RequirePackage[utf8]{luainputenc} % Allows the use of international characters (e.g. Umlauts) in Luatex
+  \else
+    \RequirePackage[utf8]{inputenc} % Allows the use of international characters (e.g. Umlauts) in PdfLatex
+  \fi
+\fi
+\usepackage[toc]{glossaries} % Require special compile with ./.latexmkrc file
+   \makeglossaries
+\usepackage{siunitx} %Units, etc.
+%{{{ units shortcuts
+\newcommand{\angm}{\si{\angstrom}}
+\newcommand{\nm}{\si{\nano\meter}}
+\newcommand{\lp}{\ell_p} % persistence length
+\newcommand{\kbend}{\kappa_\perp} %Kbend: bending stiffness
+\newcommand{\kstretch}{\kappa_\parallel} %Kbend: bending stiffness
+\newcommand{\kbolt}{k_B} %K boltzman
+\newcommand{\vect}[1]{\boldsymbol{#1}} % Bold vectors
+%\newcommand{\vect}[1]{\vec{#1}} %Vectors with arrows
+\newcommand{\eps}{\,\epsilon \,} % Bold vectors
+%}}}
+
 % From Wavelet Article: {{{
 \usepackage{float}
 \usepackage{subcaption}
@@ -79,45 +119,9 @@
 }
 \newcommand{\inline}[1]{\mintinline{c++}/#1/}
 % }}} end wavelet article
-
-\usepackage[inline]{enumitem}
-\usepackage{pdfpages}
-\renewcommand\bibname{References} %TO CHANGE BIBLIOGRAPHY title TO REFERENCES
-% \usepackage[square, numbers, sort&compress,comma]{natbib} % Use the natbib
-\usepackage[natbib=true,backend=bibtex]{biblatex}
-\usepackage{csquotes}% Recommended for biblatex
-\addbibresource{MyLibrary.bib}
-\addbibresource{Wavelet.bib}
-% reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers'
-
-%%%%% MY PACKAGES %%%%%%
-\RequirePackage{ifxetex}
-\RequirePackage{ifluatex}
-\RequirePackage[spanish,american]{babel} % Xelatex international
-\RequirePackage[T1]{fontenc} % non-english compat.
-\ifxetex
-  \RequirePackage{fontspec} % Xelatex international
-\else
-  \ifluatex
-    \RequirePackage[utf8]{luainputenc} % Allows the use of international characters (e.g. Umlauts) in Luatex
-  \else
-    \RequirePackage[utf8]{inputenc} % Allows the use of international characters (e.g. Umlauts) in PdfLatex
-  \fi
-\fi
-\usepackage[toc]{glossaries} % Require special compile with ./.latexmkrc file
-   \makeglossaries
-\usepackage{siunitx} %Units, etc.
-%{{{ units shortcuts
-\newcommand{\angm}{\si{\angstrom}}
-\newcommand{\nm}{\si{\nano\meter}}
-\newcommand{\lp}{\ell_p} % persistence length
-\newcommand{\kbend}{\kappa_\perp} %Kbend: bending stiffness
-\newcommand{\kstretch}{\kappa_\parallel} %Kbend: bending stiffness
-\newcommand{\kbolt}{k_B} %K boltzman
-\newcommand{\vect}[1]{\boldsymbol{#1}} % Bold vectors
-%\newcommand{\vect}[1]{\vec{#1}} %Vectors with arrows
-\newcommand{\eps}{\,\epsilon \,} % Bold vectors
+% From TEMSAXS Article: {{{
 %}}}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% From Elsa Guillot. Graphs, boxes, arrows
@@ -498,9 +502,10 @@ path.\\ \hfil ¡Buen camino!. }
 % \input{Chapters/Chapter-TEMValidation}
 % \input{Chapters/Chapter-Network}
 % \input{Chapters/Chapter-Reconstruct}
-\input{Chapters/Chapter-Image}
-\input{Chapters/Chapter-Reconstruct}
-\input{Chapters/Chapter-Future}
+% \input{Chapters/Chapter-Image}
+% \input{Chapters/Chapter-Reconstruct}
+% \input{Chapters/Chapter-Future}
+\input{Chapters/Chapter-TEMSAXS}
 %\input{Chapters/Chapter6}
 %\input{Chapters/Chapter7}
 % \input{Chapters/Chapter0-Template_tutorial}

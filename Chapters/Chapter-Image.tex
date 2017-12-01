@@ -76,7 +76,7 @@ The gray levels of pixels belonging to an object are substantially
 different from the gray levels of the background. Thresholding is a way to
 separate objects from the background.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth,
 height=0.6\textwidth]{Figures/chapter-image/fig_threshold_image.png}
@@ -97,7 +97,7 @@ P'_i=
      1               & \mbox{if } I(\vect{p}) > T   \\
      0               & \mbox{if } I(\vect{p}) < T
    \end{cases}
-   \label{eq:bin}
+   \label{eq:bin2}
 \end{equation}
 Where $P'_i\,\epsilon \, \{0{,} 1\}$ is the binarized output pixel , $P_i\,
 \epsilon \,[0{,}255]$ is the gray-scale input pixel, and $T\,
@@ -108,7 +108,7 @@ in the case of high quality images of $16$ bits, the max value will rise to
 $2^{16} - 1 = 65535$. In both cases the max value corresponds to pure white and
 $0$ to black.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \begin{subfigure}{0.5\textwidth}
   \centering
   \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_original.png}%
@@ -211,7 +211,7 @@ We can see in Fig.\ref{fig:fire_LMPS} the values of a distance map, which have
 been simplified from real to integers for clarity.
  
  
-\begin{figure}[h]
+\begin{figure}[ht]
 \begin{minipage}{0.5\textwidth}
   \centering
   \center{\textbf{Binarization}}\\
@@ -313,7 +313,7 @@ pruned.
 \end{enumerate}
  
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{Figures/chapter-image/skeleton-fixedtopo_letters.png}%
 \caption[Skeletonization]{Skeletonization process. (a) Distance
@@ -363,7 +363,7 @@ FIRE has been developed by Andrew M.Stein
  \end{enumerate}
 
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -405,7 +405,7 @@ required, and a bigger network for better statistics, but it seems that length
 follow a log-normal distribution, and the degree, a geometrical distribution. We
 will say more about distributions in chapter \ref{Chapter-Reconstruction}.
 
- \begin{figure}[h]
+ \begin{figure}[ht]
 
 \begin{center}
 \includegraphics[width=0.9\textwidth]{Figures/chapter-image/fire/fire012.png}%
@@ -417,7 +417,7 @@ will say more about distributions in chapter \ref{Chapter-Reconstruction}.
 \label{fig:fire_stepbystep}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -480,7 +480,7 @@ represented by voxels into a spatial graph object.
 
  \end{enumerate}
 
-\begin{figure}[h]
+\begin{figure}[ht]
 
 % \begin{minipage}{0.5\textwidth}
  
@@ -512,7 +512,7 @@ the reconstruction of the network.
 In Fig.\ref{fig:avizo_histograms21} we can check that statistical distributions
 are quite robust versus small changes in the key parameters $T$ and $P$.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
   \centering
   \begin{subfigure}{0.32\textwidth}
     \centering
@@ -539,7 +539,7 @@ are quite robust versus small changes in the key parameters $T$ and $P$.
   \label{fig:avizo_histograms30}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
   \centering
   \begin{minipage}{0.32\textwidth}
     \centering
