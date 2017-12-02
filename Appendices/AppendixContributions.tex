@@ -1,0 +1,35 @@
+\chapter{Publications and Open Source Contributions}
+
+\label{Appendix-Contributions}
+
+\lhead{Contributions} % This is for the header on each page -
+
+\section{Publications}
+
+\begin{enumerate}[label=\bfseries\alph*)]
+\item Isotropic Wavelets.
+\item TEM-SAXS comparison.
+\item Network skeletonization.
+\end{enumerate}
+
+\section{Open Source Contributions}
+
+\begin{enumerate}[label=\bfseries\alph*)]
+  \item For Insight ToolKit: ITKIsotropicWavelets External Module \url{https://github.com/phcerdan/ITKIsotropicWavelets/}
+
+    This contribution to ITK provides a multi-resolution framework based on a steerable wavelet pyramid \cite{simoncelli_steerable_1995} with all the isotropic mother wavelets available in the literature \cite{held_steerable_2010, pad_vow:_2014}. It also couple the pyramid with the Riesz function \cite{chenouard_3d_2012} for directional analysis. Specially useful for the study of textures \cite{depeursinge_steerable_2017} and phase analysis \cite{held_steerable_2010}.
+
+  In this thesis, this module work has been used to aid the segmentation of the networks as a pre-processing step before binarization. It improves the signal to noise ratio, helping to choose an appropriate binary threshold to capture the network.
+
+  I have contributed with more than 20.000 lines of c++03 code and documentation.
+
+  \item For DGTal: CriticalKernels Framework: \url{https://github.com/phcerdan/DGtal/tree/voxelcomplex-with-object-graph}
+
+    The contribution to DGTal implements the skeletonization (or thinning) recently proposed in the literature \cite{couprie_3d_2015, bertrand_parallel_2017}.
+
+  I have contributed with more than 4000 lines of c++11 code.
+\item SGEXT: Application.
+\end{enumerate}
+
+
+
