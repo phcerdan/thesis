@@ -12,6 +12,7 @@ main.synctex
 *~*
 Session.vim
 .latexmkrc
+'main.synctex(busy)'
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof

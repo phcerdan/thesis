@@ -189,7 +189,7 @@
 
 \thesistitle{Biopolymer Networks: Image Analysis, Reconstruction and Modeling}
 % Your thesis title - this is used in the title and abstract -------------------------------------------------  
-\supervisor{A Prof. Bill Williams} % You supervisor's name - this is used
+\supervisor{Prof. Bill Williams} % You supervisor's name - this is used
 % in the title page -------------------------------------------------   
 \cosupervisorA{Prof. Geoff Jameson}
 \cosupervisorB{Prof. Sean Hendy}
