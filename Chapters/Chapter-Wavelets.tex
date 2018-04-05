@@ -15,7 +15,16 @@
 % \usepackage{pgf} % native latex from python
 % \graphicspath{ {images/}{figures/} }
 % \usepackage{tikz}
-\section{abstract}
+\section{Motivation}
+
+In our quest to extract structural information of biopolymer networks from microscopy images
+we need to pre-process these images to get rid of intrinsic noise and spurious information
+that arise from the different microscope techniques. One of the sharpest tool in this area is wavelet analysis, but most of the software in this field is only available in scripting languages, specially the commercial Matlab, so is not available for high-performance applications
+or to export it to wider communities. Also, because the research nature of this work, is usually only implemented for 2D images. In this chapter we describe the implementation of isotropic wavelets for the c++ image analysis library ITK, which is open source, the most used library for medical image analysis and the best tool to handle volumetric images, providing mechanisms and helpful abstractions that allow to develop algorithms and apply them to 2D and 3D images indistinctly.
+
+We will use the wavelet phase analysis introduced here as a denoiser for 2D images in next chapter and later on, it will aid in the binarization of 3D images for the graph extraction.
+
+\section{Abstract}
 \noindent
 This document describes the implementation of the external module ITKIsotropicWavelets, a multiresolution (MRA) analysis framework using isotropic and steerable wavelets in the frequency domain. This framework provides the backbone for state of the art filters for denoising, feature detection or phase analysis in N-dimensions. It focus on reusability, and highly decoupled modules for easy extension and implementation of new filters, and it contains a filter for multiresolution phase analysis,
 

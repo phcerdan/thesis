@@ -35,7 +35,7 @@ directions and improvements.
  Y\times Z\}$.
  With $Z$ the number of images in the stack, and $X,Y$ the size of the $2D$ images.
  
- \textbf{Pixel value} refers to the value of the pixel in the corresponding
+ \textbf{Pixel value} or \textbf{pixel intensity} refer to the value of the pixel in the corresponding
  image.
  The value could be an Integer, a Boolean, or a Real number, depending if we are
  talking about a gray-scale image, a binarized image, a distance map,
@@ -157,8 +157,7 @@ method }
 \end{figure}
 
 There is a lot of research in thresholding. One of the most famous binary
-filters is Otsu's method, which is usually implemented by default in commercial software.
-Otsu's method minimizes the weighted sum of within-class variances of the
+filters is Otsu's method, which minimizes the weighted sum of within-class variances of the
 foreground and background pixels to establish an optimum threshold
 \citep{sezgin_survey_2004}. This method belongs to the clustering-based methods
 of thresholding. Further classification of thresholding is based on:
@@ -182,8 +181,9 @@ of thresholding. Further classification of thresholding is based on:
 functions or co-ocurrence probabilities.
   \item \textbf{Local adaptive methods.} A threshold is calculated at each
   pixel, which depend on some local statistics, like \emph{variance}.
+  \item \textbf{Region growing.} The binarization starts from seed pixels placed in the interior
+    of objects wanted to be segmented. These algorithms study the neighborhood of these seeds and under some criteria, for example intensity difference, it adds the neighbor pixel to the foreground region. The process is repeated until no new pixel is added.
 \end{itemize}
-
 
 
 For our purposes, the binarization threshold will have an impact obtaining the
@@ -196,7 +196,6 @@ we compare the geometry of a small area of an actin network after
 applying different binary thresholds. The stack of images of
 networks used here was obtained in our group by Dr. Allan
 Raudsepp using confocal microscopy on actin.
- 
 
 
 \subsection{Distance maps}

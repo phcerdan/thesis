@@ -7,6 +7,7 @@ _minted-main/
 main.glsdefs
 main.pdf
 main.synctex
+main.synctex(busy)
 ## vim
 *.swp
 *~*
