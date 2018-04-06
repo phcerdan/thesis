@@ -12,24 +12,36 @@
 \item Network skeletonization.
 \end{enumerate}
 
-\section{Open Source Contributions}
+\section{Open Source Contributions}%
+\label{sec:contributions}
 
-\begin{enumerate}[label=\bfseries\alph*)]
-  \item For Insight ToolKit: ITKIsotropicWavelets External Module \url{https://github.com/phcerdan/ITKIsotropicWavelets/}
+\subsection{ITKIsotropicWavelets}%
+\label{sub:contribution_itk}
+For Insight ToolKit: ITKIsotropicWavelets External Module \url{https://github.com/phcerdan/ITKIsotropicWavelets/}
 
-    This contribution to ITK provides a multi-resolution framework based on a steerable wavelet pyramid \cite{simoncelli_steerable_1995} with all the isotropic mother wavelets available in the literature \cite{held_steerable_2010, pad_vow:_2014}. It also couple the pyramid with the Riesz function \cite{chenouard_3d_2012} for directional analysis. Specially useful for the study of textures \cite{depeursinge_steerable_2017} and phase analysis \cite{held_steerable_2010}.
+  This contribution to ITK provides a multi-resolution framework based on a steerable wavelet pyramid \cite{simoncelli_steerable_1995} with all the isotropic mother wavelets available in the literature \cite{held_steerable_2010, pad_vow:_2014}. It also couple the pyramid with the Riesz function \cite{chenouard_3d_2012} for directional analysis. Specially useful for the study of textures \cite{depeursinge_steerable_2017} and phase analysis \cite{held_steerable_2010}.
 
-  In this thesis, this module work has been used to aid the segmentation of the networks as a pre-processing step before binarization. It improves the signal to noise ratio, helping to choose an appropriate binary threshold to capture the network.
+In this thesis, this module work has been used to aid the segmentation of the networks as a pre-processing step before binarization. It improves the signal to noise ratio, helping to choose an appropriate binary threshold to capture the network.
 
-  I have contributed with more than 20.000 lines of c++03 code and documentation.
+I have contributed with more than 20.000 lines of c++ code and documentation. This work has been
+integrated into ITK as an external module since ITK version 4.13, this allow the user to build the module directly from the ITK.
+Also wrappings for the c++ code to use it from python are available.
 
-  \item For DGTal: CriticalKernels Framework: \url{https://github.com/phcerdan/DGtal/tree/voxelcomplex-with-object-graph}
+\subsection{DGtal: Critical Kernels Framework}%
+\label{sub:contribution_dgtal}
 
-    The contribution to DGTal implements the skeletonization (or thinning) recently proposed in the literature \cite{couprie_3d_2015, bertrand_parallel_2017}.
+Pull request with review of the contribution:
+\url{https://github.com/DGtal-team/DGtal/pull/1147}
 
-  I have contributed with more than 4000 lines of c++11 code.
-\item SGEXT: Application.
-\end{enumerate}
+The contribution to DGTal implements the skeletonization (or thinning) recently proposed in the
+literature \cite{couprie_3d_2015, bertrand_parallel_2017} based on critical kernels frameworks, to perform thinning conserving the topology of the original object.
+
+Ready to use tools using this framework can be found in:
+\url{https://github.com/DGtal-team/DGtalTools}
+
+The work was reviewed, accepted and merged in the library since version 0.9.4.
+
+I have contributed with more than 7000 lines of c++ code, documentation and scripts for applications.
 
 
 

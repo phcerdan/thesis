@@ -1,52 +1,82 @@
 % Chapter Template
 
-\chapter{Analysis of microscopy images to obtain network architecture} % Main
+\chapter{Spatial Graph Extraction: Analysis of microscopy images to obtain network architecture} % Main
 % chapter title
 
 \label{Chapter-Image} % Change X to a consecutive number; for referencing this
 % chapter elsewhere, use \ref{ChapterX}
 
-\lhead{Chapter 2. \emph{Analysis of microscopy images to obtain network
-architecture}}
-% Change X to a consecutive number; this is for the header on each page - perhaps a shortened title
+\lhead{Chapter 2. \emph{Spatial Graph Extraction}}
 
-%----------------------------------------------------------------------------------------
-%	SECTION 1
-%----------------------------------------------------------------------------------------
-\section{Introduction}
+\section{Introduction}%
+\label{sec:introduction}
+
 The geometric structure, also called here: architecture or topology of a
 biopolymer network impacts its mechanical properties and biological functions.
 The goal of this chapter is to explain the algorithms and software used to
 obtain the network structure from experimental measurements. To accomplish that,
-first we will introduce some filters and middle-steps used in the process. Second, we will explain the two
-methods that we have tested, FIRE and Avizo. At the same time, using confocal
-images of actin networks obtained from our lab,  we will extract statistical
-distributions of some properties of the network using both algorithms. Finally
-we will compare the results from both algorithms, and comment about future
-directions and improvements.
+first we will introduce the image processing analysis used to segment the biopolymer
+from images.
+Secondly, we present the thinning or skeletonization algorithm developed for creating a
+thin (one-pixel wide) representation of the network.
+Thirdly, from the thin image, we will get an abstract representation, in the form of a
+\gls{Spatial Graph}, which is defined by two sets:
+a set of nodes or vertices (i.e. end-points or junctions), characterized by their spatial position; and
+a set of edges (i.e. links), connecting pairs of those nodes.
+We can compute any \gls{graph} property from our spatial graph using the tool-set of complex networks,
+from degree distribution to clustering coefficient, but also the spatial information allow us to compute distance between nodes or the angle between adjacent edges.
 
-\subsection{Notation:}
+\begin{enumerate}
+  \item \hyperref[sec:denoising]{Denoising}
 
+    \begin{itemize}
+      \item Wavelet phase analysis
+      \item Total Variation
+    \end{itemize}
 
- We define the \textbf{pixel} or \textbf{pixel position}, in the stack of images as:
+  \item \hyperref[sec:segmentation]{Segmentation}
+
+    \begin{itemize}
+      \item \hyperref[sub:binarization]{Binarization}
+      \item \hyperref[sub:hole_filling]{Hole Filling}
+    \end{itemize}
+
+  \item \hyperref[sec:skeletonization]{Thinning / Skeletonization}
+
+    \begin{itemize}
+      \item \hyperref[sub:critical_kernels_framework]{Critical Kernels Framework}
+    \end{itemize}
+
+  \item \hyperref[sec:spatial_graph_extraction]{Spatial Graph Extraction}
+\end{enumerate}
+
+% Second, we will explain the two
+% methods that we have tested, FIRE and Avizo. At the same time, using confocal
+% images of actin networks obtained from our lab,  we will extract statistical
+% distributions of some properties of the network using both algorithms. Finally
+% we will compare the results from both algorithms, and comment about future
+% directions and improvements.
+
+\subsection{Notation}%
+\label{sub:notation}
+
+ We define the \textbf{pixel}, \textbf{pixel position}, or \textbf{pixel index}  in the stack of images as:
  $\vect{p}\equiv(x,y,z)\, \epsilon \,V$, where
- $x\eps{}[1,X]$, $y\eps{}[1,Y]$, $z\eps{}[1,Z]$ are the integer coordinates and
+ $x\eps{}[0,X - 1]$, $y\eps{}[0,Y - 1]$, $z\eps{}[0,Z - 1]$ are the integer coordinates and
  $V\subset \mathbb{I}^3$ is the volume of the stack of images $V=\{X\times
  Y\times Z\}$.
  With $Z$ the number of images in the stack, and $X,Y$ the size of the $2D$ images.
- 
+
  \textbf{Pixel value} or \textbf{pixel intensity} refer to the value of the pixel in the corresponding
  image.
- The value could be an Integer, a Boolean, or a Real number, depending if we are
- talking about a gray-scale image, a binarized image, a distance map,
- or anything else which has been previously defined.
-
+ The value could be an integer, a boolean, or a real number, depending if we are
+ talking about a gray-scale image, a binarized image or a distance map.
  The original \textbf{gray-scale image} $I$ is defined as:
  $I(\vect{p}):V \longrightarrow G$ where
  $G$ is a set of integers representing the gray-scale.
  $G=\{0,1,\ldots,G_M\}\subset\mathbb{I}$ where $0$ represents black, $G_M$
 pure white, and the others correspond to different gray-scale values. $G_M=255$
-in $8$ bits images, and $G_M=2^{16} - 1 = 65535$ in higher quality images of $16$ bits. 
+in $8$ bits images, and $G_M=2^{16} - 1 = 65535$ in higher quality images of $16$ bits.
 
 The \textbf{binarized image} B is defined as the map:
 $$f_B: I \longrightarrow B_T \,\,|$$ 
@@ -59,33 +89,42 @@ $$f_B: I \longrightarrow B_T \,\,|$$
    \label{eq:bin}
 \end{equation}
 Where $T\eps{}G$ is the threshold value of the binarization. The threshold can also be expressed as
-a normalized intensity value $T_P \eps{}[0,1]\subset \mathbb{R}$. If 
+a normalized intensity value $T_P \eps{}[0,1]\subset \mathbb{R}$. If
 $I_{max}\eps{}G$ is the max value of $I$, then the threshold  is
 $T=round(T_P \cdot I_{max})$  where the round function converts a real number
 into the nearest integer. The binary threshold can also be characterized with a percentage of the
 brightest gray-scale value involving
 cumulative histograms of $I$.
 
-\section{Filters: steps of the process}
-The following filters are shared, with differences, in both methods of
-extraction of the spatial graph. A network or graph is defined by two sets:
-a set of nodes (i.e. cross-links), characterized by their spatial position; and
-by a list of edges (i.e. links), connecting pairs of those nodes.
-\subsection{Image thresholding}
+\section{Denoising}%
+\label{sec:denoising}
+
+% Add/Show wavelet denoising, and TotalVariation (proxTV)
+% Show some results.
+
+\section{Segmentation}
+\label{sec:segmentation}
+
+Segmentation refers to the extraction of the objects of interest from an image, discarding the rest of information. When the image is composed by many different objects, with different shapes and pixel
+intensities, complex approaches must be taken to reliably extract the object of interest.
+For example in biology the segmentation might want to extract only cells of certain type from an
+image with many other components.
+
+In our case, our images are only composed by biopolymers, so our segmentation is easier, it reduces
+to a binarization task: separate background and noise from the biopolymer objects.
+
+Easier doesn't mean easy though, grouping all the information into two clusters is inherently hard.
+We look for a intensity value that acts as a threshold for the two groups.
+If the intensity along the image is not equalized, it might happen that objects with absolute lower intensity are lost.
+This is the reason we will use a local approach, using a region growing algorithm, where we first select seeds in the middle of our object of interest, and the algorithm will grow those seeds to fill the whole region of interest, based on intensity differences between neighbor pixels and the seeds.
+
+Any binarization filter is seriously affected by noise present in the images. That is why the pre-processing and denoising step is fundamental to get a reliable result from this process.
+
+\subsection{Binarization}
+\label{sub:binarization}
 The gray levels of pixels belonging to an object are substantially
 different from the gray levels of the background. Thresholding is a way to
 separate objects from the background.
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.9\textwidth,
-height=0.6\textwidth]{Figures/chapter-image/fig_threshold_image.png}
-
-\caption[Threshold calculation by different methods]{Different thresholding
-results on sample images from Ref.\citep{sezgin_survey_2004}}
-\label{fig:threshold}
-\end{center}
-\end{figure}
 
 \citet{sezgin_survey_2004} is a good review about the subject. The output of the
 thresholding process is a binary image, whose one state will indicate the
@@ -178,13 +217,12 @@ of thresholding. Further classification of thresholding is based on:
   shape compactness}.
   \item \textbf{Spatial methods}. This class not only uses the gray
   distribution, also studies the dependency of pixels in a neighborhood, for example, correlation
-functions or co-ocurrence probabilities.
+functions or co-occurrence probabilities.
   \item \textbf{Local adaptive methods.} A threshold is calculated at each
   pixel, which depend on some local statistics, like \emph{variance}.
   \item \textbf{Region growing.} The binarization starts from seed pixels placed in the interior
     of objects wanted to be segmented. These algorithms study the neighborhood of these seeds and under some criteria, for example intensity difference, it adds the neighbor pixel to the foreground region. The process is repeated until no new pixel is added.
 \end{itemize}
-
 
 For our purposes, the binarization threshold will have an impact obtaining the
 network. If the threshold is too high, long fibers will break in short,
@@ -197,13 +235,78 @@ applying different binary thresholds. The stack of images of
 networks used here was obtained in our group by Dr. Allan
 Raudsepp using confocal microscopy on actin.
 
+\subsubsection{Region Growing Segmentation}%
+\label{subsub:region_growing_segmentation}
+
+\subsection{Hole Filling}%
+\label{sub:hole_filling}
+
+\section{Skeletonization}%
+\label{sec:skeletonization}
+
+The skeleton of an object is a representation of the object, which contain both,
+shape features and topological structures of the original object. It is widely
+used in computer graphics, character recognition, and analysis of biomedical
+images.\citep{bai_skeleton_2007,golland_fixed_2000,ge_generation_1996}. The
+skeletonization is very sensitive to noise and boundary deformations, which generates redundant skeleton branches that disturb the
+topology of the skeleton graph (Fig.\ref{fig:skeleton-fixedtopo}(b)).
+
+To overcome this instability, the methods used are based on skeleton pruning,
+i.e. eliminating the spurious branches. What are then the desirable properties
+of a skeletonization process?
+\begin{enumerate*}[label=\textbf{\alph*)}]
+  \item Preserve the topology of the original object, i.e. it has the same tails
+  and/or holes.
+  \item Accurate position.
+  \item Contain the centers of maximal disks, which can be used for the
+  reconstruction of the original object
+  \item Stable under small deformation and noise.
+
+\end{enumerate*}
+
+The most important skeletonization algorithms
+can broadly be classified into three types:
+
+\begin{enumerate}
+
+  \item Based on Voronoi diagrams \citep{ogniewicz_hierarchic_1995}.
+    These methods search the locus of centers of the maximal disks
+    contained in the contour of the object. The skeleton can be
+    extracted with accurate position and topology, but the time
+    of computation is usually prohibitive, and the complicated skeleton needs to be
+    pruned.
+  \item Based on detecting ridges
+    in the distance map from the boundary points. The
+    position is accurate, but does not guarantee correct topology
+    \citep{ge_generation_1996}. It is widely used because the computation
+    affordability. The two methods analyzed from literature are based on
+    this kind of skeletonization.
+  \item Based on the critical kernels framework, where the removing of
+    voxels (pixels in 3D) is ensured to maintain the original topology of the object \cite{couprie_asymmetric_2016}.
+    I contributed with this framework to DGtal \url{https://github.com/DGtal-team/DGtal} \cite{david_coeurjolly_dgtal-team/dgtal:_2018}, an open-source digital topology
+    library in c++.
+    The work was reviewed, accepted and merged in the library since version 0.9.4 (see~\ref{sub:contribution_dgtal} for more information).
+\end{enumerate}
+
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{Figures/chapter-image/skeleton-fixedtopo_letters.png}%
+\caption[Skeletonization]{Skeletonization process. (a) Distance
+map. (b) Traditional skeleton with no pruning. (c) Skeleton generated using
+fixed topology methods. From Ref.\citep{bai_skeleton_2007,golland_fixed_2000}}
+\label{fig:skeleton-fixedtopo}
+\end{center}
+\end{figure}
+
+
 
 \subsection{Distance maps}
 
 The distance map calculates the distance from a
 white pixel to the nearest black pixel. Every white pixel in the binary image
 has now a real value calculated using any selected distance function (euclidean,
-quasi-euclidean,\ldots ). Distance maps can be applied to a binary image, or to
+quasi-euclidean,\ldots ). Distance maps can be calculated from a binary image, or to
 any image with shapes that are labeled differently.
 Fig.\ref{fig:distancemap} has some distance maps of actin networks.
 We can see in Fig.\ref{fig:fire_LMPS} the values of a distance map, which have
@@ -270,75 +373,28 @@ been simplified from real to integers for clarity.
 with different normalized thresholds $T_P$}
 \label{fig:distancemap}
 \end{figure}
- 
-\subsection{Skeletonization}
-The skeleton of an object is a representation of the object, which contain both,
-shape features and topological structures of the original object. It is widely
-used in computer graphics, character recognition, and analysis of biomedical
-images.\citep{bai_skeleton_2007,golland_fixed_2000,ge_generation_1996}. The
-skeletonization is very sensitive to noise and boundary deformations, which generates redundant skeleton branches that disturb the
-topology of the skeleton graph (Fig.\ref{fig:skeleton-fixedtopo}(b)).
 
-To overcome this instability, the methods used are based on skeleton pruning,
-i.e. eliminating the spurious branches. What are then the desirable properties
-of a skeletonization process?
-\begin{enumerate*}[label=\textbf{\alph*)}]
-  \item Preserve the topology of the original object, i.e. it has the same tails
-  and/or holes.
-  \item Accurate position.
-  \item Contain the centers of maximal disks, which can be used for the
-  reconstruction of the original object
-  \item Stable under small deformation and noise. 
-  
-\end{enumerate*}
+\subsection{Critical Kernels Framework}%
+\label{sub:critical_kernels_framework}
 
-The most important skeletonization algorithms
-can broadly be classified into two types:
+\subsection{Testing other thinning algorithms}%
+\label{sub:testing_other_thinning_algorithms}
 
-\begin{enumerate}
+\subsubsection{FIbeR Extraction -FIRE-}
+\label{subsub:FIRE}
 
-  \item Based on Voronoi diagrams \citep{ogniewicz_hierarchic_1995}. 
-These methods search the locus of centers of the maximal disks
-contained in the contour of the object. The skeleton can be
-extracted with accurate position and topology, but the time
-of computation is usually prohibitive, and the complicated skeleton needs to be
-pruned.
-  \item Based on detecting ridges
-  in the distance map from the boundary points. The
-  position is accurate, but does not guarantee correct topology
-  \citep{ge_generation_1996}. It is widely used because the computation
-  affordability. The two methods used here to analyse the networks are based on
-  this kind of skeletonization. 
-\end{enumerate}
- 
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=0.8\textwidth]{Figures/chapter-image/skeleton-fixedtopo_letters.png}%
-\caption[Skeletonization]{Skeletonization process. (a) Distance
-map. (b) Traditional skeleton with no pruning. (c) Skeleton generated using
-fixed topology methods. From Ref.\citep{bai_skeleton_2007,golland_fixed_2000}}
-\label{fig:skeleton-fixedtopo} 
-\end{center}
-\end{figure}
- 
- 
- 
- 
-\section{FIbeR Extraction -FIRE-}
-
-FIRE has been developed by Andrew M.Stein
+FIRE has been developed in Matlab by Andrew M.Stein
   \citep{stein_mathematical_2007} to extract collagen networks from confocal
-  images. It can be downloaded, and upgrades can be uplodaded in
+  images. It can be downloaded, and upgrades can be uploaded in
   \url{https://github.com/uw-loci/fiber-extraction}. The method
   \citep{stein_algorithm_2008} is based on an original idea of
   \citet{wu_automated_2003}. The main upgrade is the use of multiple nucleation
-  points   and the restriction that each branch extends only  in a single 
+  points   and the restriction that each branch extends only  in a single
   direction from a nucleation point. In \citet{wu_automated_2003}  the network has a single nucleation point at the global maximum of the distance function D.
 
 
  \begin{enumerate}[label=\textbf{\Alph*}]
- 
+
  \item \textbf{Smooth filter} Smooth the image with a Gaussian filter
  \item \textbf{Binarization threshold} Keep a percentage of the brightest pixels
  \item \textbf{Distance map D} Distance map using Euclidean distance. It
@@ -349,7 +405,7 @@ FIRE has been developed by Andrew M.Stein
  box of chosen radius $s_{xbox}=5$. They are only selected if they
  exceeds a tunable threshold $\theta_{nuc}=2$. A single nucleation point of
  value $4$ is denoted by the thick circle in \ref{fig:fire_LMPS}\subref{LMP1}
- 
+
  \item \textbf{Extension of branches LMPs} The next step is to trace the
  branches, extending from the nucleation points. To do that FIBER finds a set of
  Local Maximum Points (LMPs) at \emph{each} nucleation point. LMPs occur where
@@ -385,12 +441,7 @@ FIRE has been developed by Andrew M.Stein
 \end{figure}
 
 
-
-
-
- 
- 
-\subsection{Results in FIRE}
+\subsubsection{Results in FIRE}
  I have used FIRE to analyse our
  confocal stacks obtained from actin networks. For testing purposes, the images
 have been cropped due to the slowness of FIRE
@@ -446,7 +497,7 @@ An useful statistical distribution is the one studying the angles between edges
 that are incident to the same node. I am currently working on a way to extract
 the director cosines (angles) distribution from FIRE.
 
-\section{Avizo: XSkeleton}
+\subsubsection{Avizo: XSkeleton}
  Avizo is a software commercialized by
  \href{http://www.vsg3d.com/avizo/overview}{FEI: Visualization Sciences Group}.
 The access to Avizo is granted by a collaboration with Fonterra (Food company,
@@ -495,7 +546,7 @@ threshold ($5$ in the image)}
 \end{figure}
 
 
-\subsection{Avizo results:}
+\subsubsection{Avizo results:}
 We have analyzed the whole stack of our confocal images of actin
 ($V=1024\times1024\times39$). The key parameters in Avizo are the binarization
 $T$ and the pruning threshold $P$.
@@ -506,7 +557,7 @@ network are visualized.
 
 In Fig.\ref{fig:avizo_histograms30} we have extracted statistical distributions
 from the network that will be used in chapter \ref{Chapter-Reconstruction} for
-the reconstruction of the network. 
+the reconstruction of the network.
 
 In Fig.\ref{fig:avizo_histograms21} we can check that statistical distributions
 are quite robust versus small changes in the key parameters $T$ and $P$.
@@ -577,7 +628,11 @@ The statistical distribution must be further compared with those in FIRE (with
 a whole network), but we can see that the algorithm seems stable against minor
 changes in the important parameters.
 
-\section{Conclusions}
+\section{Spatial Graph Extraction}%
+\label{sec:spatial_graph_extraction}
+
+\section{Conclusions}%
+\label{sec:conclusions}
 The comparison between the FIRE algorithm in Matlab and Avizo is not trivial.
 Here I select the most important:
 
