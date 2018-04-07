@@ -99,8 +99,32 @@ cumulative histograms of $I$.
 \section{Denoising}%
 \label{sec:denoising}
 
+Pre-processing the image to remove spurious noise is fundamental to obtain a good segmentation of our network in the next step.
+
 % Add/Show wavelet denoising, and TotalVariation (proxTV)
-% Show some results.
+We use the wavelet tools developed in ~\autoref{Chapter-Wavelets} to perform a phase analysis \cite{held_steerable_2010} in the image. This will equalize local brightness differences, and homogenize intensity values of foreground objects. Then we perform an anisotropic denoising, that avoids blurring information in edges of objects.
+
+We also apply total variation \cite{barbero_fast_2011, barbero_modular_2014} methods to our 3D images, showing effective denoising and maintaining sharp transitions between edges of objects and background.
+
+% Figure with results, one for each process.
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_original.png}%
+    \caption{Wavelet based}
+    \label{subfig:denoise_wavelet}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_original.png}%
+    \caption{Total Variation}
+    \label{subfig:denoise_tv}
+  \end{subfigure}%
+  \caption{Pre-processing the image: denoising with wavelets and total variation methods.}
+  \label{fig:denoise}
+\end{figure}
+
 
 \section{Segmentation}
 \label{sec:segmentation}
@@ -238,8 +262,47 @@ Raudsepp using confocal microscopy on actin.
 \subsubsection{Region Growing Segmentation}%
 \label{subsub:region_growing_segmentation}
 
+The risk of region growing algorithms is to plant a seed outside our foreground objects, we have found ideal to plant the seeds with a normalized threshold $T_p$, so we don't have to fine tune the lower threshold too much. The results are quite resilient against small changes of these parameters, where a pure thresholding approach will suffer a lot of variation and be prone to noise artifacts.
+
+Using \href{https://itk.org/Doxygen/html/classitk_1_1ConnectedThresholdImageFilter.html}{itk::ConnectedThresholdImageFilter} with the script:
+\href{https://github.com/phcerdan/ITKfilters/blob/master/scripts-cpp/regionGrowingSegmentation.cxx}{regionGrowingSegmentation.cxx}
+
+\noindent\textbf{Parameters:}
+
+\begin{itemize}[topsep=0pt]
+  \item \textbf{Lower threshold} and \textbf{upper threshold: } The region won't grow into pixels outside these limits. Combined with a conservative $T_p$ for initial seeds the results does not change with small variation of these parameters.
+  \item \textbf{Normalized Threshold $T_p$ for initial seeds: } Create initial seeds based on a normalized binary threshold. This should take a conservative low value, the region will grow anyway from these seeds to fill the object.
+\end{itemize}
+
 \subsection{Hole Filling}%
 \label{sub:hole_filling}
+
+Due to noise, tiny holes might still be created in the binarization process. These holes (areas of OFF pixels surrounded by ON pixels) have an important effect in the following skeletonization step because they change the topology of the object and the network we want to extract. To solve it, we aggressively fill these small holes with an iterative hole filling algorithm.
+
+
+Using \href{https://itk.org/Doxygen/html/classitk_1_1VotingBinaryIterativeHoleFillingImageFilter.html}{itk::VotingBinaryIterativeHoleFillingImageFilter} with the script:
+\href{https://github.com/phcerdan/ITKfilters/blob/master/scripts-python/binary_denoise_3d_fillholes_iterative.py}{binary denoise 3D fillholes}
+
+\noindent\textbf{Parameters:}
+
+\begin{itemize}[topsep=0pt]
+  \item \textbf{Majority: } Number of ON pixels in the neighborhood of an OFF pixel, to switch it into ON. By default majority = 1, this means that an off pixel will be turned on if in the neighborhood (set by radius) there are at least 50\% + 1 pixels ON. If $\text{radius} = \{1,1,1\}$ neighborhood size will be $3\times3 = 9$ pixels. If 5 pixels around an OFF pixel are ON, then it will be switched.
+  \item \textbf{Neighbor Radius: } Number of neighbors to check. $R = 1$ in 3D is a $3\times3\times3$ neighborhood.
+  \item \textbf{Iterations: } Number of iterations before stopping, the algorithm also stop if no changes are generated after last iteration.
+\end{itemize}
+
+For our networks, we have found optimal values in:\newline
+Majority = 3, Radius = 1, Iterations = $\infty$ \newline
+The high value of majority and the small neighborhood only fills small holes.
+
+% TODO
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_original.png}%
+  \caption{Region Growing Segmentation filling small holes created in the process.}
+  \label{fig:region_growing}
+\end{figure}
+
 
 \section{Skeletonization}%
 \label{sec:skeletonization}
@@ -288,6 +351,106 @@ can broadly be classified into three types:
     The work was reviewed, accepted and merged in the library since version 0.9.4 (see~\ref{sub:contribution_dgtal} for more information).
 \end{enumerate}
 
+\subsection{Critical Kernels Framework}%
+\label{sub:critical_kernels_framework}
+
+I refer the interested reader to the original work of Bertrand and Couprie about Critical Kernels \cite{bertrand_parallel_2017}. Here I will introduce a short summary of the framework, and options for the script used in this work. This summary was contributed to the \href{https://dgtal.org/doc/nightly/moduleVoxelComplex.html}{documentation of DGtal library} by the author.
+
+\begin{itemize}[topsep=0pt]
+  \item \textbf{Isthmus: } ``Intuitively a voxel x of an object X is said to be a 1-isthmus (resp. a 2-isthmus)
+    if the neighborhood of x corresponds -up to a thinning- to the one of a point belonging to a curve (resp. a surface)."
+  \item \textbf{Reducible: } We say that the complex X is reducible only if it is possible to reduce it (with thinning) to a single voxel.
+  \item \textbf{d-cell: }
+    A d-cell where $ d \in \{0,1,2,3\} $ is a pointel for $d = 0$, a linel for $d = 1$, a surfel for
+    $d = 2$, or a spel for $d = 3$.
+
+    For example, a voxel contains 1 spel, 6 surfels, 12 linels, and 8 pointels. And the intersection of two neighbor voxels sharing a face contains 1 surfel, 4 linels and 4 pointels.
+  \item \textbf{Clique: }
+    Let $ d \in \{0,1,2,3\} $ and let $ C \in V^3 $ with $V^3$ being the collection of all
+    voxel complexes (a finite set composed solely of voxels).
+    We say that C is a d-clique if the intersection of all voxels of C is a d-cell.
+
+    Any complex C made of a single voxel is a 3-clique. Furthermore, any voxel of a complex
+    constitutes a 3-clique that is \textbf{essential}for X. Essential is the minimal clique for X.
+  \item \textbf{K-neighborhood (of voxel S): }
+    $K(S)$ is the set of all voxels adjacent to S. And $K^*(S) = K \setminus  S$.
+  \item \textbf{Regular Clique: }
+    We say that the clique C is \textbf{regular} for X if $K^*(C) \cap X $ is \textit{reducible} to a
+    single voxel.
+  \item \textbf{Critical Kernel: }
+    We say that C is \textbf{critical} for X if C is not regular.
+    Note that if C is a single voxel x, then C is regular for X, only if x is simple for X.
+\end{itemize}
+
+If we remove simple voxels in parallel is known we may change its topology.
+But using \textit{critical kernels} it is ensured to keep the same topology and homotopy type after thinning.
+
+\begin{theorem}
+  The complex Y is a thinning of X if any clique that is \textbf{critical} for X,
+  contains at least one voxel of Y.
+\end{theorem}
+
+The details of the implementation can be summarized in the implementation of four masks
+$K_0$, $K_1$, $K_2$, $ K_3$, that given a d-cell (pointel, linel, surfel, spel) return a d-clique and a boolean flag with its criticality. Where $K_3$ corresponds to the well-known simplicity check of a voxel. We then apply an iterative thinning algorithm shown in \autoref{fig:algo_persistence}.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\linewidth]{Figures/chapter-image/dgtal/voxelComplexAlgoPersistence.png}
+  \caption{Asymmetric thinning algorithm with persistence, from Ref.~\cite{couprie_asymmetric_2016}}
+  \label{fig:algo_persistence}
+\end{figure}
+
+Based on this framework we also implement the concept of persistence of a voxel in the thinning \cite{couprie_asymmetric_2016}. The motivation is to automatically prune those branches that do not belong to a robust skeleton.
+
+Let $i$ be the generation (see \autoref{fig:algo_persistence}) at which a voxel $x$ becomes an isthmus for the first time, we name it \textit{birth date} $b(x) = i$ of the voxel. In a later generation $j$ of the thinning process, the voxel might become deletable, we call it \textit{death date} $d(x) = j$.
+The definition of \textit{persistence} of a voxel is the difference between death and birth date, $p(x) = d(x) - b(x)$.
+We can choose to only keep isthmuses that have a persistence greater than a selected threshold. This persistence can be interpreted as a relative measure of the elongation of an object. With the persistence parameter, the user decides how much the elongation of an object must exceed its width to be preserved. This effectively prune short and insignificant branches.
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}{0.333\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Figures/chapter-image/dgtal/voxelComplexAlUltiP0.png}%
+    \caption{}
+    \label{subfig:thin_al_ulti}
+  \end{subfigure}%
+  \begin{subfigure}{0.333\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Figures/chapter-image/dgtal/voxelComplexAl1IsthtmusP0.png}%
+    \caption{}
+    \label{subfig:thin_al_p0}
+  \end{subfigure}%
+  \begin{subfigure}{0.333\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Figures/chapter-image/dgtal/voxelComplexAl1IsthtmusP10.png}%
+    \caption{}
+    \label{subfig:thin_al_p10}
+  \end{subfigure}
+  \caption{Asymmetric thinning of a volume with different parameters. (\subref{subfig:thin_al_ulti}): Ultimate skeleton, only voxels that conserve topology are kept. (\subref{subfig:thin_al_p0}): keeps 1-isthmus as part of the skeleton. (\subref{subfig:thin_al_p10}): 1-isthmus with persistence parameter $p = 10$}
+  \label{fig:thin_al}
+\end{figure}
+
+The implementation also allows unlimited flexibility, thanks to a functional style, to choose the \textit{Select} and \textit{Skel} function for any purpose.
+
+The \textit{Select} function chooses a voxel from a given pool. This is necessary given the parallel or asymmetric nature of the algorithm. The options are:
+
+\begin{itemize}[topsep=0pt]
+  \item \textbf{selectRandom: } Given a set of voxels (a clique), chooses one at random.
+  \item \textbf{selectFirst: } Select the first voxel, ordered in a lexicographical order.
+  \item \textbf{selectMaxValue: } Select a voxel with the max value of another user-defined function. We will use this wrap to use a distance map (See \autoref{subsub:distance_maps})
+\end{itemize}
+
+The \textit{Skel} function provides a way to keep voxels that we want to be preserved in the final skeleton.
+
+\begin{itemize}[topsep=0pt]
+  \item \textbf{skelUltimate: } Null, only preserve voxels which removal alters the topology.
+   The result of the thinning in a solid object without holes is just one voxel.
+  \item \textbf{skelEnd: } Preserve voxels that has only one neighbor.
+  \item \textbf{OneIsthmus: } Preserve 1-isthmus voxels.
+  \item \textbf{TwoIsthmus: } Preserve 2-isthmus voxels.
+  \item \textbf{skelIsthmus } Preserve 1 and 2-isthmus voxels.
+  \item \textbf{skelWithTable } Accepts a look-up-table (LUT) of pre-computed values of certain property for certain configuration of voxels. This is used with pre-computed LUT tables for isthmus to greatly speed up the computation. It is greatly recommended, LUT tables for 26\_6 (fully connected in 3D) topology are provided.
+\end{itemize}
 
 \begin{figure}[ht]
 \begin{center}
@@ -300,8 +463,8 @@ fixed topology methods. From Ref.\citep{bai_skeleton_2007,golland_fixed_2000}}
 \end{figure}
 
 
-
-\subsection{Distance maps}
+\subsubsection{Distance maps}%
+\label{subsub:distance_maps}
 
 The distance map calculates the distance from a
 white pixel to the nearest black pixel. Every white pixel in the binary image
@@ -311,8 +474,8 @@ any image with shapes that are labeled differently.
 Fig.\ref{fig:distancemap} has some distance maps of actin networks.
 We can see in Fig.\ref{fig:fire_LMPS} the values of a distance map, which have
 been simplified from real to integers for clarity.
- 
- 
+
+
 \begin{figure}[ht]
 \begin{minipage}{0.5\textwidth}
   \centering
@@ -374,8 +537,7 @@ with different normalized thresholds $T_P$}
 \label{fig:distancemap}
 \end{figure}
 
-\subsection{Critical Kernels Framework}%
-\label{sub:critical_kernels_framework}
+We use a distance map for our \textit{Select} skeletonization function, to first select the voxels which have max value in the distance map. This traduces to select the voxels in the median axis, so it is ensured to get a centered skeleton.
 
 \subsection{Testing other thinning algorithms}%
 \label{sub:testing_other_thinning_algorithms}
@@ -630,6 +792,41 @@ changes in the important parameters.
 
 \section{Spatial Graph Extraction}%
 \label{sec:spatial_graph_extraction}
+
+From the skeletonization we get a thin image, where all the pixels belonging an object in the binary image are reduced to a thin representation of it, in the sense that this generated skeleton is one-pixel wide.
+
+From here, our task is to transform this thin image or skeleton into a \gls{graph}. A set of nodes connected to each other through edges. The first step, and also contributed to the DGtal library by the author is to get what we denominate a \textbf{raw graph}, a graph where each node is a voxel of the skeleton, and connected or neighbor voxels have an edge between them.
+
+For regular images, this raw graph is enormous, imagine a voxel in the interior of an object, this voxel will have 26 edges (degree = 26) connecting it to its surrounding nodes.
+But for thin images, where the number of voxels is greatly reduced, this allow us to start using tools from graph theory to extract a more meaningful graph, a \gls{Spatial Graph}.
+The \textbf{Raw Graph} can be optionally post-processed, if there are three nodes with degree 3 connected between them, the longest edges (diagonals) are removed (see \autoref{subfig:graph_raw_merged}).
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/dgtal/voxels_raw.png}%
+    \caption{Raw Graph}
+    \label{subfig:graph_raw}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/dgtal/voxels_raw_merged.png}%
+    \caption{Raw Graph merged}
+    \label{subfig:graph_raw_merged}
+  \end{subfigure}%
+  \caption{Extracting the raw graph from the thin image and post processed to remove largest edges between tri-connected nodes with degree 3. Numbers show the degree of each node. }
+  \label{fig:raw_graph_extraction}
+\end{figure}
+
+In a \gls{Spatial Graph} only nodes with degree different than 2 are considered vertices \autoref{fig:spatial_graph}. These end (degree = 1) and junction (degree > 2) nodes are connected to similar nodes via \textbf{spatial edges}, where the bending points (degree = 2) connecting those are stored as \textbf{edge points}.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.45\textwidth]{Figures/chapter-image/dgtal/voxels_spatial_merge.png}%
+  \caption{\gls{Spatial Graph} where vertices with degree 2 are deleted, and its position are stored as edge points in the new edges.}
+  \label{fig:spatial_graph}
+\end{figure}
 
 \section{Conclusions}%
 \label{sec:conclusions}
