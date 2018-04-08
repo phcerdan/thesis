@@ -815,11 +815,11 @@ The \textbf{Raw Graph} can be optionally post-processed, if there are three node
     \caption{Raw Graph merged}
     \label{subfig:graph_raw_merged}
   \end{subfigure}%
-  \caption{Extracting the raw graph from the thin image and post processed to remove largest edges between tri-connected nodes with degree 3. Numbers show the degree of each node. }
+  \caption{Extracting the raw graph from the thin image and post processed to remove largest edges between tri-connected nodes with degree 3. Numbers show the number of edges (degree) of each node. }
   \label{fig:raw_graph_extraction}
 \end{figure}
 
-In a \gls{Spatial Graph} only nodes with degree different than 2 are considered vertices \autoref{fig:spatial_graph}. These end (degree = 1) and junction (degree > 2) nodes are connected to similar nodes via \textbf{spatial edges}, where the bending points (degree = 2) connecting those are stored as \textbf{edge points}.
+In a \gls{Spatial Graph} only nodes with degree different than 2 are considered vertices (see \autoref{fig:spatial_graph}). These end (degree = 1) and junction (degree > 2) nodes are connected to similar nodes via \textbf{spatial edges}, where the bending points (degree = 2) connecting those are stored as \textbf{edge points}.
 
 \begin{figure}[ht]
   \centering
@@ -828,108 +828,338 @@ In a \gls{Spatial Graph} only nodes with degree different than 2 are considered 
   \label{fig:spatial_graph}
 \end{figure}
 
-\section{Conclusions}%
-\label{sec:conclusions}
-The comparison between the FIRE algorithm in Matlab and Avizo is not trivial.
-Here I select the most important:
+\section{Statistical distributions of graph properties}%
+\label{sec:statistical_distributions_of_graph_properties}
 
-{\large\textbf{FIRE algorithm in Matlab}}
-\begin{itemize}
-\item \textbf{Pros:}
+With the spatial graph in hand we have at our disposal all the tool-box from the field of
+complex networks to characterize the network plus all the geometrical measurements we might need due to the storage of positions of each node and edge points in the spatial graph.
 
-\begin{itemize}
-  \item \textbf{Open source code.} With the free access to the code I have the
-  opportunity to change and manipulate all the process in function of my needs.
-  This process is also quite instructive. 
+Following Lindstrom approach to characterize networks from statistical distributions \cite{lindstrom_finite-strain_2013, lindstrom_biopolymer_2010}, we will compute the degree distribution, end-to-end distance between nodes (ignoring edge points), contour lengths between nodes (taking into account edge points), angles between adjacent edges and cosine directors of those angles.
 
-  \item \textbf{Reliable.} This method has been tested carefully
-\citep{stein_mathematical_2007}, and its reliability has been demonstrated in fluorescence confocal
-images of stiff collagen filaments.
-\end{itemize}
-\item  \textbf{Contras:}
-\begin{itemize}
-  \item \textbf{No beautiful visualization.} I can implement a code to visualize
-  the network in $3D$, but it is not as detailed as in Avizo
-  \item \textbf{Slow.} It is not implemented using parallel capabilities, and
-  can be quite slow for large networks.
-\end{itemize}
+\section{Results}%
+\label{sec:sg_results}
+
+We apply the described pipeline in previous sections to three set of volumetric images:
+
+\begin{itemize}[topsep=0pt]
+  \item \textbf{Actin: } Stack of images from Confocal Light Microscopy
+  \item \textbf{Carrageenan: } Image from \gls{TEM} tomography
+  \item \textbf{Pectin: } Image from \gls{TEM} tomography
 \end{itemize}
 
-{\large\textbf{Avizo}}
-\begin{itemize}
-  \item \textbf{Pros:}
+\subsection{Actin}%
+\label{sub:actin}
+TODO TODO TODO Actin image size, and pipeline parameters.
+
+\begin{figure}[!htb]
+  \centering
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_volume.png}
+    \caption{Original volume}
+    \label{fig:actin_original}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_denoised_wavelet_anisotropic.png}
+    \caption{Denoised.}
+    \label{fig:actin_denoised}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_segmented_sparse.png}
+    \caption{Segmentation.}
+    \label{fig:actin_segmentation}
+  \end{subfigure}\\[1ex]
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_dmap.png}
+    \caption{Distance Map}
+    \label{subfig:actin_dmap}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_skeleton.png}
+    \caption{Skeletonization (p = 2).}
+    \label{subfig:actin_skeleton}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_graph.png}
+    \caption{Graph}
+    \label{fig:actin_graph}
+  \end{subfigure}%
+  \caption{Actin spatial graph extraction steps.}
+  \label{fig:actin_all}
+\end{figure}
+
+\begin{figure}[!htb]
+  \centering
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_degree_tile4_c_m.png}
+    \caption{Degree distribution. Geometric}
+    \label{subfig:actin_degree}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_ete_distance_tile4_c_m_iPA_iShort1_bins30.png}
+    \caption{End-to-End node distances. Log-normal}
+    \label{subfig:actin_ete}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_cosines_tile4_c_m_iPA_iShort1_bins21.png}
+    \caption{Director cosines. Truncated (3) power-series.}
+    \label{subfig:actin_cosines}
+  \end{subfigure}
+  \caption{Statistical distributions (PDF) of actin network.}
+  \label{fig:actin_thin}
+\end{figure}
 
 
-\begin{itemize}
-  \item \textbf{$3D$ filters.} All the filters, and image manipulation
-  algorithms comes from the computer vision community and they work in $2D$.
-  There are reliable open source libraries(tested code) of $2D$ filters, but
-  not in $3D$.
-  The implementation of a $3D$ from a $2D$ isn't usually that hard, but it is
-  extra work that Avizo solves for you, with the drawback of having no access to
-  those libraries because its condition of commercial software.
-   \item \textbf{Visualization of the network.} It uses a computer graphics
-   library called VTK (open source) to visualize the network in a beautiful and
-   effective way.
-   \item \textbf{Skeletonization.} It uses a skeletonization method based on the
-   distance map that seems fast and effective. But knowing the exact algorithm
-   would be helpful.
-\end{itemize}
-\item \textbf{Contras:}
-\begin{itemize}
-  \item \textbf{Commercial Software.} It is really expensive, we have access to
-  it thanks to a collaboration agreement with Fonterra researchers. 
-  \item \textbf{Black Box.} It
-  shares the drawbacks of commercial software: it is impossible to
-  manipulate it at your will to fit your requirements. Having no access to the
-  algorithms is like using a black box, you don't know exactly what is
-  happening behind the curtains. 
-  \item \textbf{Development Toolbox.} There is a development add-on (extra
-  cost), where you can create new filters and interact with the rest of the framework
-  in Avizo. I have to carefully study if the efforts of learning this tool will
-  have a decisive improvement in the image analysis.
-\end{itemize}
-\end{itemize}
-FIBER algorithm seems very reliable, but I think it has
-room for at least, technical improvement, such as parallel implementation.
-The way it expands nucleation points using traces along the maximal ridges
-of the distance map doesn't seem to be based in any well
-established/optimized skeletonization algorithm from the computer vision
-community. The free access to the code allow us to improve it or change it at our will.
+\subsection{Carrageenan}%
+\label{sub:carrageenan}
 
-The main drawback of Avizo is that I cannot access or alter the
-skeletonization algorithm.
-To solve that, I should implement my own skeletonization algorithm, using the
-latest computer vision techniques\citep{bai_skeleton_2007}, and then interact with Avizo to represent the network.
-The TEM microscopy analysis
-requirements will be the key input to decide the way to follow.
+TODO TODO put original image details and parameters.
 
-Despite the algorithm used, we have to choose the set of parameters that best reproduces the topology (i.e.
-architecture) of the network at the end of the image analysis process.
-I cite \citet{stein_algorithm_2008}: ``We have found that with confocal
-images of fluorescently labeled collagen, it is relatively straight forward
-to chose a threshold that qualitatively appears to maintain
-network topology". I agree with that affirmation but if it holds with
-other materials, or other microscopy techniques (TEM) have to be tested. The
-unique way to test it is to rely in the best image analyser that we have available, our brain.
+\begin{figure}[!htb]
+  \centering
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_original.png}
+    \caption{Original volume}
+    \label{fig:carra_original}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_denoised_tv20.png}
+    \caption{Denoised.}
+    \label{fig:carra_denoised}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_segmented.png}
+    \caption{Segmentation.}
+    \label{fig:carra_segmentation}
+  \end{subfigure}\\[1ex]
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_dmap.png}
+    \caption{Distance Map}
+    \label{subfig:carra_dmap}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_skeleton.png}
+    \caption{Skeletonization (p = 2).}
+    \label{subfig:carra_skeleton}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_graph_tile2.png}
+    \caption{Graph}
+    \label{fig:carra_graph}
+  \end{subfigure}%
+  \caption{Carrageenan spatial graph extraction steps.}
+  \label{fig:carra_all}
+\end{figure}
 
-To generate a network filtered by the brain, we follow the chains, count
-the nodes, and draw a small volume of the network, using as unique analyzer our vision, and then
-compare it with the topology of the automatized algorithm
-\citep{chandran_affine_2006}.
-Despite the suggested complexity of the process,
-it is straight forward to choose, at least, a short range of threshold values that approximates the architecture. The
- information extracted from the image analysis process seems to be quite robust
-against the fine tuning of the parameters, sharing the same shape with the
-changes.
-These distributions, especially the angle, differ along
-different materials, as shown in the literature
-\citep{lindstrom_finite-strain_2013}, and also comparing actin data from our lab
-with collagen data from the literature\citep{lindstrom_biopolymer_2010}. These
-differences create a good opportunity to relate them with mechanical properties of the bulk
-system, in the context of non-affine networks.
+\begin{figure}[!htb]
+  \centering
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_degree_tile1_c_m.png}
+    \caption{Degree distribution. Geometric}
+    \label{subfig:carra_degree}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_ete_distance_tile1_c_m_iPA_iShort1_bins30.png}
+    \caption{End-to-End node distances. Log-normal}
+    \label{subfig:carra_ete}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_cosines_tile1_c_m_iPA_iShort1_bins21.png}
+    \caption{Director cosines. Truncated (3) power-series.}
+    \label{subfig:carra_cosines}
+  \end{subfigure}
+  \caption{Statistical distributions (PDF) of Carrageenan K network.}
+  \label{fig:carra_thin}
+\end{figure}
 
+\subsection{Pectin}%
+\label{sub:Pectin}
 
+TODO TODO put original image details and parameters.
 
+\begin{figure}[!htb]
+  \centering
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_original.png}
+    \caption{Original volume}
+    \label{fig:pectin_original}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_denoised_tv20.png}
+    \caption{Denoised.}
+    \label{fig:pectin_denoised}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_segmented.png}
+    \caption{Segmentation.}
+    \label{fig:pectin_segmentation}
+  \end{subfigure}\\[1ex]
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_dmap.png}
+    \caption{Distance Map}
+    \label{subfig:pectin_dmap}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_skeleton.png}
+    \caption{Skeletonization (p = 2).}
+    \label{subfig:pectin_skeleton}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_graph.png}
+    \caption{Graph}
+    \label{fig:pectin_graph}
+  \end{subfigure}%
+  \caption{Pectin spatial graph extraction steps.}
+  \label{fig:pectin_all}
+\end{figure}
 
+\begin{figure}[!htb]
+  \centering
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_degree_c_m.png}
+    \caption{Degree distribution. Geometric}
+    \label{subfig:pectin_degree}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_ete_distance_c_m_iPA_iShort1_bins30.png}
+    \caption{End-to-End node distances. Log-normal}
+    \label{subfig:pectin_ete}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_cosines_c_m_iPA_iShort1_bins21.png}
+    \caption{Director cosines. Truncated (3) power-series.}
+    \label{subfig:pectin_cosines}
+  \end{subfigure}
+  \caption{Statistical distributions (PDF) of Pectin network.}
+  \label{fig:pectin_thin}
+\end{figure}
+
+%
+% \section{Conclusions}%
+% \label{sec:conclusions}
+% The comparison between the FIRE algorithm in Matlab and Avizo is not trivial.
+% Here I select the most important:
+%
+% {\large\textbf{FIRE algorithm in Matlab}}
+% \begin{itemize}
+% \item \textbf{Pros:}
+%
+% \begin{itemize}
+%   \item \textbf{Open source code.} With the free access to the code I have the
+%   opportunity to change and manipulate all the process in function of my needs.
+%   This process is also quite instructive. 
+%
+%   \item \textbf{Reliable.} This method has been tested carefully
+% \citep{stein_mathematical_2007}, and its reliability has been demonstrated in fluorescence confocal
+% images of stiff collagen filaments.
+% \end{itemize}
+% \item  \textbf{Contras:}
+% \begin{itemize}
+%   \item \textbf{No beautiful visualization.} I can implement a code to visualize
+%   the network in $3D$, but it is not as detailed as in Avizo
+%   \item \textbf{Slow.} It is not implemented using parallel capabilities, and
+%   can be quite slow for large networks.
+% \end{itemize}
+% \end{itemize}
+%
+% {\large\textbf{Avizo}}
+% \begin{itemize}
+%   \item \textbf{Pros:}
+%
+%
+% \begin{itemize}
+%   \item \textbf{$3D$ filters.} All the filters, and image manipulation
+%   algorithms comes from the computer vision community and they work in $2D$.
+%   There are reliable open source libraries(tested code) of $2D$ filters, but
+%   not in $3D$.
+%   The implementation of a $3D$ from a $2D$ isn't usually that hard, but it is
+%   extra work that Avizo solves for you, with the drawback of having no access to
+%   those libraries because its condition of commercial software.
+%    \item \textbf{Visualization of the network.} It uses a computer graphics
+%    library called VTK (open source) to visualize the network in a beautiful and
+%    effective way.
+%    \item \textbf{Skeletonization.} It uses a skeletonization method based on the
+%    distance map that seems fast and effective. But knowing the exact algorithm
+%    would be helpful.
+% \end{itemize}
+% \item \textbf{Contras:}
+% \begin{itemize}
+%   \item \textbf{Commercial Software.} It is really expensive, we have access to
+%   it thanks to a collaboration agreement with Fonterra researchers. 
+%   \item \textbf{Black Box.} It
+%   shares the drawbacks of commercial software: it is impossible to
+%   manipulate it at your will to fit your requirements. Having no access to the
+%   algorithms is like using a black box, you don't know exactly what is
+%   happening behind the curtains. 
+%   \item \textbf{Development Toolbox.} There is a development add-on (extra
+%   cost), where you can create new filters and interact with the rest of the framework
+%   in Avizo. I have to carefully study if the efforts of learning this tool will
+%   have a decisive improvement in the image analysis.
+% \end{itemize}
+% \end{itemize}
+% FIBER algorithm seems very reliable, but I think it has
+% room for at least, technical improvement, such as parallel implementation.
+% The way it expands nucleation points using traces along the maximal ridges
+% of the distance map doesn't seem to be based in any well
+% established/optimized skeletonization algorithm from the computer vision
+% community. The free access to the code allow us to improve it or change it at our will.
+%
+% The main drawback of Avizo is that I cannot access or alter the
+% skeletonization algorithm.
+% To solve that, I should implement my own skeletonization algorithm, using the
+% latest computer vision techniques\citep{bai_skeleton_2007}, and then interact with Avizo to represent the network.
+% The TEM microscopy analysis
+% requirements will be the key input to decide the way to follow.
+%
+% Despite the algorithm used, we have to choose the set of parameters that best reproduces the topology (i.e.
+% architecture) of the network at the end of the image analysis process.
+% I cite \citet{stein_algorithm_2008}: ``We have found that with confocal
+% images of fluorescently labeled collagen, it is relatively straight forward
+% to chose a threshold that qualitatively appears to maintain
+% network topology". I agree with that affirmation but if it holds with
+% other materials, or other microscopy techniques (TEM) have to be tested. The
+% unique way to test it is to rely in the best image analyser that we have available, our brain.
+%
+% To generate a network filtered by the brain, we follow the chains, count
+% the nodes, and draw a small volume of the network, using as unique analyzer our vision, and then
+% compare it with the topology of the automatized algorithm
+% \citep{chandran_affine_2006}.
+% Despite the suggested complexity of the process,
+% it is straight forward to choose, at least, a short range of threshold values that approximates the architecture. The
+%  information extracted from the image analysis process seems to be quite robust
+% against the fine tuning of the parameters, sharing the same shape with the
+% changes.
+% These distributions, especially the angle, differ along
+% different materials, as shown in the literature
+% \citep{lindstrom_finite-strain_2013}, and also comparing actin data from our lab
+% with collagen data from the literature\citep{lindstrom_biopolymer_2010}. These
+% differences create a good opportunity to relate them with mechanical properties of the bulk
+% system, in the context of non-affine networks.
+%
 
