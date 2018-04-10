@@ -53,7 +53,7 @@ from degree distribution to clustering coefficient, but also the spatial informa
 % Second, we will explain the two
 % methods that we have tested, FIRE and Avizo. At the same time, using confocal
 % images of actin networks obtained from our lab,  we will extract statistical
-% distributions of some properties of the network using both algorithms. Finally
+% distributions of some properties of the network using both algorithms. Finally,
 % we will compare the results from both algorithms, and comment about future
 % directions and improvements.
 
@@ -69,7 +69,7 @@ from degree distribution to clustering coefficient, but also the spatial informa
 
  \textbf{Pixel value} or \textbf{pixel intensity} refer to the value of the pixel in the corresponding
  image.
- The value could be an integer, a boolean, or a real number, depending if we are
+ The value could be an integer, a boolean, or a real number, depending on if we are
  talking about a gray-scale image, a binarized image or a distance map.
  The original \textbf{gray-scale image} $I$ is defined as:
  $I(\vect{p}):V \longrightarrow G$ where
@@ -138,7 +138,7 @@ In our case, our images are only composed by biopolymers, so our segmentation is
 to a binarization task: separate background and noise from the biopolymer objects.
 
 Easier doesn't mean easy though, grouping all the information into two clusters is inherently hard.
-We look for a intensity value that acts as a threshold for the two groups.
+We look for an intensity value that acts as a threshold for the two groups.
 If the intensity along the image is not equalized, it might happen that objects with absolute lower intensity are lost.
 This is the reason we will use a local approach, using a region growing algorithm, where we first select seeds in the middle of our object of interest, and the algorithm will grow those seeds to fill the whole region of interest, based on intensity differences between neighbor pixels and the seeds.
 
@@ -165,7 +165,7 @@ P'_i=
 Where $P'_i\,\epsilon \, \{0{,} 1\}$ is the binarized output pixel , $P_i\,
 \epsilon \,[0{,}255]$ is the gray-scale input pixel, and $T\,
 \epsilon \,[0{,}255]$ is the threshold value. Note that the max value in the
-grey scale could vary depending of the number of bits of the image. $255$ is
+grey scale could vary depending on the number of bits of the image. $255$ is
 the max value for $8$ bits images;
 in the case of high quality images of $16$ bits, the max value will rise to
 $2^{16} - 1 = 65535$. In both cases the max value corresponds to pure white and
@@ -286,7 +286,7 @@ Using \href{https://itk.org/Doxygen/html/classitk_1_1VotingBinaryIterativeHoleFi
 \noindent\textbf{Parameters:}
 
 \begin{itemize}[topsep=0pt]
-  \item \textbf{Majority: } Number of ON pixels in the neighborhood of an OFF pixel, to switch it into ON. By default majority = 1, this means that an off pixel will be turned on if in the neighborhood (set by radius) there are at least 50\% + 1 pixels ON. If $\text{radius} = \{1,1,1\}$ neighborhood size will be $3\times3 = 9$ pixels. If 5 pixels around an OFF pixel are ON, then it will be switched.
+  \item \textbf{Majority: } Number of ON pixels in the neighborhood of an OFF pixel, to switch it into ON. By default, majority = 1, this means that an off pixel will be turned on if in the neighborhood (set by radius) there are at least 50\% + 1 pixels ON. If $\text{radius} = \{1,1,1\}$ neighborhood size will be $3\times3 = 9$ pixels. If 5 pixels around an OFF pixel are ON, then it will be switched.
   \item \textbf{Neighbor Radius: } Number of neighbors to check. $R = 1$ in 3D is a $3\times3\times3$ neighborhood.
   \item \textbf{Iterations: } Number of iterations before stopping, the algorithm also stop if no changes are generated after last iteration.
 \end{itemize}
@@ -382,8 +382,7 @@ I refer the interested reader to the original work of Bertrand and Couprie about
     Note that if C is a single voxel x, then C is regular for X, only if x is simple for X.
 \end{itemize}
 
-If we remove simple voxels in parallel is known we may change its topology.
-But using \textit{critical kernels} it is ensured to keep the same topology and homotopy type after thinning.
+Removing simple voxels in parallel is known to change its topology, but using \textit{critical kernels} it is ensured to keep the same topology and homotopy type after thinning.
 
 \begin{theorem}
   The complex Y is a thinning of X if any clique that is \textbf{critical} for X,
@@ -545,7 +544,7 @@ We use a distance map for our \textit{Select} skeletonization function, to first
 \subsubsection{FIbeR Extraction -FIRE-}
 \label{subsub:FIRE}
 
-FIRE has been developed in Matlab by Andrew M.Stein
+FIRE has been developed in Matlab by Andrew M. Stein
   \citep{stein_mathematical_2007} to extract collagen networks from confocal
   images. It can be downloaded, and upgrades can be uploaded in
   \url{https://github.com/uw-loci/fiber-extraction}. The method
@@ -565,7 +564,7 @@ FIRE has been developed in Matlab by Andrew M.Stein
  \item \textbf{Nucleation points NPs} They are the
  local maxima of the distance map $D(\vect{u})$. The locality is defined by a
  box of chosen radius $s_{xbox}=5$. They are only selected if they
- exceeds a tunable threshold $\theta_{nuc}=2$. A single nucleation point of
+ exceed a tunable threshold $\theta_{nuc}=2$. A single nucleation point of
  value $4$ is denoted by the thick circle in \ref{fig:fire_LMPS}\subref{LMP1}
 
  \item \textbf{Extension of branches LMPs} The next step is to trace the
@@ -655,7 +654,7 @@ actin netwoks.}
 \label{fig:fire_histograms}
 \end{figure}
 
-An useful statistical distribution is the one studying the angles between edges
+A useful statistical distribution is the one studying the angles between edges
 that are incident to the same node. I am currently working on a way to extract
 the director cosines (angles) distribution from FIRE.
 
@@ -793,7 +792,7 @@ changes in the important parameters.
 \section{Spatial Graph Extraction}%
 \label{sec:spatial_graph_extraction}
 
-From the skeletonization we get a thin image, where all the pixels belonging an object in the binary image are reduced to a thin representation of it, in the sense that this generated skeleton is one-pixel wide.
+From the skeletonization we get a thin image, where all the pixels belonging to an object in the binary image are reduced to a thin representation of it, in the sense that this generated skeleton is one-pixel wide.
 
 From here, our task is to transform this thin image or skeleton into a \gls{graph}. A set of nodes connected to each other through edges. The first step, and also contributed to the DGtal library by the author is to get what we denominate a \textbf{raw graph}, a graph where each node is a voxel of the skeleton, and connected or neighbor voxels have an edge between them.
 
@@ -815,7 +814,7 @@ The \textbf{Raw Graph} can be optionally post-processed, if there are three node
     \caption{Raw Graph merged}
     \label{subfig:graph_raw_merged}
   \end{subfigure}%
-  \caption{Extracting the raw graph from the thin image and post processed to remove largest edges between tri-connected nodes with degree 3. Numbers show the number of edges (degree) of each node. }
+  \caption{Extracting the raw graph from the thin image and post processed to remove the largest edges between tri-connected nodes with degree 3. Numbers show the number of edges (degree) of each node. }
   \label{fig:raw_graph_extraction}
 \end{figure}
 
@@ -1144,7 +1143,7 @@ TODO TODO put original image details and parameters.
 % to chose a threshold that qualitatively appears to maintain
 % network topology". I agree with that affirmation but if it holds with
 % other materials, or other microscopy techniques (TEM) have to be tested. The
-% unique way to test it is to rely in the best image analyser that we have available, our brain.
+% unique way to test it is to rely on the best image analyser that we have available, our brain.
 %
 % To generate a network filtered by the brain, we follow the chains, count
 % the nodes, and draw a small volume of the network, using as unique analyzer our vision, and then
@@ -1153,7 +1152,7 @@ TODO TODO put original image details and parameters.
 % Despite the suggested complexity of the process,
 % it is straight forward to choose, at least, a short range of threshold values that approximates the architecture. The
 %  information extracted from the image analysis process seems to be quite robust
-% against the fine tuning of the parameters, sharing the same shape with the
+% against the fine-tuning of the parameters, sharing the same shape with the
 % changes.
 % These distributions, especially the angle, differ along
 % different materials, as shown in the literature
