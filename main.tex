@@ -198,35 +198,34 @@
 \begin{center}
 
 % \textsc{\LARGE \univname}\\[1.5cm] % University name
-\textsc{\Large PhD.Thesis}\\[0.5cm] % Thesis type
+% \textsc{\Large PhD.Thesis}\\[0.5cm] % Thesis type
 
 \HRule \\[0.4cm] % Horizontal line
 {\huge \bfseries \ttitle}\\[0.4cm] % Thesis title
-\HRule \\[0.5cm] % Horizontal line
+\HRule \\[1.5cm] % Horizontal line
+\large \textit{A thesis presented in partial fulfilment of the requirements\\
+for the degree of\\[3.0cm]
+\degreename\\
+in\\
+Physics\\[3.0cm]
+at Massey University, Manawatū,\\
+New Zealand} \\[2.0cm]
 
-
-
-\Large\emph{Author:~}{\authornames} % Author name -
-% remove the \href bracket to remove the link
-\\[1.0cm]
+\Large{\authornames}\\2018\\[1.0cm]
 % \large
-% Supervisor name - remove the
-\begin{longtable}{rl}
-\emph{Supervisor:}& \href{http://www.biophysics.ac.nz}{\supname} \\
-\emph{Co-supervisors:} & \cosupnameA{}\\
-& \cosupnameB\\
-& \\
-& \\
-\large\emph{Date of report:} & {\large \today}\\
-%\large\emph{PhD. term:} & \large2013-2016\\[0.7cm]
-\end{longtable}
+% \begin{longtable}{rl}
+% \emph{Supervisor:}& \href{http://www.biophysics.ac.nz}{\supname} \\
+% \emph{Co-supervisors:} & \cosupnameA{}\\
+% & \cosupnameB\\
+% & \\
+% & \\
+% \large\emph{Date of report:} & {\large \today}\\
+% \end{longtable}
 
 % \href bracket to remove the link
 
-\large \textit{Thesis submitted in partial fulfilment of the requirements\\
-for the degree of \degreename} \textit{in Physics}\\[2.0cm]
 %\\[0.3cm] % University
-\groupname\\\deptname\\[2.5cm] % Research group name and department name
+% \groupname\\\deptname\\[2.5cm] % Research group name and department name
 
 %\includegraphics{Logo} % University/department logo - uncomment to place it
 
@@ -242,7 +241,7 @@ for the degree of \degreename} \textit{in Physics}\\[2.0cm]
 
 % \end{figure}
 
-\href{http://www.massey.ac.nz}{\includegraphics[width=0.5\textwidth]{./Pictures/masseyUniversityLogo.png}}\\[1.5cm]
+\href{http://www.massey.ac.nz}{\includegraphics[width=0.4\textwidth]{./Pictures/masseyUniversityLogo.png}}
 
 \vfill
 
@@ -285,12 +284,13 @@ for the degree of \degreename} \textit{in Physics}\\[2.0cm]
 \pagestyle{empty} % No headers or footers for the following pages
 
 \null\vfill % Add some space to move the quote down the page a bit
-
-\textit{``Premature optimization is the root of all evil"}
-
-\begin{flushright}
-Donald Knuth
-\end{flushright}
+\textit{It is not about the end ; it's all about the
+path.\\ \hfil ¡Buen camino!.}
+% \textit{``Premature optimization is the root of all evil"}
+%
+% \begin{flushright}
+% Donald Knuth
+% \end{flushright}
 
 \vfill\vfill\vfill\vfill\vfill\vfill\null % Add some space at the bottom to position the quote just right
 
@@ -304,6 +304,7 @@ Donald Knuth
 
 \abstract{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
 
+  TODO TODO TODO link with conclusions and motivation in intro.
 In particular this thesis focuses in bio-polymers, that are polymers produced
 by living organisms, as peptides (proteins), nucleic acids (DNA), and sugars.
 
@@ -341,42 +342,42 @@ of the dynamics,
 %----------------------------------------------------------------------------------------
 % Summary of chapters
 %----------------------------------------------------------------------------------------
-\addtotoc{Summary of chapters}
-\addtocontents{toc}{\vspace{0em}}
- {\huge{\textbf{Summary of chapters}} \par}
-
-First, the field of soft matter is introduced, along with the main
-characteristics of semi-flexible polymers.  Then we will scale up
-from single biopolymer chains to networks and their associated stress-strain
-measurements.
-
-In the second chapter: analysis of images from
-transmission electron microscopy (TEM) tomography or confocal microscopy of
-biopolymer gels show us the architecture of underlying networks.
-Spatial graphs will be derived from this analysis, and
-physical networks characterized.
-
-Thirdly, from these physical networks we will infer statistical distributions of
-parameters that characterize the network, such as the length distribution
-between nodes (cross-links), the number of branches from each node, the angle
-distribution between those branches or the distribution of network clusters.
-From this statistical distribution, using the software developed in-house, we
-will be able to reconstruct a network in-silico, with the same
-characteristics as the original physical network studied with image analysis.
-
-Finally, I will comment about my collaboration in the ``Mesocule project'',
-future directions and about the schedule of short and long-term goals of the
-thesis.
-
-\textbf{RESEARCH QUESTIONS:}
-\begin{enumerate}
-  \item How do we use data obtained from modern imaging techniques to
-  reconstruct biopolymer networks in-silico?
-  \item How do we use these reconstructions to model the physical properties of
-  biopolymer networks?
-\end{enumerate}
-
-\clearpage
+% \addtotoc{Summary of chapters}
+% \addtocontents{toc}{\vspace{0em}}
+%  {\huge{\textbf{Summary of chapters}} \par}
+%
+% First, the field of soft matter is introduced, along with the main
+% characteristics of semi-flexible polymers.  Then we will scale up
+% from single biopolymer chains to networks and their associated stress-strain
+% measurements.
+%
+% In the second chapter: analysis of images from
+% transmission electron microscopy (TEM) tomography or confocal microscopy of
+% biopolymer gels show us the architecture of underlying networks.
+% Spatial graphs will be derived from this analysis, and
+% physical networks characterized.
+%
+% Thirdly, from these physical networks we will infer statistical distributions of
+% parameters that characterize the network, such as the length distribution
+% between nodes (cross-links), the number of branches from each node, the angle
+% distribution between those branches or the distribution of network clusters.
+% From this statistical distribution, using the software developed in-house, we
+% will be able to reconstruct a network in-silico, with the same
+% characteristics as the original physical network studied with image analysis.
+%
+% Finally, I will comment about my collaboration in the ``Mesocule project'',
+% future directions and about the schedule of short and long-term goals of the
+% thesis.
+%
+% \textbf{RESEARCH QUESTIONS:}
+% \begin{enumerate}
+%   \item How do we use data obtained from modern imaging techniques to
+%   reconstruct biopolymer networks in-silico?
+%   \item How do we use these reconstructions to model the physical properties of
+%   biopolymer networks?
+% \end{enumerate}
+%
+% \clearpage
 %----------------------------------------------------------------------------------------
 %	ACKNOWLEDGEMENTS
 %----------------------------------------------------------------------------------------
@@ -385,12 +386,20 @@ thesis.
 
 \acknowledgements{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
 
-A special thank to Prof. Bill Williams whose support, openness, and
-vision of science is encouraging. Also thanks to all my group mates from the \groupname{}
-for doing comfortable my settlement in the antipodes. Finally, I am
-grateful to the \macdiarmid{} for constantly
+A special thank to my supervisor Bill Williams whose support, openness, and
+vision of science is encouraging. As Brad would say,
+I will be forever indebted to your supervision and I add: and from all the stuff that I have learned from you beyond academia, including your humane values, extremely noisy music and the love for dumplings.
+
+Thanks as well to my family, that have taught me, directly and indirectly, many valuable lessons, made me realize how privileged I am to have them and how hard is to be this far away from them.
+
+Also thanks to all my group mates from the \groupname{}, specially Brad, Jessie, Mariela, Allan and Steve for all the shared moments, and how easy they made my adaptation to a new country.
+
+I would like to thank as well people from the mansion, where we lived as a hippie happy family for two years with a lot of love in the air. I will never forget our time there.
+And Martica! Without you here in New Zealand this quest might have been impossible, or faster, who knows, but it has been a pleasure habernos re-encontrado por kiwi-land. And even we got married, in english!!, crazy, but super happy. Thanks really for all your support.
+
+Finally, I am grateful to the \macdiarmid{} for constantly
 providing the enrichment opportunity to meet other peer students and
-researchers.
+researchers, to Massey University for funding, and to the staff of the Institute of Fundamental Sciences for its kindness.
 
 This research is supported by the MacDiarmid Institute and the Riddet Institute,
 New Zealand. }
@@ -488,15 +497,15 @@ New Zealand. }
 %	DEDICATION
 %----------------------------------------------------------------------------------------
 
-\setstretch{1.3} % Return the line spacing back to 1.3
-
-\pagestyle{empty} % Page style needs to be empty for this page
-
-\dedicatory{It is not about the end ; it's all about the
-path.\\ \hfil ¡Buen camino!. }
-% Dedication text
-
-\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+% \setstretch{1.3} % Return the line spacing back to 1.3
+%
+% \pagestyle{empty} % Page style needs to be empty for this page
+%
+% \dedicatory{It is not about the end ; it's all about the
+% path.\\ \hfil ¡Buen camino!. }
+% % Dedication text
+%
+% \addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - CHAPTERS

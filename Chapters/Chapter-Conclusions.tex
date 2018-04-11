@@ -3,6 +3,9 @@
 \label{Chapter-Conclusions}
 \lhead{Chapter 7. \emph{Conclusions}}
 
+\subsection{Scope of thesis}%
+\label{sub:scope_of_thesis}
+
 %Motivation
 % From universalities abstract
 The importance of the network architecture on the mechanical properties of biopolymers is often obscured by focussing on the properties of single-components. \cite{storm_nonlinear_2005}, demonstrated that the nonlinear response of a strained network can be explained taking into account the non-linear properties of single-biopolymer and assuming that the network architecture is isotropic and homogeneous. This bottom-up approach has proven successful for a wide range of biopolymers \cite{carrillo_nonlinear_2013}, but might not be enough to explain the detailed onset of strain-stiffening and the exponent of the non-linear response, as shown recently with other protein networks\cite{licup_stress_2015}. An alternative explanation to non-linear elasticity was given with the focus on network architecture in the material\cite{onck_alternative_2005}, pointing out that the fine-grain control of non-linear elasticity depended on single-biopolymer components, the linkage characteristics, and the geometry of the connections.
@@ -11,6 +14,10 @@ The importance of the network architecture on the mechanical properties of biopo
 % and see if there are connections between similar statistical distributions of the graph and the similarities showed by protein and polysaccharide networks \cite{carrillo_nonlinear_2013}.
 
 Non-affine deformations are at the core of explaining the complex behaviour of biopolymer network, but we were lacking methods to reliably gather the geometry of the networks that this work try to address. Affine regimes are proved capable to characterize the mechanical properties of bulk and dense materials, but in biology this is not always the case. Growing filament networks will always face a non-affine regime in their early stages for example, so the mechanisms of network formation can be enlightened with the tools developed.
+
+\subsection{Summary}%
+\label{sub:summary}
+
 
 %Chapter Wavelets/image-tools
 We rely on 3D imaging, tomography or stack of images, to extract the network geometry more reliably than in 2D. We had provided lacking tools for image analysis in 3D in a high-performance computing language, and contributed them, fully tested and documented to the de-facto standard image analysis library ITK in \autoref{Chapter-Wavelets}.
@@ -26,8 +33,17 @@ We compute the degree, end-to-end node distances, contour lengths, angle, and di
 % Chapter Reconstruction
 We also provide a simulated annealing tool in \autoref{Chapter-Reconstruction} to recreate networks completely in-silico given a set of statistical distributions: degree, end-to-end distance, and director cosines. This allow the theoretical exploration of networks just changing the input distributions. Future work in this area might include adding distributions for others graph properties for finer control.
 
+\subsection{Conclusions}%
+\label{sub:conclusions}
 
-In conclusion, we have focused in bringing computation tools to the community (all the work is open source, tested and documented) where we can start investigating low density, non-affine networks from a more analytical point of view, I foresee theoreticians and modellers taking these networks extracted from experimental results as starting points for their models, instead of relying on the more homogeneous mikado model, and at a greater scale than lattice models.
+We have focused in bringing computation tools to the community (all the work is open source, tested and documented) where we can start investigating low density, non-affine networks from a more analytical point of view, I foresee theoreticians and modellers taking these networks extracted from experimental results as starting points for their models, instead of relying on the more homogeneous mikado model, and providing a greater scale approach than lattice models.
+
+\begin{itemize}[topsep=0pt]
+  \item We have validated transmission electron microscopy (TEM) imaging as a reliable tool to examine polysaccharides network geometries after its comparison with small-angle x-ray scattering.
+  \item Provided a mapping between images and spatial graphs, allowing the study of these networks with the tools from the complex systems and networks field.
+  \item There are universalities of certain graph properties in the geometry of gel-like biopolymer networks at different scales.
+  \item Provided a tool to reconstruct networks in-silico based on statistical distribution. This allow the exploration of different network architectures that can be used in modelling and simulating behaviour of these networks under different conditions.
+\end{itemize}
 
 \begin{figure}[h!]
   \begin{center}
@@ -53,7 +69,7 @@ In conclusion, we have focused in bringing computation tools to the community (a
       \textsc{Statistics}
       };
 
-      \node[blockmodel] (D) at (15,3) {\textsc{Modeling}}; 
+      \node[blockmodel] (D) at (15,3) {\textsc{Modeling}};
 
       \draw[green,arrows={-triangle 45}] (A) -- (B);
       \draw[blue,arrows={-triangle 45}] (B) -- (F);
@@ -66,9 +82,23 @@ In conclusion, we have focused in bringing computation tools to the community (a
   \caption[Scheme of the thesis]{Scheme of the project. }
 \end{figure}
 
-% \subsection{Future Work}%
-% \label{sub:future_work}
+\subsection{Future work}%
+\label{sub:future_work}
 
+\begin{itemize}[topsep=0pt]
+  \item \textbf{Network formation:} A simulation of network formation might be pursued in the future
+    using a growing spatial graph, a dynamic population of cross-linker and monomers, and a persistence length parameter representing the stiffness of the biopolymer.
+
+    The simulation will begin with a fixed set randomly distributed `embryonic' fibers, composed by two end-nodes and an edge between them. At each step of the simulation, a node which represents one end-point of a fiber, will be selected at random from the population, and will grow with a probability given by the current monomer population. If the grow occurs, the monomer population will be reduced --until depletion. The direction of the grow will depend on the comparison between the persistence length parameter and the position of edge points attached to that node. In this way stiff biopolymer will tend to grow in straight lines, and flexible chains will tend to bend.
+    When two chains are close, and grows occurs, they will attach with a probability depending on the current population of cross-linkers. If the cross-link does not happen, the chain will grow without colliding. Also, at every step, every occupied position, by an edge point or a node, which is close to another occupied position will have a probability to attach depending again on the cross-link population. The network generation will stop when there are no monomer left. Optionally, another parameter will be a detachment probability of cross-linked fibers. Also pseudo-forces can be simulated where edges stores tension every time they attach to another fiber, and release that tension to their adjacent edges when they are released. This might shed some light into slow-dynamical processes and the quake-events behaviours reported TODO  This tension can also be added randomly to existing attached edges to simulate energy transfer from brownian movements of its components. After stability of the network we could study its graph properties, and compare them to the statistical distributions found in our image-extracted networks.
+
+  \item \textbf{ITKBoostGraph: } The work done here about mapping between images and a spatial graph might be ported in the future to ITK as an external module to facilitate its adoption.
+
+  \item \textbf{Complex Networks: } The spatial graphs can be further analyzed with network tools, computing quantities like clustering and centrality are two lines of code away from the current status using the boost graph library (BGL), or export the graph with the already implemented graphviz format to be used by any other network library.
+
+  \item \textbf{Public Database: } I would like to set-up or contribute to a centralized public database of volumetric images of biopolymer networks. Optionally skeletonized images, and extracted spatial graphs would be associated.
+
+\end{itemize}
 
 
 
