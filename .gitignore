@@ -1,5 +1,6 @@
 # Ignore massey guide
 guide-to-presentation-of-theses.pdf
+BillNotes.md
 #Ignore output folder.
 */output/*
 output/*
