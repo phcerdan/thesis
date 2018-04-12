@@ -284,7 +284,7 @@ New Zealand} \\[2.0cm]
 \pagestyle{empty} % No headers or footers for the following pages
 
 \null\vfill % Add some space to move the quote down the page a bit
-\textit{It is not about the end ; it's all about the
+\textit{It's not about the end, it's all about the
 path.\\ \hfil ¡Buen camino!.}
 % \textit{``Premature optimization is the root of all evil"}
 %
@@ -304,39 +304,61 @@ path.\\ \hfil ¡Buen camino!.}
 
 \abstract{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
 
-  TODO TODO TODO link with conclusions and motivation in intro.
-In particular this thesis focuses in bio-polymers, that are polymers produced
-by living organisms, as peptides (proteins), nucleic acids (DNA), and sugars.
+  The aim of this work is to extract the architecture of biopolymer networks from 3D images.
+  This is motivated to further understand non-affine regimes, found in growing network formation and low-density biopolymer networks, where the geometry of network have a fundamental role in its mechanical properties.
 
-The structure of it will be:
-First, analysis of images from tomography electro microscopy (TEM) or confocal
-Microscopy of biopolymers show us the architecture of the underlying network.
-A spatial graph will be derived from this analysis, and the
-physical network characterized.
+  Firstly, developed image analysis tools were extended to 3D and contributed to high-performance open-source libraries for image analysis. These developments in isotropic wavelets will aid to extract a realistic network, removing spurious noise generated from image acquisition.
 
-Secondly, from this physical networks we will infer statistical distribution of
-parameters that characterize the network, such as the length distribution
-between nodes (cross-links), the number of branches from each node, the angle
-distribution between those branches or the network clusters distribution.
-From this statistical distribution, using the developed software, we will be
-able to reconstruct in-silico the network, with the same characteristics than
-the original physical network studied with image analysis.
+  Secondly, proved that images from transmission electron microscopy (TEM), can be used to reliably extract the network architecture. The imaged material was also studied with small-angle x-ray scattering (SAXS), and the comparison showed a strong agreement for network-size features.
 
-Thirdly, our group has the expertise, using optical traps, to measure
-force elongation curves of a single polymer chain. Following a bottom-up
-approach with this single-chain energy function on the one hand and the network
-architecture at the other, we will compute different bulk properties of
-the polymeric material.
-Then we will compare these simulated results to experiments in the macro-scale.
-A well known bulk parameter is the complex shear modulus (G*), which is
-accessible via rheometry techniques.
+  Thirdly, spatial graphs were extracted from the image. We provided a one-to-one map between
+  image and graph, keeping all the geometric information from the image. This allow using analytical tools from the complex networks field to characterize images.
 
-Finally, a simulation of the dynamics of the network will be pursued. The long
-time dynamics of these biopolymer networks are not captured by the current
-theoretical framework. A hypothesis associate them to the breakage of
-cross-links and the release of chain constraints. There are multitude approaches
-of the dynamics,
+  Finally, statistical distributions extracted from three graph properties were used to reconstruct a completely in-silico network using a simulated annealing technique to generate new networks.
+  This can be used as an exploration tool of network behavior under different network architectures.
 
+% Finally, from these physical networks we will infer statistical distributions of
+% parameters that characterize the network, such as the length distribution
+% between nodes (cross-links), the number of branches from each node, the angle
+% distribution between those branches or the distribution of network clusters.
+% From this statistical distribution, using the software developed in-house, we
+% will be able to reconstruct a network in-silico, with the same
+% characteristics as the original physical network studied with image analysis.
+
+  %create a link between image analysis and complex networks
+%   TODO TODO TODO link with conclusions and motivation in intro.
+% In particular this thesis focuses in bio-polymers, that are polymers produced
+% by living organisms, as peptides (proteins), nucleic acids (DNA), and sugars.
+%
+% The structure of it will be:
+% First, analysis of images from tomography electro microscopy (TEM) or confocal
+% Microscopy of biopolymers show us the architecture of the underlying network.
+% A spatial graph will be derived from this analysis, and the
+% physical network characterized.
+%
+% Secondly, from this physical networks we will infer statistical distribution of
+% parameters that characterize the network, such as the length distribution
+% between nodes (cross-links), the number of branches from each node, the angle
+% distribution between those branches or the network clusters distribution.
+% From this statistical distribution, using the developed software, we will be
+% able to reconstruct in-silico the network, with the same characteristics than
+% the original physical network studied with image analysis.
+%
+% Thirdly, our group has the expertise, using optical traps, to measure
+% force elongation curves of a single polymer chain. Following a bottom-up
+% approach with this single-chain energy function on the one hand and the network
+% architecture at the other, we will compute different bulk properties of
+% the polymeric material.
+% Then we will compare these simulated results to experiments in the macro-scale.
+% A well known bulk parameter is the complex shear modulus (G*), which is
+% accessible via rheometry techniques.
+%
+% Finally, a simulation of the dynamics of the network will be pursued. The long
+% time dynamics of these biopolymer networks are not captured by the current
+% theoretical framework. A hypothesis associate them to the breakage of
+% cross-links and the release of chain constraints. There are multitude approaches
+% of the dynamics,
+%
 }
 \clearpage % Start a new page
 %----------------------------------------------------------------------------------------
