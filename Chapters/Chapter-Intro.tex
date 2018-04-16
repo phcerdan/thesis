@@ -152,7 +152,7 @@ distance approaches the contour length: $x\rightarrow L_c$.
 
 This force-response, as in the case of rubber elasticity  for flexible
 chains, is dominated by entropy at high forces. Because there are many
-bent configurations and only one that is perfectly straight, stretching the
+bend configurations and only one that is perfectly straight, stretching the
 chain reduces its conformational entropy and thus produces an opposing
 force.
 %TODO: ADD INFO ABOUT FE
@@ -416,7 +416,8 @@ references \citep{wen_non-affine_2012,basu_nonaffine_2011}
 The affine deformation assumption (Fig.\ref{fig:nonaffine}) is well-known in
 network models for rubber elasticity, and allows for a relatively
 simple description of the overall network response on the basis of the behavior
-of a single filament. But, this assumption does not always hold.
+of a single filament. Predicting the viscoelastic response of networks under the affine assumption can be considered straightforward from current literature \cite{rizzi_importance_2016}.
+But, this assumption does not hold for many systems.
 
 The small-strain affine deformation assumption in two-dimensional
 networks of straight filaments has
@@ -441,6 +442,62 @@ macroscopic level}
 showed that non-affinity governs individual fibril kinematics when the load
 transfer is from fibril to fibril, with no matrix of fibrils involved.
 
+But non-affinity is challenging to model, and it is the goal of this thesis to provide a method to extract network architecture from real images, to be used as a starting scaffold for the many approaches to simulate dynamics of non-affine regimes, and dynamics with more actors, such as cross-linking molecules.
+
+\section{Network Structure}%
+\label{sec:network_structure}
+
+The information needed to fully describe a network structure is \cite{palmer_constitutive_2008}:
+\begin{enumerate}[topsep=0pt]
+  \item Distribution in the distance between junctions/nodes, i.e. end-to-end distances.
+  \item Distribution in the fully extended length of fibers/chains/edges, i.e. contour lengths.
+  \item Network connectivity, i.e. degree of nodes, representing the number of neighbors or the number of chains attached to a junction.
+  \item Orientation distribution, i.e. angles between adjacent edges.
+\end{enumerate}
+
+We will go through the most used methods to emulate network structures used in dynamic simulations that explore strain and stress responses, pointing the simplifications made, and the associated limitations.
+
+\subsection{Mikado Networks}%
+\label{sub:mikado_networks}
+
+Ubiquitous in the recent past but still present, is to start the model with a random and homogeneous initialization of the network, such as Mikado models \cite{wilhelm_elasticity_2003, astrom_microscopic_1994, schuster_investigating_2012, conti_cross-linked_2009, sharma_strain-controlled_2016, sharma_elastic_2013},
+where fibers of fixed length are thrown into a simulation box until certain density of junctions/intersections is reached. Other models used similar random generation, but in 3D \cite{astrom_strain_2008}.
+
+The distribution of end-to-end distances between junctions can be controlled adding more fibers, but the homogeneous nature of the process inhibits long connections.
+
+The contour length is imposed after the junctions are created, adding arbitrary bending points in the existing chains.
+
+The details of network connectivity are ignored, relying on a mean connectivity between 3 and 4 that is generated in the construction \cite{sharma_strain-controlled_2016}.
+
+The angle distribution is derived from the process, but no extra relation with real networks is provided. Pre-stressing the network can be used to change angles.
+
+\subsection{Lattice Models}%
+\label{sub:lattice_models}
+
+Lattice models are being used as well \cite{ronceray_fiber_2015, vahabi_elasticity_2016, sharma_strain-controlled_2016}, the end-to-end distances and the contour lengths can be fully controlled, but the connectivity is compromised, the distribution might be too narrow for simple lattices, (honey-comb, triangular), or rely on random dilutions for over-connected lattices (fcc) \cite{sharma_strain-controlled_2016}.
+
+\subsection{Eight-chain Models}%
+\label{sub:eight_chain_models}
+
+The eight-chain network model \cite{palmer_constitutive_2008, meng_nonlinear_2016} with a extremely simplified network connectivity is able to successfully capture the mechanical properties of non-affine regimes under shear. However, unable to capture other observed behaviours like negative normal stresses \cite{janmey_negative_2006}, or to model networks with cross-links dynamics, and other micro-network events, which are out of its scope.
+The eight, or even three-chain models, use non-linear single-chain force-extension curve to model each of its chains, see \autoref{fig:force_extension_CEWLC}. When sheared, the chains can rotate (see \autoref{fig:eight_chain_shear}).
+
+In terms of the network structure, this model is surprisingly effective given its simplicity, this is due that under shear, the network is greatly simplified, and long chains or micro-structures aligned \ang{45} with respect the shear direction exert the main response \cite{janmey_negative_2006}.
+
+The distribution of end-to-end distances is a delta, taking a mean distance for each chain, same for the contour length.
+The connectivity is eight, or three for the similar three-chain case.
+The angle is fixed as well, and can be tweaked with pre-stress.
+
+% Non-affinity is governed by the micro-architecture of the network, however under shear part of the network architecture can be ignored or is simplified.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Figures/chapter-intro/eight_chain_shear_nolabels.png}
+  \caption{Eight-chain model under shear, from Ref. \citep{palmer_constitutive_2008} }
+  \label{fig:eight_chain_shear}
+\end{figure}
+
+
 % TODO more on network micro-architecture.
 % As discussed in section \ref{intro-strainstiffening}, at low densities of
 % cross-links the network behaves in a non-affine way, where the chain
@@ -451,9 +508,9 @@ transfer is from fibril to fibril, with no matrix of fibrils involved.
 % motivation link
 \section{Motivation}%
 \label{sec:motivation-intro}
-Non-affinity and network architecture or connectivity are closely related, which
+Non-affinity and network architecture are closely related, which
 is the \textbf{main motivation} behind this work to stablish analytical methods to study images
-from where gather the geometry of networks.
+from where gather the geometry of networks. This geometry can be used directly in dynamic simulations methods, instead of relying in over-simplified network generators.
 
 The well-established and trusted method to gather structural information of the size of the network
 is scattering, particularly small-angle x-ray scattering (SAXS). Information such as porous
@@ -467,7 +524,12 @@ One of the concerns of this approach, shared specially among the scattering comm
 But before, and in order to study network geometry reliably, we need to provide an image analysis tool-set with algorithms that can be applied to volumetric data, such as tomography and stack of images.
 We will extend to 3D, and in a high-performance computing language, state-of-the-art wavelet analysis algorithms, that will aid in our task of gathering the network architecture from images.
 We then extract in-silico networks from real 3D images.
-These in-silico networks with full details, can be used by theoreticians as starting points for non-affinity modeling, instead of the currently most-used random mikado methods which only generates homogeneous and isotropic networks.
+These in-silico networks with full details, can be used by theoreticians as starting points for non-affinity modeling, instead of the currently used over-simplified architectures.
 We finish providing a method to reconstruct these networks fully in-silico, just with statistical
 distributions gathered from the networks extracted from real images. This allow exploration and speculation of optimal network architectures for different processes completely in-silico, but rooted on networks found in nature.
+
+The research question that this work aim to answer is:
+\begin{itemize}
+  \item How to we use real 3D images to extract realistic network architectures?
+\end{itemize}
 
