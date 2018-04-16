@@ -461,7 +461,13 @@ We will go through the most used methods to emulate network structures used in d
 \label{sub:mikado_networks}
 
 Ubiquitous in the recent past but still present, is to start the model with a random and homogeneous initialization of the network, such as Mikado models \cite{wilhelm_elasticity_2003, astrom_microscopic_1994, schuster_investigating_2012, conti_cross-linked_2009, sharma_strain-controlled_2016, sharma_elastic_2013},
-where fibers of fixed length are thrown into a simulation box until certain density of junctions/intersections is reached. Other models used similar random generation, but in 3D \cite{astrom_strain_2008}.
+where fibers of fixed length are thrown into a simulation box until certain density of junctions/intersections is reached (see \autoref{fig:mikado_initial}). Other models used similar random generation, but in 3D \cite{astrom_strain_2008}.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.4\linewidth]{Figures/chapter-intro/mikado_initial.png}
+  \caption{Mikado network used as a starting scaffold for dynamics simulations, from Ref.~\cite{astrom_microscopic_1994}.}
+  \label{fig:mikado_initial}
+\end{figure}
 
 The distribution of end-to-end distances between junctions can be controlled adding more fibers, but the homogeneous nature of the process inhibits long connections.
 
@@ -474,7 +480,16 @@ The angle distribution is derived from the process, but no extra relation with r
 \subsection{Lattice Models}%
 \label{sub:lattice_models}
 
-Lattice models are being used as well \cite{ronceray_fiber_2015, vahabi_elasticity_2016, sharma_strain-controlled_2016}, the end-to-end distances and the contour lengths can be fully controlled, but the connectivity is compromised, the distribution might be too narrow for simple lattices, (honey-comb, triangular), or rely on random dilutions for over-connected lattices (fcc) \cite{sharma_strain-controlled_2016}.
+Lattice models with different geometries, such as triangular and honey-comb in 2D, and face-centered-cubic (fcc) in 3D have been used \cite{broedersz_filament-length-controlled_2012,ronceray_fiber_2015, vahabi_elasticity_2016, sharma_strain-controlled_2016}. The unrealistic connectivity imposed by the fcc lattice in 3D (see \autoref{fig:fcc_unit_cell}) is trimmed down to experimentally found values by randomly deleting branches.
+
+The end-to-end distances and the contour lengths can be fully controlled, but the connectivity is compromised, the distribution might be too narrow for simple lattices, (honey-comb, triangular), or rely on random dilutions for over-connected lattices (fcc) \cite{sharma_strain-controlled_2016}.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.3\linewidth]{Figures/chapter-intro/fcc_lattice_wiki.png}
+  \caption{Unit cell of a face-centered-cubic lattice, from Ref. \cite{_cubic_2018}}
+  \label{fig:fcc_unit_cell}
+\end{figure}
 
 \subsection{Eight-chain Models}%
 \label{sub:eight_chain_models}
