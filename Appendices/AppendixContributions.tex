@@ -19,6 +19,15 @@ I have contributed with more than 20.000 lines of c++ code and documentation. Th
 integrated into ITK as an external module since ITK version 4.13, this allow the user to build the module directly from the ITK.
 Also wrappings for the c++ code to use it from python are available.
 
+\subsection{Radial Intensity FFT}%
+\label{sub:radial_intensity_fft}
+The code used in \autoref{Chapter-Wavelets}, including a graphical interface for the study of the radial intensity of a Fourier Transform
+is available in \url{https://github.com/phcerdan/FFTRadialIntenstiy}.
+
+The author has contributed to around 3000 lines of c++ code and 1000 python code, including a notebook that can be used to reproduce exactly the work-flow and figures shown in \autoref{Chapter-TEMSAXS}, find the notebook here:
+
+\noindent\url{https://github.com/phcerdan/FFTRadialIntenstiy/tree/master/resultsPaper/figures_jupyternb}
+
 \subsection{DGtal: Critical Kernels Framework}%
 \label{sub:contribution_dgtal}
 
@@ -43,7 +52,25 @@ The code for the spatial graph extraction is available with a Mozilla Public Lic
 
 This includes scrips in c++ and python to perform the image pipeline, the skeletonization script using DGtal (see \autoref{sub:contribution_dgtal}), converting the raw graph to a spatial graph, computing graph properties and statistical distributions, as well as the code for generating the figures in \autoref{sec:sg_results}. It uses ITK, VTK, Boost, DGtal and proxTV libraries.
 
+Python scripts for plotting and fitting statistical distributions (see \autoref{fig:actin_thin}) can be found in the mentioned repository. Concretely here:
+
+\noindent\url{https://github.com/phcerdan/object_to_spatial_graph/tree/master/src/python-scripts}
+
 I have contributed with around 8000 lines of c++ and python code.
+
+\subsection{Open Science}%
+\label{sub:open_science}
+
+All the work done in this thesis is openly available, and can be reproduced and modified by anyone.
+I have tried to split my work into chunks and contribute them into existing libraries to maximize its re-usability.
+
+I also provide notebooks with the analysis, data and plots created in \autoref{Chapter-TEMSAXS}.
+
+The notebook of \autoref{Chapter-Image} is not provided due to the analysis was done between two computers, with the thin/skeletonization process was carried in a workstation with more memory.
+But the chapter should provide enough information about the pipeline and the details to reproduce it.
+
+Users can contact me in any of these public github repositories with any inquiry or issue, and can contribute adding new features.
+
 
 
 

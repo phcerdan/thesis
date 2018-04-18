@@ -903,7 +903,130 @@ We apply the described pipeline in previous sections to three set of volumetric 
 
 \subsection{Actin}%
 \label{sub:actin}
-TODO TODO TODO Actin image size, and pipeline parameters.
+The actin network was prepared using 0.3 mg/ml actin in 40 mMol MgCl2 and stained with phalloidin.
+The image was taken using Confocal Laser Scanning Microscopy (CLSM) with Leica Instrumentation (model TCS SP5).
+
+The volumetric image used in this study has a size of 1024$\times$1024$\times$106 pixels, with resolution 0.505050745877353$\times$0.505050745877353$\times$1.00708103855232 \si{\micro\metre} per pixel.
+
+The parameters used in the image pipeline:
+
+\textbf{Denoise:}
+
+\noindent Using the c++ script \citetitle*{phcerdan_rieszwaveletphaseanalysis_2018} \cite{phcerdan_rieszwaveletphaseanalysis_2018}.
+\begin{minted}{bash}
+export WAVELET_TYPE=Simoncelli # options: Held, Vow, Shannon
+export LEVELS=4
+export BANDS=4
+rieszWaveletPhaseAnalysis -i ${INPUT_IMAGE} -o ${OUTPUT_FOLDER} \
+       -w ${WAVELET_TYPE} -l ${LEVELS} -b ${BANDS}
+\end{minted}
+
+We apply an anisotropic denoise step with the itk filter CurvatureAnisotropicDiffusion,
+using the python script  \citetitle*{phcerdan_denoise_input_2018} \cite{phcerdan_denoise_input_2018}.
+
+\begin{minted}{bash}
+export DENOISE_ITERATIONS=20
+export DENOISE_CONDUCTANCE=2.0
+export DENOISE_TIMESTEP=0.0625 #default optimal value for 3D
+python denoise_input.py ${OUTPUT_WAVELET} ${OUTPUT_FOLDER} \
+      ${DENOISE_ITERATIONS} ${DENOISE_CONDUCTANCE}
+\end{minted}
+
+Result: \autoref{fig:actin_denoised}.
+
+\textbf{Segmentation:}
+Apply a region growing algorithm as explained in \autoref{subsub:region_growing_segmentation},
+using the c++ script  \citetitle*{phcerdan_regionGrowingSegmentation_2018} \cite{phcerdan_regionGrowingSegmentation_2018}.
+\begin{minted}{bash}
+export BIN_RG_LOWER=0.0
+export BIN_RG_UPPER=5000
+export BIN_SAFE_PERCENTAGE=0.2
+regionGrowingSegmentation -i ${OUTPUT_DENOISE} -o ${OUTPUT_FOLDER}\
+    -l ${BIN_RG_LOWER} -u ${BIN_RG_UPPER} -p ${BIN_SAFE_PERCENTAGE}
+\end{minted}
+
+And the hole filling algorithm described in \autoref{sub:hole_filling},
+using the python script  \citetitle*{phcerdan_binary_denoise_3d_fillholes_iterative_2018} \cite{phcerdan_binary_denoise_3d_fillholes_iterative_2018}.
+
+\begin{minted}{bash}
+export HOLE_MAJORITY=3
+export HOLE_RADIUS=1
+export HOLE_ITERATIONS=10000
+python binary_denoise_3d_fillholes_iterative.py ${OUTPUT_BINARY} ${OUTPUT_FOLDER}\
+${HOLE_MAJORITY} ${HOLE_RADIUS} ${HOLE_ITERATIONS}
+\end{minted}
+
+Result: \autoref{fig:actin_segmentation}.
+
+\textbf{Skeletonization}
+
+Apply a thinning using the critical kernels framework contributed to DGtal (see \autoref{sub:critical_kernels_framework})
+using the c++ script  \citetitle*{phcerdan_thin_2018} \cite{phcerdan_thin_2018}.
+
+\begin{minted}{bash}
+export SKEL_SELECT=dmax
+export SKEL_TYPE=1isthmus
+export SKEL_PERSISTENCE=2
+thin --input ${OUTPUT_SEGMENTATION} -o ${OUTPUT_FOLDER} \
+  --select ${SKEL_SELECT} --skel ${SKEL_TYPE} \
+  -p ${PERSISTENCE} --foreground white
+\end{minted}
+
+The option \textit{dmax} generates a distance map as shown in \autoref{subfig:actin_dmap}.
+
+Result: \autoref{subfig:actin_skeleton}.
+
+\textbf{Spatial Graph Extraction}
+
+The conversion from the thin image to the spatial graph representation as described in \autoref{sec:spatial_graph_extraction},
+uses the c++ script  \citetitle*{phcerdan_analyze_graph_2018} \cite{phcerdan_analyze_graph_2018}.
+
+\begin{minted}{bash}
+export GRAPH_IGNORE_SHORT_EDGES=1
+export GRAPH_SPACING="5.05050745877353E-07 5.05050745877353E-07 1.00708103855232E-06"
+analyze_graph --input ${OUTPUT_SKELETONIZATION} \
+ --exportReducedGraph ${OUTPUT_FOLDER} --exportData ${GRAPH_DATA_FOLDER}
+ --reduceGraph --removeExtraEdges  --mergeThreeConnectedEdges \
+ --ignoreAngleBetweenParallelEdges \
+ --ignoreEdgesShorterThan ${GRAPH_IGNORE_SHORT_EDGES} \
+ --spacing ${GRAPH_SPACING}
+\end{minted}
+
+\textit{exportData} compute the graph properties: degree, end-to-end distances, contour lengths, angle and cosine directors, and save them into a file.
+
+\textit{exportReducedGraph} outputs the spatial graph in a .dot (graphviz) format, similar to \autoref{fig:spatial_graph_intro_2}, that be read by any graph library.
+
+\textit{removeExtraEdges} applies the removal of diagonal edges at intersection, as described in \autoref{subfig:graph_raw_merged}.
+
+The result is a spatial graph, \autoref{fig:actin_graph} shows a representation of that graph without representing contour lengths, lines are just straight lines connecting end-to-end nodes. Node glyphs are not represented to avoid cluttering the 3D scene.
+
+
+% \begin{minted}{bash}
+% # Wavelet Phase Analysis
+% export WAVELET_TYPE=Simoncelli
+% export LEVELS=4
+% export BANDS=4
+% # Anisotropic Denoise
+% export DENOISE_ITERATIONS=20
+% export DENOISE_CONDUCTANCE=2.0
+% export DENOISE_TIMESTEP=0.0625
+% ## Region Growing Binarization
+% export BIN_RG_LOWER=0.0
+% export BIN_RG_UPPER=5000
+% export BIN_SAFE_PERCENTAGE=0.2
+% ## Hole Filling
+% export HOLE_MAJORITY=3
+% export HOLE_RADIUS=1
+% export HOLE_ITERATIONS=10000
+% ## Skeletonization
+% export SKEL_SELECT=dmax
+% export SKEL_TYPE=1isthmus
+% export SKEL_PERSISTENCE=2
+% ## Spatial Graph Extraction
+% export GRAPH_IGNORE_SHORT_EDGES=1
+% export GRAPH_SPACING=""
+% \end{minted}
+
 
 % \begin{figure}[!htb]
 \begin{figure}[H]
@@ -948,6 +1071,14 @@ TODO TODO TODO Actin image size, and pipeline parameters.
   \label{fig:actin_all}
 \end{figure}
 
+\textbf{Fit graph data to distributions}
+
+We fit the graph data generated in the analysis to statistical distributions depedning on the propertiy, as described in \autoref{sec:statistical_distributions_of_graph_properties}.
+An estimation of the $R^2$ of the fit using Effron's formula \cite{lindstrom_finite-strain_2013} is shown.
+The degree is fitted the mentioned truncated geometric distribution also showing the percentage of end-nodes, see \autoref{subfig:actin_degree}.
+
+It uses the python script  \citetitle*{phcerdan_fit_to_distribution_from_data_2018} \cite{phcerdan_fit_to_distribution_from_data_2018}.
+
 \begin{figure}[H]
 % \begin{figure}[!htb]
   \centering
@@ -979,12 +1110,38 @@ TODO TODO TODO Actin image size, and pipeline parameters.
   \label{fig:actin_thin}
 \end{figure}
 
+\subsection{TEM preparation}%
+\label{sub:tem_preparation}
+
+The polysaccharides carrageenan and pectin are imaged with \gls{TEM} tomography with the preparation published in \citep{hernandez-cerdan_structural_2018-2} and reproduced here for completion:
+
+Gels were fixed with 0.1\% Ruthenium Red and phosphate buffered 2.5\% glutaraldehyde prior to dehydration in a graded ethanol series and embedding in an epoxy resin (ProCure 812, ProSciTech, Thuringowa, Australia). Fixation mechanisms for aldehydes are known to some extent from protein crystallographic studies, where in particular covalent bonding with lysine residues is employed \cite{wine_elucidation_2007}, but no comparable studies exist for polysaccharides. We found that Ruthenium Red was essential for maintaining sample integrity during dehydration. We observed that this was due to the formation of a skin on the gel pieces. The role of glutaraldehyde in preserving or altering structure is unknown but our observations suggest that there is no effect on the bulk structure down to the level of individual molecules, where some combination of fixation and staining changes the native morphology. Indeed, some deviation from native structure must be expected due to the use of one or more of these reagents. Sections with nominal thickness of 150 nm were cut with an ultramicrotome and post-stained with 2\% uranyl acetate prior to visualisation. Previous work using tomography to acquire images from pecin gels in 3D \cite{mansel_zooming_2015} suggests that this post-staining is effective throughout the section thickness. Imaging areas were pre-irradiated for 15 minutes at low magnification prior to image acquisition. Two-dimensional micrographs were recorded on a JEOL JEM-1400 transmission electron microscope with a $\text{LaB}_6$ cathode operated at 120 kV under low-dose conditions with synchronised beam blanking and acquisition.
 
 \subsection{Carrageenan}%
 \label{sub:carrageenan}
 
-TODO TODO put original image details and parameters.
-Carrageenan
+
+Ion-exchanged sodium carrageenan samples were provided by Dupont. Relevant salt solutions (30 mM KCl  or 300 mM NaCl) were first made by dissolving the required amount of salt in a volumetric flask and using millQ water. The required amount of dry carrageenan in order to produce 1\% w/w solutions was then weighed out and subsequently suspended in the relevant salt solution. The solutions were then heated to \SI{60}{\degreeCelsius} while stirring until all powder was dissolved. This solution was then loaded hot into the requisite sample cells for \gls{TEM}.
+
+The volumetric tomography image used in this study has a size of 1000$\times$1000$\times$32 pixels, with resolution 1.72$\times$1.72$\times$1.72 \nm per pixel.
+
+\begin{minted}{bash}
+## Region Growing Binarization
+export BIN_RG_LOWER=0.0
+export BIN_RG_UPPER=5000
+export BIN_SAFE_PERCENTAGE=0.2
+## Hole Filling
+export HOLE_MAJORITY=3
+export HOLE_RADIUS=1
+export HOLE_ITERATIONS=10000
+## Skeletonization
+export SKEL_SELECT=dmax
+export SKEL_TYPE=1isthmus
+export SKEL_PERSISTENCE=2
+## Spatial Graph Extraction
+export GRAPH_IGNORE_SHORT_EDGES=1
+export GRAPH_SPACING=""
+\end{minted}
 
 \begin{figure}[H]
 % \begin{figure}[!htb]
@@ -1063,7 +1220,10 @@ Carrageenan
 \subsection{Pectin}%
 \label{sub:Pectin}
 
-TODO TODO put original image details and parameters.
+The gelation method exploited herein has been described in detail previously \cite{mansel_zooming_2015} and used in \cite{hernandez-cerdan_structural_2018-2}.
+To summarize: a commercially available pectin sample that had a high degree of methylesterification (DM) (78\%) was modified using a processive pectin methyl esterase (PME) extracted from oranges and sourced from Sigma, to obtain a block-wise sample with DM of around 40\%, and the resulting polymer freeze dried. The polymeric fine structure was measured using capillary electrophoresis as described elsewhere. Subsequently a solution was made by dissolving \SI{0.02}{\g} of the freeze-dried pectin in \SI{1.5}{\ml} of deionized water. Next \SI{0.16}{\g} of glucono delta-lactone (GDL) was dissolved in water and mixed with the pectin solution as quickly as possible, in order to minimize any hydrolysis of GDL occurring before mixing, while being careful not to form bubbles. This solution was then loaded into the requisite sample cells for \gls{TEM}.
+
+The volumetric tomography image used in this study has a size of 1000$\times$1000$\times$32 pixels, with resolution 1.72$\times$1.72$\times$1.72 \nm per pixel.
 
 \begin{figure}[H]
 % \begin{figure}[!htb]
