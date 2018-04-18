@@ -11,20 +11,55 @@
 \section{Introduction}%
 \label{sec:introduction}
 
-The geometric structure, also called here: architecture or topology of a
-biopolymer network impacts its mechanical properties and biological functions.
+The geometry or architecture of a biopolymer network impacts its mechanical
+properties and biological functions.
 The goal of this chapter is to explain the algorithms and software used to
-obtain the network structure from experimental measurements. To accomplish that,
-first we will introduce the image processing analysis used to segment the biopolymer
-from images.
-Secondly, we present the thinning or skeletonization algorithm developed for creating a
-thin (one-pixel wide) representation of the network.
-Thirdly, from the thin image, we will get an abstract representation, in the form of a
-\gls{Spatial Graph}, which is defined by two sets:
-a set of nodes or vertices (i.e. end-points or junctions), characterized by their spatial position; and
-a set of edges (i.e. links), connecting pairs of those nodes.
+obtain an abstract representation, a \gls{Spatial Graph}, of this architecture from volumetric images taken from any microscopy technique.
+
+A \gls{Spatial Graph} (see \autoref{fig:spatial_graph_intro_1}), is a regular graph, but also including geometrical information of its original position in the image, it is defined by two sets:
+\begin{itemize}[topsep=0pt]
+  \item A set of nodes or vertices (i.e. end-points or junctions), characterized by their spatial position.
+  \item A set of edges (i.e. links), connecting pairs of those nodes. They geometric information is contained in a set ordered edge points, reflecting the path of the connection.
+\end{itemize}
+
+The graph connectivity is described by an adjacency list \autoref{fig:spatial_graph_intro_2}, with extra labels representing position in nodes, and the set of edge points in the edges.
+\begin{figure}[!htb]
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.6\textwidth]{Figures/chapter-image/spatial_graph_intro1.png}%
+  \caption{\gls{Spatial Graph} extracted from a set of voxels. The numbers represent each node id.}
+    \label{fig:spatial_graph_intro_1}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/spatial_graph_intro2.png}%
+    \caption{Adjacency list representing the graph with labels containing the position of nodes and edges points.}
+    \label{fig:spatial_graph_intro_2}
+  \end{subfigure}%
+    \caption{\gls{Spatial Graph} }
+  \label{fig:spatial_graph_intro}
+\end{figure}
+
+This representation fully contain all the information needed to describe a network structure, as described elsewhere \cite{palmer_constitutive_2008}:
+\begin{enumerate}[topsep=0pt]
+  \item Distribution in the distance between nodes, i.e. end-to-end distances.
+  \item Distribution in the fully extended length of edges, i.e. contour lengths.
+  \item Network connectivity, i.e. degree of a node representing the number of other nodes connected to it.
+  \item Orientation distribution. i.e. angles and director cosines of angles between adjacent edges.
+\end{enumerate}
+
+To accomplish a reliable extraction of the spatial graph from volumetric images, first we will introduce the image processing analysis used to segment the biopolymer from images, the pre-processing and denoising steps in \autoref{sec:denoising} and the binarization in \autoref{sec:segmentation}.
+
+Secondly, we present the thinning or skeletonization
+algorithm developed for creating a thin (one-pixel wide) image representation of the network in \autoref{sec:skeletonization}.
+
+Thirdly, from the thin image, we will get the abstract representation in \autoref{sec:spatial_graph_extraction}, in form of the described \gls{Spatial Graph}.
+
 We can compute any \gls{graph} property from our spatial graph using the tool-set of complex networks,
-from degree distribution to clustering coefficient, but also the spatial information allow us to compute distance between nodes or the angle between adjacent edges.
+from degree distribution to clustering coefficient, but also the spatial information allow us to compute geometric quantities, such as distance between nodes or angle between adjacent edges.
+
+Finally, we will compute in \autoref{sec:statistical_distributions_of_graph_properties} statistical distributions from our graph, degree, end-to-end distances, contour lengths and director cosines, that capture, in an analytical form, the network architecture.
 
 \begin{enumerate}
   \item \hyperref[sec:denoising]{Denoising}
@@ -107,7 +142,7 @@ We use the wavelet tools developed in ~\autoref{Chapter-Wavelets} to perform a p
 We also apply total variation \cite{barbero_fast_2011, barbero_modular_2014} methods to our 3D images, showing effective denoising and maintaining sharp transitions between edges of objects and background.
 
 % Figure with results, one for each process.
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -130,9 +165,9 @@ We also apply total variation \cite{barbero_fast_2011, barbero_modular_2014} met
 \label{sec:segmentation}
 
 Segmentation refers to the extraction of the objects of interest from an image, discarding the rest of information. When the image is composed by many different objects, with different shapes and pixel
-intensities, complex approaches must be taken to reliably extract the object of interest.
+intensities, complex approaches must be taken to reliably extract the objects of interest.
 For example in biology the segmentation might want to extract only cells of certain type from an
-image with many other components.
+image with many other actors.
 
 In our case, our images are only composed by biopolymers, so our segmentation is easier, it reduces
 to a binarization task: separate background and noise from the biopolymer objects.
@@ -171,7 +206,7 @@ in the case of high quality images of $16$ bits, the max value will rise to
 $2^{16} - 1 = 65535$. In both cases the max value corresponds to pure white and
 $0$ to black.
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
 \begin{subfigure}{0.5\textwidth}
   \centering
   \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_original.png}%
@@ -296,7 +331,7 @@ Majority = 3, Radius = 1, Iterations = $\infty$ \newline
 The high value of majority and the small neighborhood only fills small holes.
 
 % TODO
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \centering
   \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_original.png}%
   \caption{Region Growing Segmentation filling small holes created in the process.}
@@ -371,7 +406,7 @@ I refer the interested reader to the original work of Bertrand and Couprie about
     We say that C is a d-clique if the intersection of all voxels of C is a d-cell.
 
     Any complex C made of a single voxel is a 3-clique. Furthermore, any voxel of a complex
-    constitutes a 3-clique that is \textbf{essential}for X. Essential is the minimal clique for X.
+    constitutes a 3-clique that is \textbf{essential} for X. Essential is the minimal clique for X.
   \item \textbf{K-neighborhood (of voxel S): }
     $K(S)$ is the set of all voxels adjacent to S. And $K^*(S) = K \setminus  S$.
   \item \textbf{Regular Clique: }
@@ -389,10 +424,10 @@ Removing simple voxels in parallel is known to change its topology, but using \t
   contains at least one voxel of Y.
 \end{theorem}
 
-The details of the implementation can be summarized in the implementation of four masks
+The details of the algorithm can be summarized in the implementation of four masks
 $K_0$, $K_1$, $K_2$, $ K_3$, that given a d-cell (pointel, linel, surfel, spel) return a d-clique and a boolean flag with its criticality. Where $K_3$ corresponds to the well-known simplicity check of a voxel. We then apply an iterative thinning algorithm shown in \autoref{fig:algo_persistence}.
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \centering
   \includegraphics[width=0.8\linewidth]{Figures/chapter-image/dgtal/voxelComplexAlgoPersistence.png}
   \caption{Asymmetric thinning algorithm with persistence, from Ref.~\cite{couprie_asymmetric_2016}}
@@ -405,7 +440,7 @@ Let $i$ be the generation (see \autoref{fig:algo_persistence}) at which a voxel 
 The definition of \textit{persistence} of a voxel is the difference between death and birth date, $p(x) = d(x) - b(x)$.
 We can choose to only keep isthmuses that have a persistence greater than a selected threshold. This persistence can be interpreted as a relative measure of the elongation of an object. With the persistence parameter, the user decides how much the elongation of an object must exceed its width to be preserved. This effectively prune short and insignificant branches.
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.333\textwidth}
     \centering
@@ -435,23 +470,23 @@ The \textit{Select} function chooses a voxel from a given pool. This is necessar
 
 \begin{itemize}[topsep=0pt]
   \item \textbf{selectRandom: } Given a set of voxels (a clique), chooses one at random.
-  \item \textbf{selectFirst: } Select the first voxel, ordered in a lexicographical order.
+  \item \textbf{selectFirst: } Select the first voxel in lexicographical order.
   \item \textbf{selectMaxValue: } Select a voxel with the max value of another user-defined function. We will use this wrap to use a distance map (See \autoref{subsub:distance_maps})
 \end{itemize}
 
-The \textit{Skel} function provides a way to keep voxels that we want to be preserved in the final skeleton.
+The \textit{Skel} function provides a way to keep voxels that we want preserve in the final skeleton.
 
 \begin{itemize}[topsep=0pt]
   \item \textbf{skelUltimate: } Null, only preserve voxels which removal alters the topology.
-   The result of the thinning in a solid object without holes is just one voxel.
+   The result of the thinning in a solid object without holes and no branches is just one voxel.
   \item \textbf{skelEnd: } Preserve voxels that has only one neighbor.
   \item \textbf{OneIsthmus: } Preserve 1-isthmus voxels.
   \item \textbf{TwoIsthmus: } Preserve 2-isthmus voxels.
   \item \textbf{skelIsthmus } Preserve 1 and 2-isthmus voxels.
-  \item \textbf{skelWithTable } Accepts a look-up-table (LUT) of pre-computed values of certain property for certain configuration of voxels. This is used with pre-computed LUT tables for isthmus to greatly speed up the computation. It is greatly recommended, LUT tables for 26\_6 (fully connected in 3D) topology are provided.
+  \item \textbf{skelWithTable } Accepts a look-up-table (LUT) of pre-computed values of certain property for certain configuration of voxels. This is used with pre-computed LUT tables for isthmus to greatly speed up the computation. It is greatly recommended and LUT tables for 26\_6 (fully connected in 3D) topology are provided.
 \end{itemize}
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{Figures/chapter-image/skeleton-fixedtopo_letters.png}%
 \caption[Skeletonization]{Skeletonization process. (a) Distance
@@ -475,7 +510,7 @@ We can see in Fig.\ref{fig:fire_LMPS} the values of a distance map, which have
 been simplified from real to integers for clarity.
 
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
 \begin{minipage}{0.5\textwidth}
   \centering
   \center{\textbf{Binarization}}\\
@@ -579,7 +614,7 @@ FIRE has been developed in Matlab by Andrew M. Stein
  \end{enumerate}
 
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -616,7 +651,7 @@ required, and a bigger network for better statistics, but it seems that length
 follow a log-normal distribution, and the degree, a geometrical distribution. We
 will say more about distributions in chapter \ref{Chapter-Reconstruction}.
 
- \begin{figure}[ht]
+ \begin{figure}[!htb]
 
 \begin{center}
 \includegraphics[width=0.9\textwidth]{Figures/chapter-image/fire/fire012.png}%
@@ -628,7 +663,7 @@ will say more about distributions in chapter \ref{Chapter-Reconstruction}.
 \label{fig:fire_stepbystep}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -691,7 +726,7 @@ represented by voxels into a spatial graph object.
 
  \end{enumerate}
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
 
 % \begin{minipage}{0.5\textwidth}
  
@@ -794,13 +829,22 @@ changes in the important parameters.
 
 From the skeletonization we get a thin image, where all the pixels belonging to an object in the binary image are reduced to a thin representation of it, in the sense that this generated skeleton is one-pixel wide.
 
-From here, our task is to transform this thin image or skeleton into a \gls{graph}. A set of nodes connected to each other through edges. The first step, and also contributed to the DGtal library by the author is to get what we denominate a \textbf{raw graph}, a graph where each node is a voxel of the skeleton, and connected or neighbor voxels have an edge between them.
+From here, our task is to transform this thin image or skeleton into a \gls{graph}. A set of nodes connected to each other through edges. The first step, and also contributed to the DGtal library by the author is to get what we denominate a \textbf{raw graph}, a graph where each node is a voxel of the skeleton, and neighbor voxels have an edge connecting them.
 
 For regular images, this raw graph is enormous, imagine a voxel in the interior of an object, this voxel will have 26 edges (degree = 26) connecting it to its surrounding nodes.
 But for thin images, where the number of voxels is greatly reduced, this allow us to start using tools from graph theory to extract a more meaningful graph, a \gls{Spatial Graph}.
-The \textbf{Raw Graph} can be optionally post-processed, if there are three nodes with degree 3 connected between them, the longest edges (diagonals) are removed (see \autoref{subfig:graph_raw_merged}).
 
-\begin{figure}[ht]
+In a \gls{Spatial Graph} only nodes with degree different than 2 are considered vertices (see \autoref{fig:spatial_graph}). These end (degree = 1) and junction (degree > 2) nodes are connected to similar nodes via \glspl{Spatial Edge}, where the bending points (degree = 2) connecting those are stored in the spatial edge as \textbf{edge points} (see \autoref{fig:spatial_graph_intro_2} for an example). The rest of vertices are kept with the same connectivity as \glspl{Spatial Node}, adding its index or spatial position from the image.
+
+This transform uses a Depth First Search (\gls{DFS}) visit, starting from end-points vertices (degree=1), it follows the connected neighbors (chain-nodes of degree 2) until it reaches another end-point or another vertex with degree 3 or more. When this happen, two \glspl{Spatial Node} are added to the new \gls{Spatial Graph} (the source where we started and the end node), and one \gls{Spatial Edge}, containing all the visited 2-degree pixels.
+
+We keep visiting the raw graph with the \gls{DFS} algorithm, where the visited nodes are marked to avoid re-visiting them. We follow on with any non-visited junction nodes (degree > 2). And to finish, we search for any self-loops, circular structures where all nodes have degree 2. Because the graph doesn't allow self-loops, edges where source and target are the same node, we encode the self-loop into two nodes, the first is the original vertex, and the second one is created in the median of the \gls{Spatial Edge}. So these self loops are two nodes with two parallel edges of about the same number of edge-points between them.
+
+The \gls{DFS} algorithms is quite fast thanks to its marking of already visited nodes. There are two filters that we can apply to the process that have an impact in the generated \gls{Spatial Graph}.
+
+The original \textbf{Raw Graph} can be optionally post-processed, if there are three nodes with degree 3 connected between them, the longest edges (diagonals) are removed (see \autoref{subfig:graph_raw_merged}).
+
+\begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -818,14 +862,15 @@ The \textbf{Raw Graph} can be optionally post-processed, if there are three node
   \label{fig:raw_graph_extraction}
 \end{figure}
 
-In a \gls{Spatial Graph} only nodes with degree different than 2 are considered vertices (see \autoref{fig:spatial_graph}). These end (degree = 1) and junction (degree > 2) nodes are connected to similar nodes via \textbf{spatial edges}, where the bending points (degree = 2) connecting those are stored as \textbf{edge points}.
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
   \centering
   \includegraphics[width=0.45\textwidth]{Figures/chapter-image/dgtal/voxels_spatial_merge.png}%
   \caption{\gls{Spatial Graph} where vertices with degree 2 are deleted, and its position are stored as edge points in the new edges.}
   \label{fig:spatial_graph}
 \end{figure}
+
+The spatial graph give access to the complete network geometry, plus also allow us to analyze the architecture with sharper tools.
 
 \section{Statistical distributions of graph properties}%
 \label{sec:statistical_distributions_of_graph_properties}
@@ -834,6 +879,16 @@ With the spatial graph in hand we have at our disposal all the tool-box from the
 complex networks to characterize the network plus all the geometrical measurements we might need due to the storage of positions of each node and edge points in the spatial graph.
 
 Following Lindstrom approach to characterize networks from statistical distributions \cite{lindstrom_finite-strain_2013, lindstrom_biopolymer_2010}, we will compute the degree distribution, end-to-end distance between nodes (ignoring edge points), contour lengths between nodes (taking into account edge points), angles between adjacent edges and cosine directors of those angles.
+
+The degree-distribution follows a geometric distribution, truncated for branch-points (only nodes with degree greater than 3) for all our networks, see \autoref{degree-dist}.
+
+The end-to-end distance between nodes and the contour lengths distributions fits to a
+log-normal distribution, see \autoref{length-dist}. This distribution is used to describe multiplicative processes in many fields,
+in biology they are used to describe growth processes \cite{mitzenmacher_brief_2004}.
+
+These distributions are the result of the generative processes in network formation, and can be used to infer the details of such processes and patterns \cite{frank_common_2009, frank_how_2014}.
+
+The director cosines of the angles between adjacent edges is fitted to a truncated power series \cite{lindstrom_finite-strain_2013}, that fits well for all the networks studied, see \autoref{cosines-dist}.
 
 \section{Results}%
 \label{sec:sg_results}
@@ -850,7 +905,8 @@ We apply the described pipeline in previous sections to three set of volumetric 
 \label{sub:actin}
 TODO TODO TODO Actin image size, and pipeline parameters.
 
-\begin{figure}[!htb]
+% \begin{figure}[!htb]
+\begin{figure}[H]
   \centering
   \begin{subfigure}{0.33\textwidth}
     \centering
@@ -892,25 +948,32 @@ TODO TODO TODO Actin image size, and pipeline parameters.
   \label{fig:actin_all}
 \end{figure}
 
-\begin{figure}[!htb]
+\begin{figure}[H]
+% \begin{figure}[!htb]
   \centering
-  \begin{subfigure}{0.33\textwidth}
+  \begin{subfigure}{0.5\textwidth}
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_degree_tile4_c_m.png}
     \caption{Degree distribution. Geometric}
     \label{subfig:actin_degree}
   \end{subfigure}%
-  \begin{subfigure}{0.33\textwidth}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_cosines_tile4_c_m_iPA_iShort1_bins21.png}
+    \caption{Director cosines. Truncated (3) power-series.}
+    \label{subfig:actin_cosines}
+  \end{subfigure}\\[1ex]
+  \begin{subfigure}{0.5\textwidth}
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_ete_distance_tile4_c_m_iPA_iShort1_bins30.png}
     \caption{End-to-End node distances. Log-normal}
     \label{subfig:actin_ete}
   \end{subfigure}%
-  \begin{subfigure}{0.33\textwidth}
+  \begin{subfigure}{0.5\textwidth}
     \centering
-    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_cosines_tile4_c_m_iPA_iShort1_bins21.png}
-    \caption{Director cosines. Truncated (3) power-series.}
-    \label{subfig:actin_cosines}
+  \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_contour_length_tile4_c_m_iPA_iShort1_bins30.png}
+    \caption{Contour lengths. Log-normal}
+    \label{subfig:actin_contour}
   \end{subfigure}
   \caption{Statistical distributions (PDF) of actin network.}
   \label{fig:actin_thin}
@@ -921,42 +984,44 @@ TODO TODO TODO Actin image size, and pipeline parameters.
 \label{sub:carrageenan}
 
 TODO TODO put original image details and parameters.
+Carrageenan
 
-\begin{figure}[!htb]
+\begin{figure}[H]
+% \begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.33\textwidth}
     \centering
-    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_original.png}
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_original_tile1.png}
     \caption{Original volume}
     \label{fig:carra_original}
   \end{subfigure}%
   \begin{subfigure}{0.33\textwidth}
     \centering
-    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_denoised_tv20.png}
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_denoised_tv20_tile1.png}
     \caption{Denoised.}
     \label{fig:carra_denoised}
   \end{subfigure}%
   \begin{subfigure}{0.33\textwidth}
     \centering
-    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_segmented.png}
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_segmented_tile1.png}
     \caption{Segmentation.}
     \label{fig:carra_segmentation}
   \end{subfigure}\\[1ex]
   \begin{subfigure}{0.33\textwidth}
     \centering
-    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_dmap.png}
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_dmap_tile1.png}
     \caption{Distance Map}
     \label{subfig:carra_dmap}
   \end{subfigure}%
   \begin{subfigure}{0.33\textwidth}
     \centering
-    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_skeleton.png}
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_skeleton_tile1.png}
     \caption{Skeletonization (p = 2).}
     \label{subfig:carra_skeleton}
   \end{subfigure}%
   \begin{subfigure}{0.33\textwidth}
     \centering
-    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_graph_tile2.png}
+    \includegraphics[width=0.9\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_graph_tile1.png}
     \caption{Graph}
     \label{fig:carra_graph}
   \end{subfigure}%
@@ -964,25 +1029,32 @@ TODO TODO put original image details and parameters.
   \label{fig:carra_all}
 \end{figure}
 
-\begin{figure}[!htb]
+\begin{figure}[H]
+% \begin{figure}[!htb]
   \centering
-  \begin{subfigure}{0.33\textwidth}
+  \begin{subfigure}{0.5\textwidth}
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_degree_tile1_c_m.png}
     \caption{Degree distribution. Geometric}
     \label{subfig:carra_degree}
   \end{subfigure}%
-  \begin{subfigure}{0.33\textwidth}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_cosines_tile1_c_m_iPA_iShort1_bins21.png}
+    \caption{Director cosines. Truncated (3) power-series.}
+    \label{subfig:carra_cosines}
+  \end{subfigure}\\[1ex]
+  \begin{subfigure}{0.5\textwidth}
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_ete_distance_tile1_c_m_iPA_iShort1_bins30.png}
     \caption{End-to-End node distances. Log-normal}
     \label{subfig:carra_ete}
   \end{subfigure}%
-  \begin{subfigure}{0.33\textwidth}
+  \begin{subfigure}{0.5\textwidth}
     \centering
-    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_cosines_tile1_c_m_iPA_iShort1_bins21.png}
-    \caption{Director cosines. Truncated (3) power-series.}
-    \label{subfig:carra_cosines}
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_contour_length_tile1_c_m_iPA_iShort1_bins30.png}
+    \caption{Contour lengths. Log-normal}
+    \label{subfig:carra_contour}
   \end{subfigure}
   \caption{Statistical distributions (PDF) of Carrageenan K network.}
   \label{fig:carra_thin}
@@ -993,7 +1065,8 @@ TODO TODO put original image details and parameters.
 
 TODO TODO put original image details and parameters.
 
-\begin{figure}[!htb]
+\begin{figure}[H]
+% \begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.33\textwidth}
     \centering
@@ -1035,25 +1108,32 @@ TODO TODO put original image details and parameters.
   \label{fig:pectin_all}
 \end{figure}
 
-\begin{figure}[!htb]
+\begin{figure}[H]
+% \begin{figure}[!htb]
   \centering
-  \begin{subfigure}{0.33\textwidth}
+  \begin{subfigure}{0.5\textwidth}
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_degree_c_m.png}
     \caption{Degree distribution. Geometric}
     \label{subfig:pectin_degree}
   \end{subfigure}%
-  \begin{subfigure}{0.33\textwidth}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_cosines_c_m_iPA_iShort1_bins21.png}
+    \caption{Director cosines. Truncated (3) power-series.}
+    \label{subfig:pectin_cosines}
+  \end{subfigure}\\[1ex]
+  \begin{subfigure}{0.5\textwidth}
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_ete_distance_c_m_iPA_iShort1_bins30.png}
     \caption{End-to-End node distances. Log-normal}
     \label{subfig:pectin_ete}
   \end{subfigure}%
-  \begin{subfigure}{0.33\textwidth}
+  \begin{subfigure}{0.5\textwidth}
     \centering
-    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_cosines_c_m_iPA_iShort1_bins21.png}
-    \caption{Director cosines. Truncated (3) power-series.}
-    \label{subfig:pectin_cosines}
+    \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_contour_length_c_m_iPA_iShort1_bins30.png}
+    \caption{Contour lengths. Log-normal}
+    \label{subfig:pectin_contour}
   \end{subfigure}
   \caption{Statistical distributions (PDF) of Pectin network.}
   \label{fig:pectin_thin}

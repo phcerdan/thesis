@@ -497,11 +497,13 @@ The end-to-end distances and the contour lengths can be fully controlled, but th
 The eight-chain network model \cite{palmer_constitutive_2008, meng_nonlinear_2016} with a extremely simplified network connectivity is able to successfully capture the mechanical properties of non-affine regimes under shear. However, unable to capture other observed behaviours like negative normal stresses \cite{janmey_negative_2006}, or to model networks with cross-links dynamics, and other micro-network events, which are out of its scope.
 The eight, or even three-chain models, use non-linear single-chain force-extension curve to model each of its chains, see \autoref{fig:force_extension_CEWLC}. When sheared, the chains can rotate (see \autoref{fig:eight_chain_shear}).
 
-In terms of the network structure, this model is surprisingly effective given its simplicity, this is due that under shear, the network is greatly simplified, and long chains or micro-structures aligned \ang{45} with respect the shear direction exert the main response \cite{janmey_negative_2006}.
+In terms of the network structure, this model is surprisingly effective given its simplicity, the main reason for its success is its ability to accommodate rotation response under shear, instead of only stretching of fibers that would be the only response in the affine regime.
+
+The eight-chain model coupled with single chain non-linear force-extension curves shows a good example of the network architecture have an impact in the mechanical response. Similar simulations, but carried away with a fully detailed network architecture extracted from real samples will be interesting. The network structure of these models are over-simplified:
 
 The distribution of end-to-end distances is a delta, taking a mean distance for each chain, same for the contour length.
 The connectivity is eight, or three for the similar three-chain case.
-The angle is fixed as well, and can be tweaked with pre-stress.
+The angle between chains is fixed as well, and can be re-oriented with pre-stress.
 
 % Non-affinity is governed by the micro-architecture of the network, however under shear part of the network architecture can be ignored or is simplified.
 
@@ -545,6 +547,5 @@ distributions gathered from the networks extracted from real images. This allow 
 
 The research question that this work aim to answer is:
 \begin{itemize}
-  \item How to we use real 3D images to extract realistic network architectures?
+  \item How to we use real 3D images to reliably extract realistic network architectures?
 \end{itemize}
-
