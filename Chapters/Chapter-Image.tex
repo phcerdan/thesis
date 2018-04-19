@@ -330,13 +330,6 @@ For our networks, we have found optimal values in:\newline
 Majority = 3, Radius = 1, Iterations = $\infty$ \newline
 The high value of majority and the small neighborhood only fills small holes.
 
-% TODO
-\begin{figure}[!htb]
-  \centering
-  \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_original.png}%
-  \caption{Region Growing Segmentation filling small holes created in the process.}
-  \label{fig:region_growing}
-\end{figure}
 
 
 \section{Skeletonization}%
@@ -359,14 +352,19 @@ of a skeletonization process?
   \item Contain the centers of maximal disks, which can be used for the
   reconstruction of the original object
   \item Stable under small deformation and noise.
-
 \end{enumerate*}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Figures/chapter-image/skeleton_3D_viewer.png}%
+  \caption{Thin image of a pectin network after skeletonization (see \autoref{sub:Pectin}) visualized with a 3D Viewer.}
+  \label{fig:thin_3Dviewer}
+\end{figure}
 
 The most important skeletonization algorithms
 can broadly be classified into three types:
 
 \begin{enumerate}
-
   \item Based on Voronoi diagrams \citep{ogniewicz_hierarchic_1995}.
     These methods search the locus of centers of the maximal disks
     contained in the contour of the object. The skeleton can be
@@ -1073,11 +1071,19 @@ The result is a spatial graph, \autoref{fig:actin_graph} shows a representation 
 
 \textbf{Fit graph data to distributions}
 
-We fit the graph data generated in the analysis to statistical distributions depedning on the propertiy, as described in \autoref{sec:statistical_distributions_of_graph_properties}.
+We fit the graph data generated in the analysis to statistical distributions depending on the property, as described in \autoref{sec:statistical_distributions_of_graph_properties}.
 An estimation of the $R^2$ of the fit using Effron's formula \cite{lindstrom_finite-strain_2013} is shown.
 The degree is fitted the mentioned truncated geometric distribution also showing the percentage of end-nodes, see \autoref{subfig:actin_degree}.
 
-It uses the python script  \citetitle*{phcerdan_fit_to_distribution_from_data_2018} \cite{phcerdan_fit_to_distribution_from_data_2018}.
+It uses the python script  \citetitle*{phcerdan_fit_to_distribution_from_data_2018} \cite{phcerdan_fit_to_distribution_from_data_2018} with parameters:
+
+\begin{minted}{bash}
+export HISTO_ETE_BINS=30
+export HISTO_COSINES_BINS=21
+export HISTO_CONTOUR_BINS=30
+python fit_to_distributions_from_data ${GRAPH_DATA} \
+   ${HISTO_ETE_BINS} ${HISTO_COSINES_BINS} ${HISTO_CONTOUR_BINS} log
+\end{minted}
 
 \begin{figure}[H]
 % \begin{figure}[!htb]
@@ -1123,13 +1129,26 @@ Gels were fixed with 0.1\% Ruthenium Red and phosphate buffered 2.5\% glutaralde
 
 Ion-exchanged sodium carrageenan samples were provided by Dupont. Relevant salt solutions (30 mM KCl  or 300 mM NaCl) were first made by dissolving the required amount of salt in a volumetric flask and using millQ water. The required amount of dry carrageenan in order to produce 1\% w/w solutions was then weighed out and subsequently suspended in the relevant salt solution. The solutions were then heated to \SI{60}{\degreeCelsius} while stirring until all powder was dissolved. This solution was then loaded hot into the requisite sample cells for \gls{TEM}.
 
-The volumetric tomography image used in this study has a size of 1000$\times$1000$\times$32 pixels, with resolution 1.72$\times$1.72$\times$1.72 \nm per pixel.
+The volumetric tomography image used in this study has a size of 896$\times$896$\times$64 pixels, with resolution 0.86$\times$0.86$\times$0.86 \nm per pixel.
+
+\textbf{Denoise:}
+
+We use total variation denoising in these particular TEM images using the python script \citetitle*{phcerdan_denoise_tv_2018} \cite{phcerdan_denoise_tv_2018}, which uses proxTV library \cite{barbero_modular_2014}.
+
+\begin{minted}{bash}
+export TV_LAMBDA=20
+python denoise_tv ${INPUT_IMAGE} ${OUTPUT_FOLDER} ${TV_LAMBDA}
+\end{minted}
+
+Result: \autoref{fig:carra_denoised}.
+
+The rest of the pipeline is the same than for actin \autoref{sub:actin}, changing BIN\_SAFE\_PERCENTAGE, and GRAPH\_SPACING, including the fit to distributons
 
 \begin{minted}{bash}
 ## Region Growing Binarization
 export BIN_RG_LOWER=0.0
 export BIN_RG_UPPER=5000
-export BIN_SAFE_PERCENTAGE=0.2
+export BIN_SAFE_PERCENTAGE=0.05
 ## Hole Filling
 export HOLE_MAJORITY=3
 export HOLE_RADIUS=1
@@ -1140,7 +1159,11 @@ export SKEL_TYPE=1isthmus
 export SKEL_PERSISTENCE=2
 ## Spatial Graph Extraction
 export GRAPH_IGNORE_SHORT_EDGES=1
-export GRAPH_SPACING=""
+export GRAPH_SPACING="0.86E-09 0.86E-09 0.86E-09"
+## Fit graph data to distributions
+export HISTO_ETE_BINS=30
+export HISTO_COSINES_BINS=21
+export HISTO_CONTOUR_BINS=30
 \end{minted}
 
 \begin{figure}[H]
@@ -1225,6 +1248,31 @@ To summarize: a commercially available pectin sample that had a high degree of m
 
 The volumetric tomography image used in this study has a size of 1000$\times$1000$\times$32 pixels, with resolution 1.72$\times$1.72$\times$1.72 \nm per pixel.
 
+The pipeline is the same than for carragenan \autoref{sub:carrageenan}, with the exception of GRAPH\_SPACING
+\begin{minted}{bash}
+# TV denoising
+export TV_LAMBDA=20
+## Region Growing Binarization
+export BIN_RG_LOWER=0.0
+export BIN_RG_UPPER=5000
+export BIN_SAFE_PERCENTAGE=0.05
+## Hole Filling
+export HOLE_MAJORITY=3
+export HOLE_RADIUS=1
+export HOLE_ITERATIONS=10000
+## Skeletonization
+export SKEL_SELECT=dmax
+export SKEL_TYPE=1isthmus
+export SKEL_PERSISTENCE=2
+## Spatial Graph Extraction
+export GRAPH_IGNORE_SHORT_EDGES=1
+export GRAPH_SPACING="1.72E-09 1.72E-09 1.72E-09"
+## Fit graph data to distributions
+export HISTO_ETE_BINS=30
+export HISTO_COSINES_BINS=21
+export HISTO_CONTOUR_BINS=30
+\end{minted}
+
 \begin{figure}[H]
 % \begin{figure}[!htb]
   \centering
@@ -1299,9 +1347,22 @@ The volumetric tomography image used in this study has a size of 1000$\times$100
   \label{fig:pectin_thin}
 \end{figure}
 
-%
-% \section{Conclusions}%
-% \label{sec:conclusions}
+\section{Conclusions}%
+\label{sec:conclusions_image}
+
+We were able to generate an image pipeline to extract the network architecture
+of biopolymers of different scale, proteins and polysaccharides.
+The network architecture is represented as a \gls{Spatial Graph}, containing the connectivity and
+the geometric information to fully describe the network geometry.
+
+Computing some graph properties, degree, end-to-end distances, contour lengths and cosine directors of angles of the different biopolymers, we see that they share the same statistical distribution for those properties. These distributions were reported already for collagen and fibrin networks \cite{lindstrom_finite-strain_2013}, but never in polysaccharides. We think this universality in distributions, which suggests independence from the scale of the polymer, originates from the network formation with cross-links.
+
+The spatial graph can be used by theoreticians as a starting scaffold for dynamic simulations, instead of the over-simplified methods currently used in literature (see \autoref{sec:network_structure} for a survey). This might help for models able to predict the whole range of dynamics in non-affine networks, micro-networks behaviours, and it is able to integrate cross-links dynamics.
+
+All the code is freely available and open to be re-used, modified and improved by interested users, with the only condition that any modification to the source code must be open, for all of us enjoy the improvements.
+
+
+
 % The comparison between the FIRE algorithm in Matlab and Avizo is not trivial.
 % Here I select the most important:
 %
