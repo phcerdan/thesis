@@ -144,19 +144,25 @@ We also apply total variation \cite{barbero_fast_2011, barbero_modular_2014} met
 % Figure with results, one for each process.
 \begin{figure}[!htb]
   \centering
-  \begin{subfigure}{0.5\textwidth}
+  \begin{subfigure}{0.33\textwidth}
     \centering
-    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_original.png}%
-    \caption{Wavelet based}
-    \label{subfig:denoise_wavelet}
+    \includegraphics[width=0.95\textwidth]{Figures/chapter-image/denoise_actin1_original.png}%
+    \caption{Original}
+    \label{subfig:denoise_original}
   \end{subfigure}%
-  \begin{subfigure}{0.5\textwidth}
+  \begin{subfigure}{0.33\textwidth}
     \centering
-    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_original.png}%
-    \caption{Total Variation}
+    \includegraphics[width=0.95\textwidth]{Figures/chapter-image/denoise_actin1_tv1.png}%
+    \caption{Total Variation $\lambda = 1$}
     \label{subfig:denoise_tv}
   \end{subfigure}%
-  \caption{Pre-processing the image: denoising with wavelets and total variation methods.}
+  \begin{subfigure}{0.33\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{Figures/chapter-image/denoise_actin1_wavelet.png}%
+    \caption{Wavelet based}
+    \label{subfig:denoise_wavelet}
+  \end{subfigure}
+  \caption{Pre-processing the image (actin): denoising with wavelets and total variation methods.}
   \label{fig:denoise}
 \end{figure}
 
