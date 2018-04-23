@@ -51,7 +51,7 @@ dominates.
 
 \section{Semiflexible single chains: WLC model}
 Single semiflexible chains can be modeled with great success with the
-\emph{worm-like chain} (WLC) also known as \emph{Kratky-Porod} model.
+\emph{worm-like chain} (WLC) also known as the \emph{Kratky-Porod} model.
 \citep{rubinstein_polymer_2003, schuster_hierarchical_2011}. This model
 describes the single chain as an idealized curve that resists bending. Such
 bending deformations are described by the following Hamiltonian:
@@ -67,7 +67,7 @@ For nearly straight filaments $\frac{\partial \textbf{t}}{\partial s}$ can be
 expressed via the transverse deviation $u(x)$ of the chain from its straight
 conformation. $\frac{\partial \textbf{t}}{\partial s}=u''(x)$. If the chain is
 under a tensional force from one end (and the other end fixed), we can add the
-term $H_{external}=-fL$ to the Hamiltonian, where L being the end to end
+term $H_{external}=-fL$ to the Hamiltonian, with L being the end to end
 distance.
 The Hamiltonian with this force $f_B$ in transverse coordinates is
 \begin{equation}\label{WLC_H}
@@ -78,7 +78,7 @@ where $L_c$ is the contour length of the chain.
 The applicability of equation \ref{WLC_H} must be questioned in some cases since
 it neglects excluded volume (steric repulsion effects) between the
 chain constituents completely \citep{hsu_breakdown_2011}. However, for very stiff
-polymer these excluded volume considerations could be safely ignored.
+polymer these excluded volume considerations can be safely ignored.
 
 Such a chain can respond to transverse and also to longitudinal forces by either
 bending or stretching/compressing.  We can explore further the force-extension
@@ -460,7 +460,7 @@ We will go through the most used methods to emulate network structures used in d
 \label{sub:mikado_networks}
 
 Ubiquitous in the recent past but still present, is to start the model with a random and homogeneous initialization of the network, such as Mikado models \cite{wilhelm_elasticity_2003, astrom_microscopic_1994, schuster_investigating_2012, conti_cross-linked_2009, sharma_strain-controlled_2016, sharma_elastic_2013},
-where fibers of fixed length are thrown into a simulation box until certain density of junctions/intersections is reached (see \autoref{fig:mikado_initial}). Other models used similar random generation, but in 3D \cite{astrom_strain_2008}.
+where fibers of fixed length are thrown into a simulation box until a certain density of junctions/intersections is reached (see \autoref{fig:mikado_initial}). Other models use similar random generation, but in 3D \cite{astrom_strain_2008}.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.4\linewidth]{Figures/chapter-intro/mikado_initial.png}
@@ -493,14 +493,14 @@ The end-to-end distances and the contour lengths can be fully controlled, but th
 \subsection{Eight-chain Models}%
 \label{sub:eight_chain_models}
 
-The eight-chain network model \cite{palmer_constitutive_2008, meng_nonlinear_2016} with a extremely simplified network connectivity is able to successfully capture the mechanical properties of non-affine regimes under shear. However, unable to capture other observed behaviours like negative normal stresses \cite{janmey_negative_2006}, or to model networks with cross-links dynamics, and other micro-network events, which are out of its scope.
+The eight-chain network model \cite{palmer_constitutive_2008, meng_nonlinear_2016} with a extremely simplified network connectivity is able to successfully capture the mechanical properties of non-affine regimes under shear. However, it is unable to capture other observed behaviours like negative normal stresses \cite{janmey_negative_2006}, or to model networks with cross-link dynamics, and other micro-network events, which are out of its scope.
 The eight, or even three-chain models, use non-linear single-chain force-extension curve to model each of its chains, see \autoref{fig:force_extension_CEWLC}. When sheared, the chains can rotate (see \autoref{fig:eight_chain_shear}).
 
-In terms of the network structure, this model is surprisingly effective given its simplicity, the main reason for its success is its ability to accommodate rotation response under shear, instead of only stretching of fibers that would be the only response in the affine regime.
+In terms of the network structure, this model is surprisingly effective given its simplicity. The main reason for its success is its ability to accommodate rotation response under shear, instead of only stretching of fibers that would be the only response in the affine regime.
 
-The eight-chain model coupled with single chain non-linear force-extension curves shows a good example of the network architecture have an impact in the mechanical response. Similar simulations, but carried away with a fully detailed network architecture extracted from real samples will be interesting. The network structure of these models are over-simplified:
+The eight-chain model coupled with single chain non-linear force-extension curves shows a good example of how network architecture can have an impact in the mechanical response. Similar simulations, but carried out with a fully detailed network architecture extracted from real samples would be interesting. The network structure of these models are currently over-simplified:
 
-The distribution of end-to-end distances is a delta, taking a mean distance for each chain, same for the contour length.
+The distribution of end-to-end distances is a delta function, taking a mean distance for each chain and same is true for the contour length.
 The connectivity is eight, or three for the similar three-chain case.
 The angle between chains is fixed as well, and can be re-oriented with pre-stress.
 
@@ -524,26 +524,26 @@ The angle between chains is fixed as well, and can be re-oriented with pre-stres
 \section{Motivation}%
 \label{sec:motivation-intro}
 Non-affinity and network architecture are closely related, which
-is the \textbf{main motivation} behind this work to stablish analytical methods to study images
-from where gather the geometry of networks. This geometry can be used directly in dynamic simulations methods, instead of relying in over-simplified network generators.
+is the \textbf{main motivation} behind this work: establish analytical methods to study images with a view to gathering
+the geometry of networks experimentally. Such geometries could then be used directly in dynamic simulations methods, instead of relying on over-simplified network generators.
 
-The well-established and trusted method to gather structural information of the size of the network
-is scattering, particularly small-angle x-ray scattering (SAXS). Information such as porous
-size and persistence length are at range of these techniques. However, because its
+The well-established and trusted method to gather structural information about networks
+is scattering, particularly small-angle x-ray scattering (SAXS). Extracting information such as porous
+size and persistence length are possible with these techniques. However, because of its
 averaging nature, it is impossible to gather more detailed information about the specific geometry
 and connectivity of the network.
 
 So we will rely on gathering structural information directly from images taken from a range microscopy techniques depending on the size of the biopolymer under study.
-One of the concerns of this approach, shared specially among the scattering community is how trustable the images are, i.e. if they provide a true representation of the material taken into account that the sample has been modified for the requirements of microscopy preparation. We will answer this, providing a way to compare SAXS data with images, setting the scale at which both techniques give similar result, providing a size range where image features can be trusted.
+One of the concerns of this approach, shared specially among the scattering community is how trustable the images are, i.e. if they provide a true representation of the material taken into account that the sample has been modified for the requirements of microscopy preparation. We will answer this, providing a way to compare SAXS data with images, setting the scale at which both techniques give similar results and providing a size range where image features can be trusted.
 
-But before, and in order to study network geometry reliably, we need to provide an image analysis tool-set with algorithms that can be applied to volumetric data, such as tomography and stack of images.
-We will extend to 3D, and in a high-performance computing language, state-of-the-art wavelet analysis algorithms, that will aid in our task of gathering the network architecture from images.
-We then extract in-silico networks from real 3D images.
-These in-silico networks with full details, can be used by theoreticians as starting points for non-affinity modeling, instead of the currently used over-simplified architectures.
-We finish providing a method to reconstruct these networks fully in-silico, just with statistical
-distributions gathered from the networks extracted from real images. This allow exploration and speculation of optimal network architectures for different processes completely in-silico, but rooted on networks found in nature.
+But before, and in order to study network geometry reliably, we need to provide an image analysis tool-set with algorithms that can be applied to volumetric data, such as tomography and stacks of images.
+We will extend to 3D, and in a high-performance computing language, use state-of-the-art wavelet analysis algorithms, that will aid in our task of gathering the network architecture from images.
+Hence realistic in-silico networks will be generated informed by real 3D images.
+These in-silico networks with full details, can then be used by theoreticians as starting points for non-affinity modeling, instead of the currently used over-simplified architectures.
+We finish by providing a method to reconstruct these networks fully in-silico, just with statistical
+distributions gathered from the networks extracted from real images. This will allow the exploration of optimal network architectures for different processes to be carried out in-silico, but rooted on networks found in nature.
 
 The research question that this work aim to answer is:
 \begin{itemize}
-  \item How to we use real 3D images to reliably extract realistic network architectures?
+  \item How can we use real 3D images to reliably extract realistic network architectures?
 \end{itemize}

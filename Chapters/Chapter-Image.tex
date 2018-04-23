@@ -16,13 +16,13 @@ properties and biological functions.
 The goal of this chapter is to explain the algorithms and software used to
 obtain an abstract representation, a \gls{Spatial Graph}, of this architecture from volumetric images taken from any microscopy technique.
 
-A \gls{Spatial Graph} (see \autoref{fig:spatial_graph_intro_1}), is a regular graph, but also including geometrical information of its original position in the image, it is defined by two sets:
+A \gls{Spatial Graph} (see \autoref{fig:spatial_graph_intro_1}), is a graph containing geometrical information about the image from which it is extracted. It is defined by two sets:
 \begin{itemize}[topsep=0pt]
-  \item A set of nodes or vertices (i.e. end-points or junctions), characterized by their spatial position.
-  \item A set of edges (i.e. links), connecting pairs of those nodes. They geometric information is contained in a set ordered edge points, reflecting the path of the connection.
+  \item A set of nodes or vertices (i.e. end-points or junctions), characterizing the spatial position of chain junctions.
+  \item A set of edges (i.e. links), connecting pairs of those nodes. The geometric information is contained in a set of ordered edge points, reflecting the path of the connection.
 \end{itemize}
 
-The graph connectivity is described by an adjacency list \autoref{fig:spatial_graph_intro_2}, with extra labels representing position in nodes, and the set of edge points in the edges.
+The graph connectivity is described by an adjacency list \autoref{fig:spatial_graph_intro_2}, with extra labels representing the position of nodes, and the set of edge points.
 \begin{figure}[!htb]
   \centering
   \begin{subfigure}{0.5\textwidth}
@@ -41,12 +41,12 @@ The graph connectivity is described by an adjacency list \autoref{fig:spatial_gr
   \label{fig:spatial_graph_intro}
 \end{figure}
 
-This representation fully contain all the information needed to describe a network structure, as described elsewhere \cite{palmer_constitutive_2008}:
+The following representation fully contains all the information needed to describe a network structure, as described elsewhere \cite{palmer_constitutive_2008}:
 \begin{enumerate}[topsep=0pt]
-  \item Distribution in the distance between nodes, i.e. end-to-end distances.
-  \item Distribution in the fully extended length of edges, i.e. contour lengths.
-  \item Network connectivity, i.e. degree of a node representing the number of other nodes connected to it.
-  \item Orientation distribution. i.e. angles and director cosines of angles between adjacent edges.
+  \item Distribution of the distance between nodes, i.e. end-to-end distances.
+  \item Distribution of the fully extended length of edges, i.e. contour lengths.
+  \item Network connectivity, i.e. degree of nodes: representing the number of other nodes connected to it.
+  \item Orientation distribution. i.e. angles and direction cosines of angles between adjacent edges.
 \end{enumerate}
 
 To accomplish a reliable extraction of the spatial graph from volumetric images, first we will introduce the image processing analysis used to segment the biopolymer from images, the pre-processing and denoising steps in \autoref{sec:denoising} and the binarization in \autoref{sec:segmentation}.
@@ -54,13 +54,14 @@ To accomplish a reliable extraction of the spatial graph from volumetric images,
 Secondly, we present the thinning or skeletonization
 algorithm developed for creating a thin (one-pixel wide) image representation of the network in \autoref{sec:skeletonization}.
 
-Thirdly, from the thin image, we will get the abstract representation in \autoref{sec:spatial_graph_extraction}, in form of the described \gls{Spatial Graph}.
+Thirdly, from the thin image, we extract the abstract representation in \autoref{sec:spatial_graph_extraction}, in form of the described \gls{Spatial Graph}.
 
-We can compute any \gls{graph} property from our spatial graph using the tool-set of complex networks,
-from degree distribution to clustering coefficient, but also the spatial information allow us to compute geometric quantities, such as distance between nodes or angle between adjacent edges.
+Once extracted we can compute any \gls{graph} property from our extracted spatial graph using the tool-set of complex networks,
+from degree distribution to clustering coefficient. In addition also the spatial information allows us to compute geometric quantities, such as distance between nodes or angle between adjacent edges.
 
-Finally, we will compute in \autoref{sec:statistical_distributions_of_graph_properties} statistical distributions from our graph, degree, end-to-end distances, contour lengths and director cosines, that capture, in an analytical form, the network architecture.
+Finally, we will compute (in \autoref{sec:statistical_distributions_of_graph_properties}) statistical distributions from our extracted graphs: degrees, end-to-end distances, contour lengths and director cosines, that capture, in an analytical form, the network architecture.
 
+\textbf{Outline:}
 \begin{enumerate}
   \item \hyperref[sec:denoising]{Denoising}
 
@@ -180,7 +181,7 @@ to a binarization task: separate background and noise from the biopolymer object
 
 Easier doesn't mean easy though, grouping all the information into two clusters is inherently hard.
 We look for an intensity value that acts as a threshold for the two groups.
-If the intensity along the image is not equalized, it might happen that objects with absolute lower intensity are lost.
+If the intensity along the image is not bright-normalized, it might happen that objects with absolute lower intensity are lost.
 This is the reason we will use a local approach, using a region growing algorithm, where we first select seeds in the middle of our object of interest, and the algorithm will grow those seeds to fill the whole region of interest, based on intensity differences between neighbor pixels and the seeds.
 
 Any binarization filter is seriously affected by noise present in the images. That is why the pre-processing and denoising step is fundamental to get a reliable result from this process.
@@ -248,15 +249,14 @@ $0$ to black.
   \end{subfigure}%
 \end{minipage}
 
-\caption[Different threshold values on networks]{Different threshold values in
-Actin network.
+\caption[Different threshold values on networks]{Different threshold values applied to a confocal image of an actin network.
 $T_P$ is a normalized threshold value, if $G_{max}$ is the brightest pixel, then
 $T=T_P\cdot P_{max}$. According to eq \ref{eq:bin}, any pixel which value is greater than T transforms to $1$
 (white) after the binary filter.
 At low values of threshold (case \subref{bin001}), we have blurred networks, but
 at high values (case \subref{bin020}), some connectivity information is lost.
-The case \subref{binotsu} corresponds to the threshold calculated by the Otsu's
-method } 
+The case \subref{binotsu} corresponds to the threshold calculated by Otsu's
+method.}
 \label{fig:binary}
 \end{figure}
 
@@ -267,7 +267,7 @@ foreground and background pixels to establish an optimum threshold
 of thresholding. Further classification of thresholding is based on:
 \begin{itemize}
   \item \textbf{Histogram shape.} Peaks, valleys and curvatures of the smoothed
-  gray-level histogram are analyzed. \emph{Peak-and-valley}
+  gray-level histogram are analyzed. \emph{Peak-and-valley}.
   \item \textbf{Clustering.} The gray levels are clustered in two parts, one
   corresponding to the background and the other to the foreground. This method
   analyses separately each cluster. \emph{Otsu, Minimum error, fuzzy}.
@@ -303,7 +303,7 @@ Raudsepp using confocal microscopy on actin.
 \subsubsection{Region Growing Segmentation}%
 \label{subsub:region_growing_segmentation}
 
-The risk of region growing algorithms is to plant a seed outside our foreground objects, we have found ideal to plant the seeds with a normalized threshold $T_p$, so we don't have to fine tune the lower threshold too much. The results are quite resilient against small changes of these parameters, where a pure thresholding approach will suffer a lot of variation and be prone to noise artifacts.
+The risk of region growing algorithms is that a seed will be planted outside our foreground objects. However, we have found planting the seeds with a normalized threshold $T_p$ we don't have to fine tune the lower threshold too much. The results are quite resilient against small changes of these parameters, where a pure thresholding approach will suffer a lot of variation and be prone to noise artifacts.
 
 Using \href{https://itk.org/Doxygen/html/classitk_1_1ConnectedThresholdImageFilter.html}{itk::ConnectedThresholdImageFilter} with the script:
 \href{https://github.com/phcerdan/ITKfilters/blob/master/scripts-cpp/regionGrowingSegmentation.cxx}{regionGrowingSegmentation.cxx}
@@ -311,8 +311,8 @@ Using \href{https://itk.org/Doxygen/html/classitk_1_1ConnectedThresholdImageFilt
 \noindent\textbf{Parameters:}
 
 \begin{itemize}[topsep=0pt]
-  \item \textbf{Lower threshold} and \textbf{upper threshold: } The region won't grow into pixels outside these limits. Combined with a conservative $T_p$ for initial seeds the results does not change with small variation of these parameters.
-  \item \textbf{Normalized Threshold $T_p$ for initial seeds: } Create initial seeds based on a normalized binary threshold. This should take a conservative low value, the region will grow anyway from these seeds to fill the object.
+  \item \textbf{Lower threshold} and \textbf{upper threshold: } The region won't grow into pixels outside these limits. Combined with a conservative $T_p$ for initial seeds the results do not change with small variation of these parameters.
+  \item \textbf{Normalized Threshold $T_p$ for initial seeds: } Create initial seeds based on a normalized binary threshold. Taking a conservative low value, the region will grow from these seeds to fill the object.
 \end{itemize}
 
 \subsection{Hole Filling}%
@@ -348,7 +348,7 @@ images.\citep{bai_skeleton_2007,golland_fixed_2000,ge_generation_1996}. The
 skeletonization is very sensitive to noise and boundary deformations, which generates redundant skeleton branches that disturb the
 topology of the skeleton graph (Fig.\ref{fig:skeleton-fixedtopo}(b)).
 
-To overcome this instability, the methods used are based on skeleton pruning,
+To overcome this instability, methods are used that are based on skeleton pruning,
 i.e. eliminating the spurious branches. What are then the desirable properties
 of a skeletonization process?
 \begin{enumerate*}[label=\textbf{\alph*)}]
@@ -442,7 +442,7 @@ Based on this framework we also implement the concept of persistence of a voxel 
 
 Let $i$ be the generation (see \autoref{fig:algo_persistence}) at which a voxel $x$ becomes an isthmus for the first time, we name it \textit{birth date} $b(x) = i$ of the voxel. In a later generation $j$ of the thinning process, the voxel might become deletable, we call it \textit{death date} $d(x) = j$.
 The definition of \textit{persistence} of a voxel is the difference between death and birth date, $p(x) = d(x) - b(x)$.
-We can choose to only keep isthmuses that have a persistence greater than a selected threshold. This persistence can be interpreted as a relative measure of the elongation of an object. With the persistence parameter, the user decides how much the elongation of an object must exceed its width to be preserved. This effectively prune short and insignificant branches.
+We can choose to only keep isthmuses that have a persistence greater than a selected threshold. This persistence can be interpreted as a relative measure of the elongation of an object. With the persistence parameter, the user decides how much the elongation of an object must exceed its width to be preserved. This effectively prunes short and insignificant branches.
 
 \begin{figure}[!htb]
   \centering
@@ -475,15 +475,15 @@ The \textit{Select} function chooses a voxel from a given pool. This is necessar
 \begin{itemize}[topsep=0pt]
   \item \textbf{selectRandom: } Given a set of voxels (a clique), chooses one at random.
   \item \textbf{selectFirst: } Select the first voxel in lexicographical order.
-  \item \textbf{selectMaxValue: } Select a voxel with the max value of another user-defined function. We will use this wrap to use a distance map (See \autoref{subsub:distance_maps})
+  \item \textbf{selectMaxValue: } Select a voxel with the max value of another user-defined function. We will use this wrap to use a distance map (see \autoref{subsub:distance_maps}).
 \end{itemize}
 
 The \textit{Skel} function provides a way to keep voxels that we want preserve in the final skeleton.
 
 \begin{itemize}[topsep=0pt]
-  \item \textbf{skelUltimate: } Null, only preserve voxels which removal alters the topology.
+  \item \textbf{skelUltimate: } Null, only preserve voxels whose removal alters the topology.
    The result of the thinning in a solid object without holes and no branches is just one voxel.
-  \item \textbf{skelEnd: } Preserve voxels that has only one neighbor.
+  \item \textbf{skelEnd: } Preserve voxels that have only one neighbor.
   \item \textbf{OneIsthmus: } Preserve 1-isthmus voxels.
   \item \textbf{TwoIsthmus: } Preserve 2-isthmus voxels.
   \item \textbf{skelIsthmus } Preserve 1 and 2-isthmus voxels.
@@ -495,7 +495,7 @@ The \textit{Skel} function provides a way to keep voxels that we want preserve i
 \includegraphics[width=0.8\textwidth]{Figures/chapter-image/skeleton-fixedtopo_letters.png}%
 \caption[Skeletonization]{Skeletonization process. (a) Distance
 map. (b) Traditional skeleton with no pruning. (c) Skeleton generated using
-fixed topology methods. From Ref.\citep{bai_skeleton_2007,golland_fixed_2000}}
+fixed topology methods. From Ref.\citep{bai_skeleton_2007,golland_fixed_2000}}.
 \label{fig:skeleton-fixedtopo}
 \end{center}
 \end{figure}
@@ -571,11 +571,11 @@ been simplified from real to integers for clarity.
 \end{minipage}
 
 \caption[Distance map - Actin]{ Distance maps calculated from binarized images
-with different normalized thresholds $T_P$}
+with different normalized thresholds $T_P$}.
 \label{fig:distancemap}
 \end{figure}
 
-We use a distance map for our \textit{Select} skeletonization function, to first select the voxels which have max value in the distance map. This traduces to select the voxels in the median axis, so it is ensured to get a centered skeleton.
+We use a distance map for our \textit{Select} skeletonization function, to first select the voxels which have max value in the distance map. This selects the voxels in the median axis, so it ensures obtaining a centered skeleton.
 
 \subsection{Testing other thinning algorithms}%
 \label{sub:testing_other_thinning_algorithms}
@@ -595,8 +595,8 @@ FIRE has been developed in Matlab by Andrew M. Stein
 
  \begin{enumerate}[label=\textbf{\Alph*}]
 
- \item \textbf{Smooth filter} Smooth the image with a Gaussian filter
- \item \textbf{Binarization threshold} Keep a percentage of the brightest pixels
+ \item \textbf{Smooth filter} Smooth the image with a Gaussian filter.
+ \item \textbf{Binarization threshold} Keep a percentage of the brightest pixels.
  \item \textbf{Distance map D} Distance map using Euclidean distance. It
  assigns a value to each pixel equal to the distance from that pixel to the nearest black value.
 
@@ -604,7 +604,7 @@ FIRE has been developed in Matlab by Andrew M. Stein
  local maxima of the distance map $D(\vect{u})$. The locality is defined by a
  box of chosen radius $s_{xbox}=5$. They are only selected if they
  exceed a tunable threshold $\theta_{nuc}=2$. A single nucleation point of
- value $4$ is denoted by the thick circle in \ref{fig:fire_LMPS}\subref{LMP1}
+ value $4$ is denoted by the thick circle in \ref{fig:fire_LMPS}\subref{LMP1}.
 
  \item \textbf{Extension of branches LMPs} The next step is to trace the
  branches, extending from the nucleation points. To do that FIBER finds a set of
@@ -614,7 +614,7 @@ FIRE has been developed in Matlab by Andrew M. Stein
  See Fig. \ref{fig:fire_LMPS}\subref{LMP1}. LMPs are then extended with other
  LMPs only if the direction of extension is straight enough
  (Fig. \ref{fig:fire_LMPS}\subref{LMP2}). If there is no LMP with that
- condition, or it arrives other nucleation point, the iteration ends.
+ condition, or it arrives at another nucleation point, the iteration ends.
  \end{enumerate}
 
 
@@ -646,13 +646,13 @@ FIRE has been developed in Matlab by Andrew M. Stein
  confocal stacks obtained from actin networks. For testing purposes, the images
 have been cropped due to the slowness of FIRE
 processing big networks. From an original image of Actin of
-$V=1024\times1024\times39$, we have cropped it to $V=200\times200\times20$. 
+$V=1024\times1024\times39$, we have cropped it to $V=200\times200\times20$.
 
 In Fig.\ref{fig:fire_stepbystep} we can see the different steps of the FIRE
 algorithm. In Fig.\ref{fig:fire_histograms} we plot the statistical distribution
 of length and degree for different thresholds $T_P$. Further analysis is
-required, and a bigger network for better statistics, but it seems that length
-follow a log-normal distribution, and the degree, a geometrical distribution. We
+required, and a bigger network for better statistics, but it seems that distance between nodes
+follows a log-normal distribution, and the degree, a geometrical distribution. We
 will say more about distributions in chapter \ref{Chapter-Reconstruction}.
 
  \begin{figure}[!htb]
@@ -996,13 +996,13 @@ analyze_graph --input ${OUTPUT_SKELETONIZATION} \
  --spacing ${GRAPH_SPACING}
 \end{minted}
 
-\textit{exportData} compute the graph properties: degree, end-to-end distances, contour lengths, angle and cosine directors, and save them into a file.
+\textit{exportData} computes the graph properties: degree, end-to-end distances, contour lengths, angle and cosine directors, and saves them into a file.
 
-\textit{exportReducedGraph} outputs the spatial graph in a .dot (graphviz) format, similar to \autoref{fig:spatial_graph_intro_2}, that be read by any graph library.
+\textit{exportReducedGraph} outputs the spatial graph in a .dot (graphviz) format, similar to \autoref{fig:spatial_graph_intro_2}, that can be read by any graph library.
 
-\textit{removeExtraEdges} applies the removal of diagonal edges at intersection, as described in \autoref{subfig:graph_raw_merged}.
+\textit{removeExtraEdges} applies the removal of diagonal edges at intersections, as described in \autoref{subfig:graph_raw_merged}.
 
-The result is a spatial graph, \autoref{fig:actin_graph} shows a representation of that graph without representing contour lengths, lines are just straight lines connecting end-to-end nodes. Node glyphs are not represented to avoid cluttering the 3D scene.
+The result is a spatial graph. \autoref{fig:actin_graph} shows a representation of that graph without representing contour lengths, instead lines are just straight lines connecting end-to-end nodes. Node glyphs are not represented to avoid cluttering the 3D scene.
 
 
 % \begin{minted}{bash}
@@ -1079,7 +1079,7 @@ The result is a spatial graph, \autoref{fig:actin_graph} shows a representation 
 
 We fit the graph data generated in the analysis to statistical distributions depending on the property, as described in \autoref{sec:statistical_distributions_of_graph_properties}.
 An estimation of the $R^2$ of the fit using Effron's formula \cite{lindstrom_finite-strain_2013} is shown.
-The degree is fitted the mentioned truncated geometric distribution also showing the percentage of end-nodes, see \autoref{subfig:actin_degree}.
+The degree is fitted to the mentioned truncated geometric distribution also showing the percentage of end-nodes, see \autoref{subfig:actin_degree}.
 
 It uses the python script  \citetitle*{phcerdan_fit_to_distribution_from_data_2018} \cite{phcerdan_fit_to_distribution_from_data_2018} with parameters:
 
@@ -1121,6 +1121,8 @@ python fit_to_distributions_from_data ${GRAPH_DATA} \
   \caption{Statistical distributions (PDF) of actin network.}
   \label{fig:actin_thin}
 \end{figure}
+% TODO: Increase label size in python.
+% TODO: Discuss the difference between green and orange lines. Fit versus parameters.
 
 \subsection{TEM preparation}%
 \label{sub:tem_preparation}
@@ -1148,7 +1150,7 @@ python denoise_tv ${INPUT_IMAGE} ${OUTPUT_FOLDER} ${TV_LAMBDA}
 
 Result: \autoref{fig:carra_denoised}.
 
-The rest of the pipeline is the same than for actin \autoref{sub:actin}, changing BIN\_SAFE\_PERCENTAGE, and GRAPH\_SPACING, including the fit to distributons
+The rest of the pipeline is the same than for actin \autoref{sub:actin}, changing BIN\_SAFE\_PERCENTAGE, and GRAPH\_SPACING, including the fit to distributions.
 
 \begin{minted}{bash}
 ## Region Growing Binarization
@@ -1245,6 +1247,7 @@ export HISTO_CONTOUR_BINS=30
   \caption{Statistical distributions (PDF) of Carrageenan K network.}
   \label{fig:carra_thin}
 \end{figure}
+% TODO: Two points in degree for Carrageenan.
 
 \subsection{Pectin}%
 \label{sub:Pectin}
@@ -1357,16 +1360,15 @@ export HISTO_CONTOUR_BINS=30
 \label{sec:conclusions_image}
 
 We were able to generate an image pipeline to extract the network architecture
-of biopolymers of different scale, proteins and polysaccharides.
+of biopolymer networks of different scales, both for proteins and polysaccharides.
 The network architecture is represented as a \gls{Spatial Graph}, containing the connectivity and
 the geometric information to fully describe the network geometry.
 
 Computing some graph properties, degree, end-to-end distances, contour lengths and cosine directors of angles of the different biopolymers, we see that they share the same statistical distribution for those properties. These distributions were reported already for collagen and fibrin networks \cite{lindstrom_finite-strain_2013}, but never in polysaccharides. We think this universality in distributions, which suggests independence from the scale of the polymer, originates from the network formation with cross-links.
 
-The spatial graph can be used by theoreticians as a starting scaffold for dynamic simulations, instead of the over-simplified methods currently used in literature (see \autoref{sec:network_structure} for a survey). This might help for models able to predict the whole range of dynamics in non-affine networks, micro-networks behaviours, and it is able to integrate cross-links dynamics.
+The spatial graph can be used by theoreticians as a starting scaffold for dynamic simulations, instead of the over-simplified methods currently used in literature (see \autoref{sec:network_structure} for a survey). This might help for models able to predict the whole range of dynamics in non-affine networks.% micro-networks behaviours, and it is able to integrate cross-links dynamics.
 
-All the code is freely available and open to be re-used, modified and improved by interested users, with the only condition that any modification to the source code must be open, for all of us enjoy the improvements.
-
+All the code is freely available and open to be re-used, modified and improved by interested users, with the only condition that any modification to the source code must be open, for all of us to enjoy the improvements.
 
 
 % The comparison between the FIRE algorithm in Matlab and Avizo is not trivial.

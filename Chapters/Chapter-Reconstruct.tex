@@ -15,16 +15,16 @@ Distributions}} % Change X to a consecutive number; this is for the header on ea
 
 \section{Methods}
 
-The  software used, has been independently developed here, but is based on the
+The software used in this chapter, has been independently developed here, but is based on the
 idea of \citet{lindstrom_biopolymer_2010} about reconstructing the network
 architecture of polymers networks from a statistical description. They were
-based on \citet{yeong_reconstructing_1998,yeong_reconstructing_1998-1} work
-about  reconstructing random porous media.\\
-The input for the reconstruction is the
+based on the work of \citet{yeong_reconstructing_1998,yeong_reconstructing_1998-1}
+about reconstructing random porous media.\\
+The input for the in-silico reconstruction of biopolymer networks is the
 statistical distributions of $3$ properties in this case. This is the minimal
-set to reconstruct the correct architecture of the network to study the
-mechanical properties, but other parameters could be added to study other or
-more complex situations.  For example, if the structure of the edges / chains is
+set of information required to reconstruct the architecture of the network to study the
+mechanical properties (but other parameters could be added to study other or
+more complex situations). For example, if the structure of the edges / chains is
 heterogeneous  (bio-functional areas, or different charge distribution), extra
 statistical distributions can be added with minimal effort.
 
@@ -44,8 +44,7 @@ should be obtained from the image analysis:
 \item \textbf{Degree of nodes $N(p)$.} i.e. number of edges per node
 or cross-link.
 \item \textbf{Length of edges $P(\ell$).} Length of the edges
-between connected
-% nodes.
+between connected nodes.
 There are two options to define this length.
 \begin{itemize}
 \item End to end vector distance (EtE-length). Consider the edge as a straight
@@ -55,49 +54,53 @@ line between nodes.
 usually curved.
 \end{itemize}
 
-The difference between both is less that one
+In fact for many examples the difference between these is less than one
 might have expected at a first glance. \citet{nisslert_identification_2007},
 who use a different reconstructing algorithm, report that straight and curved
 lengths have similar distribution, although the straight lines were about a
 $15\%$ shorter.\\
-I expect that high flexibility of the chains and/or low density of cross-links
-will increase the differences between them. Biopolymer are semi-flexible, stiff
+I expect that high flexibility of chains and/or low density of cross-links
+would increase the differences between them. Biopolymers tend to be semi-flexible, stiff
 enough to keep this difference low.
-In any case, if both cases are following the same distribution is just a matter
-of scaling the length parameters.\\
 The difference between these lengths can be used as a measure of the
 persistence length (\gls{Lp}) of the chains.
 
 
 \item \textbf{Cosine director $B(\beta$)} between incident edges. Takes into
-account the relative orientation of the edges incident to a node.
+account the relative orientation of the edges incident on the same node.
 
 
 \end{enumerate}
 
-These parameters can be obtained using \textbf{image analysis} of data from
-\gls{confocal}, transmission electron microscopy (\gls{TEM}) or
-scanning electron microscopy \gls{SEM}. See chapter \ref{Chapter-Image} for
-more information about this process.
+As described in this thesis, these distributions can be obtained using \textbf{image analysis} of data from
+\gls{confocal}, or transmission electron microscopy (\gls{TEM}). See chapter \ref{Chapter-Image} for
+more information about this.
 
-The following distributions are used to develop the software as seen in
-Lindstrom's paper \citep{lindstrom_biopolymer_2010}. He chose these
-distributions because they fit the data taken from image analysis of collagen I, but they make
-no claim about their use in other systems. I have noticed differences comparing
- the collagen distribution proposed here with our data in actin networks. The
- direction cosines distribution has a lot of variability, and it seems to
- follow a different distribution, however the degree and length distribution
- have similar shape in both systems.
+The distributions used herein to develop the reconstruction software are those seen originally in
+Lindstrom's paper \citep{lindstrom_biopolymer_2010}. These
+distributions were selected because they fitted the data taken from image analysis of collagen I, but
+no claim about their use in other systems was made.
+% It is worth noting that I have noticed differences comparing
+% the collagen distribution proposed here with our data in actin networks. The
+% direction cosines distribution has a lot of variability, and it seems to
+% follow a different distribution, however the degree and length distribution
+% have similar shape in both systems.
+
+It is worth reiterating that with the work described in this thesis, experimentally obtained distributions
+describing the architectures of biopolymer networks can be extracted. Whatever functional forms are found to
+faithfully represent the experimental data can be used to reconstruct in-silico networks. However, given the
+similarities in the distributions we have found in \autoref{Chapter-Image} for very different biopolymer networks
+we chose here to demonstrate the reconstruction using the following:
 
 
 \begin{enumerate}
-\item \textbf{$N(p)$}. The \textbf{node degree} follow a shifted geometric
+\item \textbf{$N(p)$}. The \textbf{node degree} modelled with a shifted geometric
 distribution.
 
 \begin{equation} \label{degree-dist}
 N(p)=q(1-q)^{p-3}
 \end{equation}
-where $q=1/(Z-2)$ , and Z is the average node degree.
+where $q=1/(Z-2)$, $p$ is the degree of the node - how many other nodes it is directly connected to - and Z is the average node degree.
 
 The distribution is shifted because the minimum degree of a node is
 $p=3$. The case $p=1$ corresponds to dead-ends nodes, and $p=2$ correspond to
@@ -107,23 +110,20 @@ connecting the neighbors of this bending node between them. Some information is 
 process if we are characterizing the length of edges by end to end
 vectors.
 
-\item \textbf{$P(\ell)$} The \textbf{length distribution} was found to be
-logarithmic-normal
+\item \textbf{$P(\ell)$} The \textbf{length distribution} modelled as a
+logarithmic-normal distribution.
 \begin{equation} \label{length-dist}
 P(\ell)=\frac{1}{\ell
 s\sqrt{2\pi}}\exp{\bigg[-\frac{(\mu-\ln{\ell})^2}{2s^2}\bigg]}
 \end{equation}
 where $\mu$ and s are the mean and standard deviation of $\ln{\ell}$
 respectively.
-A gamma distribution \( P(\ell) = \frac{\ell^{\alpha - 1}\exp(-\ell/\beta)}{\Gamma(\alpha)\beta^\alpha} \) is also feasible to describe the lengths,
-log-normal and gamma distributions are similar and has been used
-interchangeably to describe some natural processes \cite{cho_comparison_2004}.
-We prefer the log-normal because it fits better in most cases and its two parameters
+A gamma distribution \( P(\ell) = \frac{\ell^{\alpha - 1}\exp(-\ell/\beta)}{\Gamma(\alpha)\beta^\alpha} \) is also feasible to describe the lengths. We prefer the log-normal because it fits better in most cases and its two parameters
 relate directly with computable network parameters.
 
 %CHECK THAT LINDSTROM SAYS THAT \ell is normalized by n^{-1/3}
-\item \textbf{$B(\beta)$} The \textbf{director cosines distribution} could be
-represented by a truncated power series in the case of collagen.
+\item \textbf{$B(\beta)$} The \textbf{direction cosines distribution} has been modelled by
+  a truncated power series.
 \begin{equation} \label{cosines-dist}
 B(\beta)=\sum_{k=1}^{m} b_k(1-\beta)^{2k-1}
 \end{equation}
@@ -137,18 +137,19 @@ independent parameters:
 $\mu$, s, $Z$, $b_1$ and $b_2$.
 
 
-The output of the algorithm is a network or spatial \gls{graph}, which is formed
+The output of the algorithm constructed is a network or spatial \gls{graph}, which is formed
 by $2$ sets: a set of nodes, containing the nodes
 position and the degree; and a second set of edges, which connect pair of
 nodes. The software
 does not allow parallel edges, i.e. two edges connected the same pair of nodes,
-and the network is fully connected,  there are no nodes or clusters of nodes
-isolated  from the rest of the network. Not allowing parallel edges could be
-unrealistic in some situations, to deal with that, edges could be characterized
-by a thickness parameter, this parameter could be associated to the number of
-parallel edges merging in that edge.
+and the network is fully connected, there are no nodes or clusters of nodes
+isolated  from the rest of the network.
+%Not allowing parallel edges could be
+%unrealistic in some situations, to deal with that, edges could be characterized
+%by a thickness parameter, this parameter could be associated to the number of
+%parallel edges merging in that edge.
 \section{Euclidean Graph Generation Algorithm}
-The Euclidean graph generation (EGG) algorithm is used to reconstruct a $3D$
+The Euclidean graph generation (EGG) algorithm reconstructs a $3D$
 network on a periodic cube domain $\Sigma$ of size $\Lambda$. The algorithm uses
 a Monte Carlo method with Simulated annealing, this is a general heuristic
 method for global optimization which avoids the convergence to local minimums on
@@ -156,7 +157,7 @@ the energy landscape.
 
 The following steps describe the algorithm:
 \begin{enumerate}[label=\textbf{\Roman*}]
-  \item A \textbf{initial graph configuration $H_0$} is generated by placing
+  \item An \textbf{initial graph configuration $H_0$} is generated by placing
   nodes drawn from a randomly uniform distribution inside the domain $\Sigma$. Then a
   valency drawn from the degree distribution $N(p)$ is assigned to each node.
   And finally, pairs of nodes are connected by edges, but not exceeding the
@@ -170,7 +171,7 @@ The following steps describe the algorithm:
     \begin{enumerate}[label=\textbf{\alph*)}]
     \item Remove at random two edges from $H$ and then add other two edges
     without changing the valence of the nodes. This hard constraint only allows
-    $2$ possible edge configuration.
+    $2$ possible edge configurations.
     \item Move the position of a node a random distance in the range $[0,\rho]$,
     where $\rho$ can be tuned to enhance convergence.
 
@@ -203,15 +204,15 @@ The following steps describe the algorithm:
 \end{enumerate}
 
 \section{Results}
-The code engine has been successfully tested, and it is able to
-generate a network from the $3$ statistical distributions. To test it, we have
-used the distributions that \citet{lindstrom_biopolymer_2010} propose for their
+A code engine was written and has been successfully tested,
+generating a network from the three statistical distributions described.
+To test it, we have used the distributions that
+\citet{lindstrom_biopolymer_2010} propose for their
 the collagen data. In Fig.\ref{fig:collagen-network}\subref{collagen_param} we
 can see a reduction of $99.9\%$ from the initial graph energy $E(H_0)$ to the
 final graph, that as we can see in Fig.
-\ref{fig:collagen-distributions} successfully follow the target distributions.
-Note that the
-simulated and target-distributions are superimposed with each other, no fit is involved.
+\ref{fig:collagen-distributions} successfully follows the target distributions.
+Note that the simulated and target-distributions are superimposed with each other, no fit is involved.
 
 \begin{figure}[h!]
   \centering
@@ -258,7 +259,7 @@ between target distributions and simulated results in the reconstructed collagen
 network.
 \subref{collagen_length} Length Distribution $P(\ell)$.
 \subref{collagen_degree} Degree distribution $N(p)$.
-\subref{collagen_cosines} Director cosines distribution $B(\beta)$.
+\subref{collagen_cosines} Direction cosines distribution $B(\beta)$.
 }
 \label{fig:collagen-distributions}
 \end{figure}
