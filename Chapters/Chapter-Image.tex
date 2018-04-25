@@ -695,12 +695,12 @@ actin netwoks.}
 
 A useful statistical distribution is the one studying the angles between edges
 that are incident to the same node. I am currently working on a way to extract
-the director cosines (angles) distribution from FIRE.
+the direction cosines (angles) distribution from FIRE.
 
 \subsubsection{Avizo: XSkeleton}
  Avizo is a software commercialized by
  \href{http://www.vsg3d.com/avizo/overview}{FEI: Visualization Sciences Group}.
-The access to Avizo is granted by a collaboration with Fonterra (Food company,
+Access to Avizo was obtained through a collaboration with Fonterra (Food company,
 NZ).
 
 \textbf{XSkeleton} is the package or module that we will use to extract the
@@ -710,10 +710,10 @@ follows a description step by step:
  \item\textbf{Smooth filter} Smooth the image with a Gaussian filter
  \item\textbf{Binarization threshold} Multi-threshold module. This threshold is
  not based in percentage of the brightest pixel. It is a classical threshold turning
- to pure white $255$ or logical $1$ all pixels with a value greatest than the
- threshold value, and black $0$ all the pixels below that value.
+ to pure white $255$ all pixels with a value greater than the
+ threshold value, and black all the pixels below that value.
  \item\textbf{Distance map} Distance map using Euclidean distance. It assigns a
- value to each pixel equal to the distance from that pixel to the nearest black value. 
+ value to each pixel equal to the distance from that pixel to the nearest black value.
  \item\textbf{Thinner module} This is the \textbf{skeletonization} step. The
  module takes as input a label-field to be thinned and a distance map scalar field. It removes voxel by voxel from the segmented
  object until only a string of connected voxels remains.
@@ -724,7 +724,7 @@ follows a description step by step:
  voxels are automatically considered as noise and removed.  Setting this to 10,
  which is a rather large value, leads to only a few branches remaining in the
  skeleton.  The drawback is that you also might miss real endpoints.
- 
+
 \item\textbf{Trace lines module} Converts an image that contains lines
 represented by voxels into a spatial graph object.
 
@@ -733,7 +733,7 @@ represented by voxels into a spatial graph object.
 \begin{figure}[!htb]
 
 % \begin{minipage}{0.5\textwidth}
- 
+
 \includegraphics[width=0.9\textwidth]{Figures/chapter-image/avizo/workspace-wholedata.png}%
 
 \caption[Avizo image: Actin network visualization and workspace]{Avizo
@@ -833,14 +833,14 @@ changes in the important parameters.
 
 From the skeletonization we get a thin image, where all the pixels belonging to an object in the binary image are reduced to a thin representation of it, in the sense that this generated skeleton is one-pixel wide.
 
-From here, our task is to transform this thin image or skeleton into a \gls{graph}. A set of nodes connected to each other through edges. The first step, and also contributed to the DGtal library by the author is to get what we denominate a \textbf{raw graph}, a graph where each node is a voxel of the skeleton, and neighbor voxels have an edge connecting them.
+From here, our task is to transform this thin image or skeleton into a \gls{graph}. A set of nodes connected to each other through edges. The first step, and also contributed to the DGtal library by the author is to obtain a \textbf{raw graph}, a graph where each node is a voxel of the skeleton, and neighbor voxels have an edge connecting them.
 
-For regular images, this raw graph is enormous, imagine a voxel in the interior of an object, this voxel will have 26 edges (degree = 26) connecting it to its surrounding nodes.
+For regular images, this raw graph is enormous, imagine a voxel in the interior of an object, assuming we are working with a fully connected topology, this voxel would be in the center of a $3\times3\times3\times$ cube of voxels, having 26 connected neighbors, i.e. 26 edges or degree = 26. These neighbors voxels are nodes as well, and might be connected to others.
 But for thin images, where the number of voxels is greatly reduced, this allow us to start using tools from graph theory to extract a more meaningful graph, a \gls{Spatial Graph}.
 
 In a \gls{Spatial Graph} only nodes with degree different than 2 are considered vertices (see \autoref{fig:spatial_graph}). These end (degree = 1) and junction (degree > 2) nodes are connected to similar nodes via \glspl{Spatial Edge}, where the bending points (degree = 2) connecting those are stored in the spatial edge as \textbf{edge points} (see \autoref{fig:spatial_graph_intro_2} for an example). The rest of vertices are kept with the same connectivity as \glspl{Spatial Node}, adding its index or spatial position from the image.
 
-This transform uses a Depth First Search (\gls{DFS}) visit, starting from end-points vertices (degree=1), it follows the connected neighbors (chain-nodes of degree 2) until it reaches another end-point or another vertex with degree 3 or more. When this happen, two \glspl{Spatial Node} are added to the new \gls{Spatial Graph} (the source where we started and the end node), and one \gls{Spatial Edge}, containing all the visited 2-degree pixels.
+This transform uses a Depth First Search (\gls{DFS}) visit, starting from end-points vertices (degree=1), it follows the connected neighbors (chain-nodes of degree 2) until it reaches another end-point or another vertex with degree 3 or more. When this happens, two \glspl{Spatial Node} are added to the new \gls{Spatial Graph} (the source where we started and the end node), and one \gls{Spatial Edge}, containing all the visited 2-degree pixels.
 
 We keep visiting the raw graph with the \gls{DFS} algorithm, where the visited nodes are marked to avoid re-visiting them. We follow on with any non-visited junction nodes (degree > 2). And to finish, we search for any self-loops, circular structures where all nodes have degree 2. Because the graph doesn't allow self-loops, edges where source and target are the same node, we encode the self-loop into two nodes, the first is the original vertex, and the second one is created in the median of the \gls{Spatial Edge}. So these self loops are two nodes with two parallel edges of about the same number of edge-points between them.
 
@@ -874,7 +874,7 @@ The original \textbf{Raw Graph} can be optionally post-processed, if there are t
   \label{fig:spatial_graph}
 \end{figure}
 
-The spatial graph give access to the complete network geometry, plus also allow us to analyze the architecture with sharper tools.
+The spatial graph gives access to the complete network geometry, and additionally allows us to analyze the architecture with sharper tools.
 
 \section{Statistical distributions of graph properties}%
 \label{sec:statistical_distributions_of_graph_properties}
@@ -882,35 +882,36 @@ The spatial graph give access to the complete network geometry, plus also allow 
 With the spatial graph in hand we have at our disposal all the tool-box from the field of
 complex networks to characterize the network plus all the geometrical measurements we might need due to the storage of positions of each node and edge points in the spatial graph.
 
-Following Lindstrom approach to characterize networks from statistical distributions \cite{lindstrom_finite-strain_2013, lindstrom_biopolymer_2010}, we will compute the degree distribution, end-to-end distance between nodes (ignoring edge points), contour lengths between nodes (taking into account edge points), angles between adjacent edges and cosine directors of those angles.
+Following the approach of Lindstrom to characterize networks from statistical distributions \cite{lindstrom_finite-strain_2013, lindstrom_biopolymer_2010}, we compute the degree distribution, the end-to-end distance between nodes (ignoring edge points), the contour lengths between nodes (taking into account edge points), and the angles between adjacent edges and cosine directors of those angles.
 
-The degree-distribution follows a geometric distribution, truncated for branch-points (only nodes with degree greater than 3) for all our networks, see \autoref{degree-dist}.
+For all our networks the degree-distribution can be described by a geometric distribution (see \autoref{degree-dist}), truncated for branch-points (only nodes with degree greater than 3) .
 
 The end-to-end distance between nodes and the contour lengths distributions fits to a
-log-normal distribution, see \autoref{length-dist}. This distribution is used to describe multiplicative processes in many fields,
-in biology they are used to describe growth processes \cite{mitzenmacher_brief_2004}.
+log-normal distribution, see \autoref{length-dist}. This distribution is used to describe multiplicative processes in many fields.
+In biology they are used to describe growth processes \cite{mitzenmacher_brief_2004}.
 
 These distributions are the result of the generative processes in network formation, and can be used to infer the details of such processes and patterns \cite{frank_common_2009, frank_how_2014}.
 
-The director cosines of the angles between adjacent edges is fitted to a truncated power series \cite{lindstrom_finite-strain_2013}, that fits well for all the networks studied, see \autoref{cosines-dist}.
+The direction cosines of the angles between adjacent edges is fitted to a truncated power series \cite{lindstrom_finite-strain_2013}, that fits well for all the networks studied, see \autoref{cosines-dist}.
 
 \section{Results}%
 \label{sec:sg_results}
 
-We apply the described pipeline in previous sections to three set of volumetric images:
+We apply the pipeline described in previous sections to three sets of volumetric images, obtained for three different biopolymer networks, and from the two most common 3D imaging modalities.
 
 \begin{itemize}[topsep=0pt]
-  \item \textbf{Actin: } Stack of images from Confocal Light Microscopy
-  \item \textbf{Carrageenan: } Image from \gls{TEM} tomography
-  \item \textbf{Pectin: } Image from \gls{TEM} tomography
+  \item \textbf{Actin: } Stack of images from Confocal Light Microscopy.
+  \item \textbf{Carrageenan: } Image from \gls{TEM} tomography.
+  \item \textbf{Pectin: } Image from \gls{TEM} tomography.
 \end{itemize}
 
 \subsection{Actin}%
 \label{sub:actin}
-The actin network was prepared using 0.3 mg/ml actin in 40 mMol MgCl2 and stained with phalloidin.
-The image was taken using Confocal Laser Scanning Microscopy (CLSM) with Leica Instrumentation (model TCS SP5).
+The actin network studied was prepared using 0.3 mg/ml actin in 40 mMol MgCl2 and stained with phalloidin.
+The images were taken using Confocal Laser Scanning Microscopy (CLSM) with a Leica Instrumentat (model TCS SP5).
 
-The volumetric image used in this study has a size of 1024$\times$1024$\times$106 pixels, with resolution 0.505050745877353$\times$0.505050745877353$\times$1.00708103855232 \si{\micro\metre} per pixel.
+The volumetric image used in this study has a size of 1024$\times$1024$\times$106 pixels, with resolution 0.505$\times$0.505$\times$1.0070 \si{\micro\metre} per pixel.
+%0.505050745877353$\times$0.505050745877353$\times$1.00708103855232 \si{\micro\metre} per pixel.
 
 The parameters used in the image pipeline:
 
