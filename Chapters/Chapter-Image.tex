@@ -59,7 +59,7 @@ Thirdly, from the thin image, we extract the abstract representation in \autoref
 Once extracted we can compute any \gls{graph} property from our extracted spatial graph using the tool-set of complex networks,
 from degree distribution to clustering coefficient. In addition also the spatial information allows us to compute geometric quantities, such as distance between nodes or angle between adjacent edges.
 
-Finally, we will compute (in \autoref{sec:statistical_distributions_of_graph_properties}) statistical distributions from our extracted graphs: degrees, end-to-end distances, contour lengths and director cosines, that capture, in an analytical form, the network architecture.
+Finally, we will compute (in \autoref{sec:statistical_distributions_of_graph_properties}) statistical distributions from our extracted graphs: degrees, end-to-end distances, contour lengths and direction cosines, that capture, in an analytical form, the network architecture.
 
 \textbf{Outline:}
 \begin{enumerate}
@@ -580,18 +580,20 @@ We use a distance map for our \textit{Select} skeletonization function, to first
 \subsection{Testing other thinning algorithms}%
 \label{sub:testing_other_thinning_algorithms}
 
+Thinning algorithms have been applied to confocal microscopy images containing biopolymer protein networks before \cite{stein_algorithm_2008, lindstrom_biopolymer_2010}.
+In this section we test and describe the algorithms used on these extractions, and discuss why we discarded them and used the recently developed Critical Kernel Framework \cite{bertrand_powerful_2014} described in \autoref{sub:critical_kernels_framework}.
+
 \subsubsection{FIbeR Extraction -FIRE-}
 \label{subsub:FIRE}
 
 FIRE has been developed in Matlab by Andrew M. Stein
   \citep{stein_mathematical_2007} to extract collagen networks from confocal
-  images. It can be downloaded, and upgrades can be uploaded in
+  images. It is an open source application with a BSD licence and it can be downloaded from
   \url{https://github.com/uw-loci/fiber-extraction}. The method
   \citep{stein_algorithm_2008} is based on an original idea of
   \citet{wu_automated_2003}. The main upgrade is the use of multiple nucleation
-  points   and the restriction that each branch extends only  in a single
-  direction from a nucleation point. In \citet{wu_automated_2003}  the network has a single nucleation point at the global maximum of the distance function D.
-
+  points  and the restriction that each branch extends only  in a single
+  direction from a nucleation point. In \citet{wu_automated_2003} the network has a single nucleation point at the global maximum of the distance function D.
 
  \begin{enumerate}[label=\textbf{\Alph*}]
 
@@ -640,31 +642,28 @@ FIRE has been developed in Matlab by Andrew M. Stein
   \label{fig:fire_LMPS}
 \end{figure}
 
-
 \subsubsection{Results in FIRE}
  I have used FIRE to analyse our
  confocal stacks obtained from actin networks. For testing purposes, the images
 have been cropped due to the slowness of FIRE
-processing big networks. From an original image of Actin of
+processing big networks, due to being in Matlab and the nature of the algorithm itself.
+From an original image of Actin of
 $V=1024\times1024\times39$, we have cropped it to $V=200\times200\times20$.
 
 In Fig.\ref{fig:fire_stepbystep} we can see the different steps of the FIRE
 algorithm. In Fig.\ref{fig:fire_histograms} we plot the statistical distribution
-of length and degree for different thresholds $T_P$. Further analysis is
-required, and a bigger network for better statistics, but it seems that distance between nodes
-follows a log-normal distribution, and the degree, a geometrical distribution. We
-will say more about distributions in chapter \ref{Chapter-Reconstruction}.
+of end-to-end distances and degree for different thresholds $T_P$. We
+will say more about these distributions in \autoref{sec:statistical_distributions_of_graph_properties} and \autoref{Chapter-Reconstruction}.
 
- \begin{figure}[!htb]
+The drawback of FIRE is that the topology of the networks is not guaranteed to be conserved in the extracted skeleton. Some branches could be missed depending of its parameters,
+and noisy skeletons are generated. These are restrictions inherited from the algorithm originally developed in 2003 \cite{wu_automated_2003}.
+The other drawback is that is developed for Matlab which is designed for fast prototyping of algorithms, but the speed of the computations is compromised without further optimizations. Even though the software is open source, it requires that users own a license of Matlab to run the algorithm.
 
-\begin{center}
-\includegraphics[width=0.9\textwidth]{Figures/chapter-image/fire/fire012.png}%
-
-\end{center}
-
-
-\caption[Fire: Step by step for $T_P=0.12$]{FIRE: step by step}
-\label{fig:fire_stepbystep}
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.9\textwidth]{Figures/chapter-image/fire/fire012.png}%
+  \caption[Fire: Step by step for $T_P=0.12$]{FIRE: step by step}
+  \label{fig:fire_stepbystep}
 \end{figure}
 
 \begin{figure}[!htb]
@@ -693,9 +692,9 @@ actin netwoks.}
 \label{fig:fire_histograms}
 \end{figure}
 
-A useful statistical distribution is the one studying the angles between edges
-that are incident to the same node. I am currently working on a way to extract
-the direction cosines (angles) distribution from FIRE.
+% A useful statistical distribution is the one studying the angles between edges
+% that are incident to the same node. I am currently working on a way to extract
+% the direction cosines (angles) distribution from FIRE.
 
 \subsubsection{Avizo: XSkeleton}
  Avizo is a software commercialized by
@@ -703,8 +702,11 @@ the direction cosines (angles) distribution from FIRE.
 Access to Avizo was obtained through a collaboration with Fonterra (Food company,
 NZ).
 
+Avizo uses a Distance Ordered Homotopic Thinning (DOHT) algorithm, that ensures homotopy (i.e. keeps the same topology than the original object),
+thinness and centered skeletons.
+
 \textbf{XSkeleton} is the package or module that we will use to extract the
-network topology. The algorithm and the result is different to FIRE. Here
+network topology. The algorithm and the result are different to FIRE. Here
 follows a description step by step:
 \begin{enumerate}[label=\textbf{\Alph*}]
  \item\textbf{Smooth filter} Smooth the image with a Gaussian filter
@@ -784,7 +786,7 @@ are quite robust versus small changes in the key parameters $T$ and $P$.
   actin with T=30,P=5]{Actin data analyzed with Avizo with binary threshold
     $T=30$ and pruning parameter $P=5$. \subref{avizo305-length} Length following a
     log-normal or exponential distribution. \subref{avizo305-degree} Degree
-    following a geometrical distribution. \subref{avizo305-cosines}  Director
+    following a geometrical distribution. \subref{avizo305-cosines}  Direction
   cosines following an unknown distribution}
   \label{fig:avizo_histograms30}
 \end{figure}
@@ -824,14 +826,24 @@ does not affect much to the statistical distributions}
 \label{fig:avizo_histograms21}
 \end{figure}
 
-The statistical distribution must be further compared with those in FIRE (with
-a whole network), but we can see that the algorithm seems stable against minor
-changes in the important parameters.
+% The statistical distribution must be further compared with those in FIRE (with
+% a whole network), but we can see that the algorithm seems stable against minor
+% changes in the important parameters.
+
+The parallel implementation of the skeletonization in Avizo, based on \cite{fouard_skeletonization_2004}, makes it very fast even for big volumetric images.
+The main drawbacks are two: firstly the algorithm generates spurious branches in noisy contours,
+these can be mitigated a-posteriori with the pruning parameter $P$, but with the high risk of missing significant branches.
+Secondly, the cost of the licence for Avizo and the needed Skeletonization package is at the range of more than fifty thousands \$ per year. The exact price is not disclosed, and may vary from the packages and user cases, but it effectively makes this skeletonization only available for big institutions or industries.
+
+\subsubsection{Comparison with the Critical Kernels Framework}%
+\label{subsub:comparison}
+
+We chose to implement the critical kernel framework from \citep{bertrand_powerful_2014} for biopolymer networks extraction instead of the mentioned cases to use bleeding edge algorithms from the digital topology community. Being based on isthmuses instead of simple points makes it much more resilient against noise and the persistence parameter effectively removes the remaining small spurious branches.
 
 \section{Spatial Graph Extraction}%
 \label{sec:spatial_graph_extraction}
 
-From the skeletonization we get a thin image, where all the pixels belonging to an object in the binary image are reduced to a thin representation of it, in the sense that this generated skeleton is one-pixel wide.
+From the skeletonization using the Critical Kernels Framework (see \autoref{sub:critical_kernels_framework}) we get a thin image, where all the pixels belonging to an object in the binary image are reduced to a thin representation of it, in the sense that this generated skeleton is one-pixel wide.
 
 From here, our task is to transform this thin image or skeleton into a \gls{graph}. A set of nodes connected to each other through edges. The first step, and also contributed to the DGtal library by the author is to obtain a \textbf{raw graph}, a graph where each node is a voxel of the skeleton, and neighbor voxels have an edge connecting them.
 
@@ -847,6 +859,7 @@ We keep visiting the raw graph with the \gls{DFS} algorithm, where the visited n
 The \gls{DFS} algorithms is quite fast thanks to its marking of already visited nodes. There are two filters that we can apply to the process that have an impact in the generated \gls{Spatial Graph}.
 
 The original \textbf{Raw Graph} can be optionally post-processed, if there are three nodes with degree 3 connected between them, the longest edges (diagonals) are removed (see \autoref{subfig:graph_raw_merged}).
+
 
 \begin{figure}[!htb]
   \centering
@@ -882,7 +895,9 @@ The spatial graph gives access to the complete network geometry, and additionall
 With the spatial graph in hand we have at our disposal all the tool-box from the field of
 complex networks to characterize the network plus all the geometrical measurements we might need due to the storage of positions of each node and edge points in the spatial graph.
 
-Following the approach of Lindstrom to characterize networks from statistical distributions \cite{lindstrom_finite-strain_2013, lindstrom_biopolymer_2010}, we compute the degree distribution, the end-to-end distance between nodes (ignoring edge points), the contour lengths between nodes (taking into account edge points), and the angles between adjacent edges and cosine directors of those angles.
+Following the approach of Lindstrom to characterize networks from statistical distributions \cite{lindstrom_finite-strain_2013, lindstrom_biopolymer_2010}, we compute the degree distribution, the end-to-end distance between nodes (ignoring edge points), the contour lengths between nodes (taking into account edge points), and the angles between adjacent edges and direction cosines of those angles.
+
+Also any existing short branch can be pruned when computing these properties, the spatial graph won't be affected, only the data we extract from it. We usually choose to remove extremely short branches, with only one or two edge points, to have a cleaner vision of the important branches of the network. This really short edges are not significant when getting a broad representation of network properties, but the user decides if and to what extent they are ignored.
 
 For all our networks the degree-distribution can be described by a geometric distribution (see \autoref{degree-dist}), truncated for branch-points (only nodes with degree greater than 3) .
 
@@ -997,7 +1012,7 @@ analyze_graph --input ${OUTPUT_SKELETONIZATION} \
  --spacing ${GRAPH_SPACING}
 \end{minted}
 
-\textit{exportData} computes the graph properties: degree, end-to-end distances, contour lengths, angle and cosine directors, and saves them into a file.
+\textit{exportData} computes the graph properties: degree, end-to-end distances, contour lengths, angle and direction cosines, and saves them into a file.
 
 \textit{exportReducedGraph} outputs the spatial graph in a .dot (graphviz) format, similar to \autoref{fig:spatial_graph_intro_2}, that can be read by any graph library.
 
@@ -1104,25 +1119,27 @@ python fit_to_distributions_from_data ${GRAPH_DATA} \
   \begin{subfigure}{0.5\textwidth}
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_cosines_tile4_c_m_iPA_iShort1_bins21.png}
-    \caption{Director cosines. Truncated (3) power-series.}
+    \caption{Direction cosines. Truncated (3) power-series.}
     \label{subfig:actin_cosines}
   \end{subfigure}\\[1ex]
   \begin{subfigure}{0.5\textwidth}
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_ete_distance_tile4_c_m_iPA_iShort1_bins30.png}
-    \caption{End-to-End node distances. Log-normal}
+    \caption{End-to-End node distances. Log-normal.}
     \label{subfig:actin_ete}
   \end{subfigure}%
   \begin{subfigure}{0.5\textwidth}
     \centering
   \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/actin_contour_length_tile4_c_m_iPA_iShort1_bins30.png}
-    \caption{Contour lengths. Log-normal}
+    \caption{Contour lengths. Log-normal.}
     \label{subfig:actin_contour}
   \end{subfigure}
-  \caption{Statistical distributions (PDF) of actin network.}
+  \caption{Statistical distributions (PDF) of actin network. Computed properties of the graph are represented in histograms with bins and normalized by area to obtain the PDF. Orange line shows the function with parameters obtained from a non-linear least squares fit to the data.
+    Green lines show the same function with fixed parameters: \ref{subfig:actin_degree}: mean degree ($Z$) of the network, \ref{subfig:actin_ete}: mean ($\mu_l$) and standard deviation ($s_l$) of logarithmic end-to-end distances,
+  \ref{subfig:actin_contour} mean ($\mu_l$) and standard deviation ($s_l$) of logarithmic contour lengths.
+Histogram bins: end-to-end distances (30), direction cosines (21) contour lengths (30) }
   \label{fig:actin_thin}
 \end{figure}
-% TODO: Increase label size in python.
 % TODO: Discuss the difference between green and orange lines. Fit versus parameters.
 
 \subsection{TEM preparation}%
@@ -1151,7 +1168,10 @@ python denoise_tv ${INPUT_IMAGE} ${OUTPUT_FOLDER} ${TV_LAMBDA}
 
 Result: \autoref{fig:carra_denoised}.
 
-The rest of the pipeline is the same than for actin \autoref{sub:actin}, changing BIN\_SAFE\_PERCENTAGE, and GRAPH\_SPACING, including the fit to distributions.
+The rest of the pipeline is the same than for actin \autoref{sub:actin}, except BIN\_SAFE\_PERCENTAGE.
+In the Spatial Graph Extraction GRAPH\_IGNORE\_SHORT\_EDGES is increased from $1$ to $2$,
+and GRAPH\_SPACING (that represent the voxel size of the image) is changed accordingly to the metadata of the original image.
+The histogram bins of distances (end-to-end and contour lengths) have been increased from $30$ to $50$.
 
 \begin{minted}{bash}
 ## Region Growing Binarization
@@ -1167,12 +1187,12 @@ export SKEL_SELECT=dmax
 export SKEL_TYPE=1isthmus
 export SKEL_PERSISTENCE=2
 ## Spatial Graph Extraction
-export GRAPH_IGNORE_SHORT_EDGES=1
+export GRAPH_IGNORE_SHORT_EDGES=2
 export GRAPH_SPACING="0.86E-09 0.86E-09 0.86E-09"
 ## Fit graph data to distributions
-export HISTO_ETE_BINS=30
+export HISTO_ETE_BINS=50
 export HISTO_COSINES_BINS=21
-export HISTO_CONTOUR_BINS=30
+export HISTO_CONTOUR_BINS=50
 \end{minted}
 
 \begin{figure}[H]
@@ -1230,7 +1250,7 @@ export HISTO_CONTOUR_BINS=30
   \begin{subfigure}{0.5\textwidth}
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/carra_cosines_tile1_c_m_iPA_iShort2_bins21.png}
-    \caption{Director cosines. Truncated (3) power-series.}
+    \caption{Direction cosines. Truncated (3) power-series.}
     \label{subfig:carra_cosines}
   \end{subfigure}\\[1ex]
   \begin{subfigure}{0.5\textwidth}
@@ -1245,7 +1265,10 @@ export HISTO_CONTOUR_BINS=30
     \caption{Contour lengths. Log-normal}
     \label{subfig:carra_contour}
   \end{subfigure}
-  \caption{Statistical distributions (PDF) of Carrageenan K network.}
+  \caption{Statistical distributions (PDF) of Carrageenan K network. Computed properties of the graph are represented in histograms with bins and normalized by area to obtain the PDF. Orange line shows the function with parameters obtained from a non-linear least squares fit to the data.
+    Green lines show the same function with fixed parameters: \ref{subfig:carra_degree}: mean degree ($Z$) of the network, \ref{subfig:carra_ete}: mean ($\mu_l$) and standard deviation ($s_l$) of logarithmic end-to-end distances,
+  \ref{subfig:carra_contour} mean ($\mu_l$) and standard deviation ($s_l$) of logarithmic contour lengths.
+Histogram bins: end-to-end distances (50), direction cosines (21) contour lengths (50) }
   \label{fig:carra_thin}
 \end{figure}
 % TODO: Two points in degree for Carrageenan.
@@ -1275,7 +1298,7 @@ export SKEL_SELECT=dmax
 export SKEL_TYPE=1isthmus
 export SKEL_PERSISTENCE=2
 ## Spatial Graph Extraction
-export GRAPH_IGNORE_SHORT_EDGES=1
+export GRAPH_IGNORE_SHORT_EDGES=2
 export GRAPH_SPACING="1.72E-09 1.72E-09 1.72E-09"
 ## Fit graph data to distributions
 export HISTO_ETE_BINS=30
@@ -1338,7 +1361,7 @@ export HISTO_CONTOUR_BINS=30
   \begin{subfigure}{0.5\textwidth}
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/chapter-image/pipeline_screenshots/pectin_cosines_c_m_iPA_iShort2_bins21.png}
-    \caption{Director cosines. Truncated (3) power-series.}
+    \caption{Direction cosines. Truncated (3) power-series.}
     \label{subfig:pectin_cosines}
   \end{subfigure}\\[1ex]
   \begin{subfigure}{0.5\textwidth}
@@ -1353,7 +1376,10 @@ export HISTO_CONTOUR_BINS=30
     \caption{Contour lengths. Log-normal}
     \label{subfig:pectin_contour}
   \end{subfigure}
-  \caption{Statistical distributions (PDF) of Pectin network.}
+  \caption{Statistical distributions (PDF) of Pectin network. Computed properties of the graph are represented in histograms with bins and normalized by area to obtain the PDF. Orange line shows the function with parameters obtained from a non-linear least squares fit to the data.
+    Green lines show the same function with fixed parameters: \ref{subfig:pectin_degree}: mean degree ($Z$) of the network, \ref{subfig:pectin_ete}: mean ($\mu_l$) and standard deviation ($s_l$) of logarithmic end-to-end distances,
+  \ref{subfig:pectin_contour} mean ($\mu_l$) and standard deviation ($s_l$) of logarithmic contour lengths.
+Histogram bins: end-to-end distances (50), direction cosines (21) contour lengths (50) }
   \label{fig:pectin_thin}
 \end{figure}
 
@@ -1365,7 +1391,7 @@ of biopolymer networks of different scales, both for proteins and polysaccharide
 The network architecture is represented as a \gls{Spatial Graph}, containing the connectivity and
 the geometric information to fully describe the network geometry.
 
-Computing some graph properties, degree, end-to-end distances, contour lengths and cosine directors of angles of the different biopolymers, we see that they share the same statistical distribution for those properties. These distributions were reported already for collagen and fibrin networks \cite{lindstrom_finite-strain_2013}, but never in polysaccharides. We think this universality in distributions, which suggests independence from the scale of the polymer, originates from the network formation with cross-links.
+Computing some graph properties, degree, end-to-end distances, contour lengths and direction cosines of angles of the different biopolymers, we see that they share the same statistical distribution for those properties. These distributions were reported already for collagen and fibrin networks \cite{lindstrom_finite-strain_2013}, but never in polysaccharides. We think this universality in distributions, which suggests independence from the scale of the polymer, originates from the network formation with cross-links.
 
 The spatial graph can be used by theoreticians as a starting scaffold for dynamic simulations, instead of the over-simplified methods currently used in literature (see \autoref{sec:network_structure} for a survey). This might help for models able to predict the whole range of dynamics in non-affine networks.% micro-networks behaviours, and it is able to integrate cross-links dynamics.
 
