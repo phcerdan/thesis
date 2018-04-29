@@ -66,7 +66,7 @@ The difference between these lengths can be used as a measure of the
 persistence length (\gls{Lp}) of the chains.
 
 
-\item \textbf{Cosine director $B(\beta$)} between incident edges. Takes into
+\item \textbf{Direction cosine $B(\beta$)} between incident edges. Takes into
 account the relative orientation of the edges incident on the same node.
 
 
@@ -162,7 +162,7 @@ The following steps describe the algorithm:
   valency drawn from the degree distribution $N(p)$ is assigned to each node.
   And finally, pairs of nodes are connected by edges, but not exceeding the
   fixed degree of any node. The initial configuration does not follow
-  the length, or the director cosine distribution.
+  the length, or the direction cosine distribution.
 
   In practice, I have used the complex systems library Igraph to generate $H_0$
   with the described constraints, see the attached code documentation for more
@@ -272,11 +272,11 @@ network.
 %
 % The image analysis of our data (chapter.\ref{Chapter-Image}) generates the
 % needed input for the reconstruction algorithm, i.e. the statistical
-% distributions of length, degree, and director cosines.
+% distributions of length, degree, and direction cosines.
 % The length and degree distributions of actin data seems to follow (with both
 % image analysis methods) a log-normal and geometrical distribution respectively.
 % These are the same distributions proposed by Lindstrom for collagen (changing the parameters). But actin seems to
-% follow a different distribution for cosine directors, (see
+% follow a different distribution for direction cosines, (see
 % Fig.\ref{fig:avizo_histograms30}) at least with the image analysis resulted from
 % Avizo.  I am currently working on a way to extract the cosines distributions
 % from FIRE algorithm to compare it.
