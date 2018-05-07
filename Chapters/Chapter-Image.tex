@@ -67,11 +67,6 @@ Finally, we will compute (in \autoref{sec:statistical_distributions_of_graph_pro
 \begin{enumerate}
   \item \hyperref[sec:denoising]{Denoising}
 
-    \begin{itemize}
-      \item Wavelet phase analysis
-      \item Total Variation
-    \end{itemize}
-
   \item \hyperref[sec:segmentation]{Segmentation}
 
     \begin{itemize}
@@ -262,7 +257,7 @@ method.}
 \label{fig:binary}
 \end{figure}
 
-There is a lot of research in thresholding. One of the most famous binary
+A significant body of work already exists on thresholding. One of the most famous binary
 filters is Otsu's method, which minimizes the weighted sum of within-class variances of the
 foreground and background pixels to establish an optimum threshold
 \citep{sezgin_survey_2004}. This method belongs to the clustering-based methods
@@ -291,7 +286,7 @@ functions or co-occurrence probabilities.
     of objects wanted to be segmented. These algorithms study the neighborhood of these seeds and under some criteria, for example intensity difference, it adds the neighbor pixel to the foreground region. The process is repeated until no new pixel is added.
 \end{itemize}
 
-For our purposes, the binarization threshold will have an impact obtaining the
+For our purposes, the binarization threshold will have an impact in obtaining the
 network. If the threshold is too high, long fibers will break in short,
 unconnected pieces. If the threshold is too low, fibers that are clearly
 separated, will become blurred together.
@@ -348,19 +343,18 @@ shape features and topological structures of the original object. It is widely
 used in computer graphics, character recognition, and analysis of biomedical
 images.\citep{bai_skeleton_2007,golland_fixed_2000,ge_generation_1996}. The
 skeletonization is very sensitive to noise and boundary deformations, which generates redundant skeleton branches that disturb the
-topology of the skeleton graph (Fig.\ref{fig:skeleton-fixedtopo}(b)).
+topology of the skeleton graph (Fig.\ref{fig:skeleton-fixedtopo}(b)). This being the reason why the mentioned pre-processing steps of the image are important for a reliable skeletonization.
 
-To overcome this instability, methods are used that are based on skeleton pruning,
-i.e. eliminating the spurious branches. What are then the desirable properties
-of a skeletonization process?
+What are then the desirable properties of a skeletonization process?
 \begin{enumerate*}[label=\textbf{\alph*)}]
-  \item Preserve the topology of the original object, i.e. it has the same tails
-  and/or holes.
-  \item Accurate position.
-  \item Contain the centers of maximal disks, which can be used for the
-  reconstruction of the original object
-  \item Stable under small deformation and noise.
+  \item Preserves the topology of the original object, i.e. it has the same tails
+  and holes.
+\item Generates a minimal or thin skeleton, i.e. the width of the skeleton is one point, only containing points which removal would alter the topology.
+  \item The skeleton is centered in the object.
+  \item Stable under small deformation of the boundaries (noise) of the object, not generating spurious branches.
 \end{enumerate*}
+
+There is no single skeletonization algorithm in the literature that fully complies with all these desirable properties, the more difficult being the robustness against rough and noisy boundaries.
 
 \begin{figure}[!htb]
   \centering
@@ -369,31 +363,106 @@ of a skeletonization process?
   \label{fig:thin_3Dviewer}
 \end{figure}
 
-The most important skeletonization algorithms
-can broadly be classified into three types:
+The most important skeletonization algorithms can broadly be classified by:
 
 \begin{enumerate}
-  \item Based on Voronoi diagrams \citep{ogniewicz_hierarchic_1995}.
+  \item \label{itm:voronoi} Based on Voronoi diagrams \citep{ogniewicz_hierarchic_1995}.
     These methods search the locus of centers of the maximal disks
     contained in the contour of the object. The skeleton can be
     extracted with accurate position and topology, but the time
     of computation is usually prohibitive, and the complicated skeleton needs to be
-    pruned.
-  \item Based on detecting ridges
+    pruned due to spurious branches.
+  \item \label{itm:ridges} Based on detecting ridges
     in the distance map from the boundary points. The
-    position is accurate, but does not guarantee correct topology
-    \citep{ge_generation_1996}. It is widely used because the computation
-    affordability. The two methods analyzed from literature are based on
-    this kind of skeletonization.
-  \item Based on the critical kernels framework, where the removing of
-    voxels (pixels in 3D) is ensured to maintain the original topology of the object \cite{couprie_asymmetric_2016}.
-    I contributed with this framework to DGtal \url{https://github.com/DGtal-team/DGtal} \cite{david_coeurjolly_dgtal-team/dgtal:_2018}, an open-source digital topology
-    library in c++.
-    The work was reviewed, accepted and merged in the library since version 0.9.4 (see~\ref{sub:contribution_dgtal} for more information).
+    position of the skeleton is centered, but does not guarantee to preserve
+    the same topology than the original object
+    \citep{ge_generation_1996}.
+    % The two methods analyzed from literature are based on
+    % this kind of skeletonization.
+  \item \label{itm:simple} Based on iteratively peeling off points from the boundary of the object. The only points of the object that are deletable are simple points (a point is simple if its deletion preserves
+    the object topology). The generated skeleton preserves the topology of the object, however is not guaranteed to be centered. The simple points can be removed sequentially or in parallel.
+    The order in which these points are selected affects if the skeleton is thin and/or centered. However the skeleton is not stable except for small objects, usually generating many spurious branches.
+  \item \label{itm:critical} Based on the critical kernels framework \cite{couprie_asymmetric_2016}. The generated skeleton keeps the same topology than the original object, is thin, and the skeleton is much more stable compared to the removal of just simple points, generating less spurious branches. The original implementation \cite{couprie_asymmetric_2016} does not guarantee centered skeletons, but it can be enforced with the help of a distance map.
 \end{enumerate}
+
+\subsubsection{Distance maps}%
+\label{subsub:distance_maps}
+
+The distance map calculates the distance from a
+white pixel to the nearest black pixel. Every white pixel in the binary image
+has now a real value calculated using any selected distance function (euclidean,
+quasi-euclidean,\ldots ). Distance maps can be calculated from a binary image, or from
+any image with shapes that are labeled differently.
+Fig.\ref{fig:distancemap} has some distance maps of actin networks.
+We can see in Fig.\ref{fig:fire_LMPS} the values of a distance map, which have
+been simplified from real to integer numbers for clarity.
+
+\begin{figure}[H]
+\begin{minipage}{0.5\textwidth}
+  \centering
+  \center{\textbf{Binarization}}\\
+  % \begin{minipage}{0.5\textwidth}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_01.png}
+    \caption{$T_P$=0.01}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_08.png}
+    \caption{$T_P$=0.08}
+  \end{subfigure}
+
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_01176Otsu.png}
+    \caption{$T_P$=0.1176}
+  \end{subfigure}%
+  % \hspace{1pt}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_20.png}
+    \caption{$T_P$=0.20}
+  \end{subfigure}%
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+  \centering
+  \center{\textbf{Distance map}}\\
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/distance/fig_dist_01.png}
+    \caption{$T_P$=0.01}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/distance/fig_dist_08.png}
+    \caption{$T_P$=0.08}
+  \end{subfigure}
+
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/distance/fig_dist_01176Otsu.png}
+    \caption{$T_P$=0.1176}
+    \label{distotsu}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/distance/fig_dist_20.png}
+    \caption{$T_P$=0.20}
+    \label{dist014}
+  \end{subfigure}
+\end{minipage}
+\caption[Distance map - Actin]{ Distance maps calculated from binarized images
+with different normalized thresholds $T_P$}.
+\label{fig:distancemap}
+\end{figure}
 
 \subsection{Critical Kernels Framework}%
 \label{sub:critical_kernels_framework}
+
+    I contributed with this framework to DGtal \url{https://github.com/DGtal-team/DGtal} \cite{david_coeurjolly_dgtal-team/dgtal:_2018}, an open-source digital topology
+    library in c++.
+    The work was reviewed, accepted and merged in the library since version 0.9.4 (see~\ref{sub:contribution_dgtal} for more information).
 
 I refer the interested reader to the original work of Bertrand and Couprie about Critical Kernels \cite{bertrand_parallel_2017}. Here I will introduce a short summary of the framework, and options for the script used in this work. This summary was contributed to the \href{https://dgtal.org/doc/nightly/moduleVoxelComplex.html}{documentation of DGtal library} by the author.
 
@@ -503,79 +572,6 @@ fixed topology methods. From Ref.\citep{bai_skeleton_2007,golland_fixed_2000}}.
 \end{figure}
 
 
-\subsubsection{Distance maps}%
-\label{subsub:distance_maps}
-
-The distance map calculates the distance from a
-white pixel to the nearest black pixel. Every white pixel in the binary image
-has now a real value calculated using any selected distance function (euclidean,
-quasi-euclidean,\ldots ). Distance maps can be calculated from a binary image, or to
-any image with shapes that are labeled differently.
-Fig.\ref{fig:distancemap} has some distance maps of actin networks.
-We can see in Fig.\ref{fig:fire_LMPS} the values of a distance map, which have
-been simplified from real to integers for clarity.
-
-
-\begin{figure}[!htb]
-\begin{minipage}{0.5\textwidth}
-  \centering
-  \center{\textbf{Binarization}}\\
-  % \begin{minipage}{0.5\textwidth}
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_01.png}
-    \caption{$T_P$=0.01}
-  \end{subfigure}%
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_08.png}
-    \caption{$T_P$=0.08}
-  \end{subfigure}
-
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_01176Otsu.png}
-    \caption{$T_P$=0.1176}
-  \end{subfigure}%
-  % \hspace{1pt}
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/binary/fig_bin_20.png}
-    \caption{$T_P$=0.20}
-  \end{subfigure}%
-\end{minipage}
-\begin{minipage}{0.5\textwidth}
-  \centering
-  \center{\textbf{Distance map}}\\
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/distance/fig_dist_01.png}
-    \caption{$T_P$=0.01}
-  \end{subfigure}%
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/distance/fig_dist_08.png}
-    \caption{$T_P$=0.08}
-  \end{subfigure}
-
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/distance/fig_dist_01176Otsu.png}
-    \caption{$T_P$=0.1176}
-    \label{distotsu}
-  \end{subfigure}%
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/distance/fig_dist_20.png}
-    \caption{$T_P$=0.20}
-    \label{dist014}
-  \end{subfigure}
-\end{minipage}
-
-\caption[Distance map - Actin]{ Distance maps calculated from binarized images
-with different normalized thresholds $T_P$}.
-\label{fig:distancemap}
-\end{figure}
 
 We use a distance map for our \textit{Select} skeletonization function, to first select the voxels which have max value in the distance map. This selects the voxels in the median axis, so it ensures obtaining a centered skeleton.
 
@@ -595,7 +591,7 @@ FIRE has been developed in Matlab by Andrew M. Stein
   \citep{stein_algorithm_2008} is based on an original idea of
   \citet{wu_automated_2003}. The main upgrade is the use of multiple nucleation
   points  and the restriction that each branch extends only  in a single
-  direction from a nucleation point. In \citet{wu_automated_2003} the network has a single nucleation point at the global maximum of the distance function D.
+  direction from a nucleation point. In \citet{wu_automated_2003} the network has a single nucleation point at the global maximum of the image distance function D.
 
  \begin{enumerate}[label=\textbf{\Alph*}]
 
@@ -622,7 +618,7 @@ FIRE has been developed in Matlab by Andrew M. Stein
  \end{enumerate}
 
 
-\begin{figure}[!htb]
+\begin{figure}[H]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -637,9 +633,9 @@ FIRE has been developed in Matlab by Andrew M. Stein
     \label{LMP2}
   \end{subfigure}
   \caption[FIRE algorithm - Find LMP]{Tracing of the ridges of the distance
-    map using FIRE from Ref.\citep{stein_algorithm_2008}: \subref{LMP1} Step 1:
-    Pick a nucleation point (thick circle) and find all LMPs. \subref{LMP2} Step 2:
-    Pick an LMP and find the next LMP which continues in the same direction. See
+    map using FIRE from Ref.\citep{stein_algorithm_2008}: \ref{LMP1} Step 1:
+    Pick a nucleation point (thick circle) and find all LMPs. \ref{LMP2} Step 2:
+    Pick a LMP and find the next LMP which continues in the same direction. See
   text for details.}
   \label{fig:fire_LMPS}
 \end{figure}
@@ -661,14 +657,14 @@ The drawback of FIRE is that the topology of the networks is not guaranteed to b
 and noisy skeletons are generated. These are restrictions inherited from the algorithm originally developed in 2003 \cite{wu_automated_2003}.
 The other drawback is that is developed for Matlab which is designed for fast prototyping of algorithms, but the speed of the computations is compromised without further optimizations. Even though the software is open source, it requires that users own a license of Matlab to run the algorithm.
 
-\begin{figure}[!htb]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{Figures/chapter-image/fire/fire012.png}%
   \caption[Fire: Step by step for $T_P=0.12$]{FIRE: step by step}
   \label{fig:fire_stepbystep}
 \end{figure}
 
-\begin{figure}[!htb]
+\begin{figure}[H]
   \centering
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -734,7 +730,7 @@ represented by voxels into a spatial graph object.
 
  \end{enumerate}
 
-\begin{figure}[!htb]
+\begin{figure}[H]
 
 % \begin{minipage}{0.5\textwidth}
 
@@ -824,7 +820,7 @@ are quite robust versus small changes in the key parameters $T$ and $P$.
 actin with T=21,P=5]{Actin data analyzed with Avizo with binary threshold
 $T=21$ and pruning parameter: $P=5$ in the first column, and  $P=8$ in the second
 column. We can see that small changes in the parameters
-does not affect much to the statistical distributions.}
+does not have much effect much on the statistical distributions.}
 \label{fig:avizo_histograms21}
 \end{figure}
 
@@ -1393,7 +1389,7 @@ of biopolymer networks of different scales, both for proteins and polysaccharide
 The network architecture is represented as a \gls{Spatial Graph}, containing the connectivity and
 the geometric information to fully describe the network geometry.
 
-Computing some graph properties, degree, end-to-end distances, contour lengths and direction cosines of angles of the different biopolymers, we see that they share the same statistical distribution for those properties. These distributions were reported already for collagen and fibrin networks \cite{lindstrom_finite-strain_2013}, but never in polysaccharides. We think this universality in distributions, which suggests independence from the scale of the polymer, originates from the network formation with cross-links.
+Computing some graph properties, degree, end-to-end distances, contour lengths and direction cosines of angles of the different biopolymers, we see that they share the same statistical distribution for those properties. These distributions were reported already for collagen and fibrin networks \cite{lindstrom_finite-strain_2013}, but never for polysaccharides. We think this universality in distributions, which suggests independence from the scale of the polymer, originates from the network formation with cross-links.
 
 The spatial graph can be used by theoreticians as a starting scaffold for dynamic simulations, instead of the over-simplified methods currently used in literature (see \autoref{sec:network_structure} for a survey). This might help for models able to predict the whole range of dynamics in non-affine networks.% micro-networks behaviours, and it is able to integrate cross-links dynamics.
 
