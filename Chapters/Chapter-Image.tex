@@ -359,7 +359,7 @@ There is no single skeletonization algorithm in the literature that fully compli
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.8\textwidth]{Figures/chapter-image/skeleton_3D_viewer.png}%
-  \caption{Thin image of a pectin network after skeletonization (see \autoref{sub:Pectin}) visualized with a 3D Viewer.}
+  \caption{Thin image of a pectin network after skeletonization performed with the critical kernels framework (see \autoref{sub:Pectin}) and visualized with a 3D Viewer. The skeleton keeps the topology of the original object, is thin, centered, and robust against rough and noisy boundaries.}
   \label{fig:thin_3Dviewer}
 \end{figure}
 
@@ -571,9 +571,7 @@ fixed topology methods. From Ref.\citep{bai_skeleton_2007,golland_fixed_2000}}.
 \end{center}
 \end{figure}
 
-
-
-We use a distance map for our \textit{Select} skeletonization function, to first select the voxels which have max value in the distance map. This selects the voxels in the median axis, so it ensures obtaining a centered skeleton.
+The original implementation \cite{couprie_asymmetric_2016} does not ensure obtaining a centered skeleton, but here we introduce the use of a distance map for our \textit{Select} skeletonization function, to first select the voxels which have max value in the distance map. This selects the voxels in the medial axis, obtaining a centered skeleton while keeping the same topology.
 
 \subsection{Testing other thinning algorithms}%
 \label{sub:testing_other_thinning_algorithms}
