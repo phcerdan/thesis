@@ -644,7 +644,7 @@ The direction cosines of the angles between adjacent edges is fitted to a trunca
 
 
 \section{Testing existing thinning algorithms}%
-\label{sub:testing_other_thinning_algorithms}
+\label{sec:testing_other_thinning_algorithms}
 
 Thinning algorithms have been applied to confocal microscopy images containing biopolymer protein networks before \cite{stein_algorithm_2008, lindstrom_biopolymer_2010}.
 In this section we test and describe the algorithms used on these extractions, and discuss why we discarded them and used the recently developed Critical Kernel Framework \cite{bertrand_powerful_2014} described in \autoref{sub:critical_kernels_framework}.
@@ -901,7 +901,7 @@ The main drawbacks are two: firstly the algorithm generates spurious branches in
 these can be mitigated a-posteriori with the pruning parameter $P$, but with the high risk of missing significant branches.
 Secondly, the cost of the licence for Avizo and the needed Skeletonization package is at the range of more than fifty thousands \$ per year. The exact price is not disclosed, and may vary from the packages and user cases, but it effectively makes this skeletonization only available for big institutions or industries.
 
-\section{Application of the network analysis pipeline to biopolymer networks.}%
+\section{Results: Application of the Network Analysis Pipeline to Different Biopolymer Networks.}%
 \label{sec:sg_results}
 
 % \subsubsection{Comparison with the Critical Kernels Framework}%
@@ -909,7 +909,7 @@ Secondly, the cost of the licence for Avizo and the needed Skeletonization packa
 
 We chose to implement the critical kernel framework from \citep{bertrand_powerful_2014} for biopolymer networks extraction instead of the mentioned cases to use bleeding edge algorithms from the digital topology research community in an open source format, available for any researcher to use. Being based on isthmuses instead of simple points makes it much more resilient against noise and the persistence parameter effectively removes the remaining small spurious branches. In fact, the algorithm ranks first in a quantitative evaluation of the robustness of thinning algorithms \cite{bertrand_powerful_2014, couprie_3d_2015}.
 
-We apply the pipeline described in previous sections to three sets of volumetric images, obtained for three different biopolymer networks, and from the two most common 3D imaging modalities.
+We apply the pipeline: denoising, binarization, skeletonization, extracting the spatial graph and fitting statistical distributions described in previous sections to three sets of volumetric images, obtained for three different biopolymer networks, and from the two most common 3D imaging modalities.
 
 \begin{itemize}[topsep=0pt]
   \item \textbf{Actin: } Stack of images from Confocal Light Microscopy.
@@ -919,6 +919,7 @@ We apply the pipeline described in previous sections to three sets of volumetric
 
 \subsection{Confocal Light Microscopy: Actin}%
 \label{sub:actin}
+
 The actin network studied was prepared using 0.3 mg/ml actin in 40 mMol MgCl2 and stained with phalloidin.
 The images were taken using Confocal Laser Scanning Microscopy (CLSM) with a Leica Instrumentat (model TCS SP5).
 
@@ -1137,7 +1138,6 @@ python fit_to_distributions_from_data ${GRAPH_DATA} \
 Histogram bins: end-to-end distances (30), direction cosines (21) contour lengths (30) }
   \label{fig:actin_thin}
 \end{figure}
-% TODO: Discuss the difference between green and orange lines. Fit versus parameters.
 
 \subsection{TEM preparation}%
 \label{sub:tem_preparation}
@@ -1268,7 +1268,6 @@ export HISTO_CONTOUR_BINS=50
 Histogram bins: end-to-end distances (50), direction cosines (21) contour lengths (50) }
   \label{fig:carra_thin}
 \end{figure}
-% TODO: Two points in degree for Carrageenan.
 
 \subsection{Transmission Electron Microscopy: Pectin}%
 \label{sub:Pectin}
