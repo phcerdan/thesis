@@ -649,8 +649,8 @@ The direction cosines of the angles between adjacent edges is fitted to a trunca
 Thinning algorithms have been applied to confocal microscopy images containing biopolymer protein networks before \cite{stein_algorithm_2008, lindstrom_biopolymer_2010}.
 In this section we test and describe the algorithms used on these extractions, and discuss why we discarded them and used the recently developed Critical Kernel Framework \cite{bertrand_powerful_2014} described in \autoref{sub:critical_kernels_framework}.
 
-\subsubsection{FIbeR Extraction -FIRE-}
-\label{subsub:FIRE}
+\subsection{FIbeR Extraction -FIRE-}
+\label{sub:FIRE}
 
 FIRE has been developed in Matlab by Andrew M. Stein
   \citep{stein_mathematical_2007} to extract collagen networks from confocal
@@ -762,7 +762,8 @@ actin netwoks.}
 % that are incident to the same node. I am currently working on a way to extract
 % the direction cosines (angles) distribution from FIRE.
 
-\subsubsection{Avizo: XSkeleton}
+\subsection{Avizo: XSkeleton}
+\label{sub:avizo}
  Avizo is a software commercialized by
  \href{http://www.vsg3d.com/avizo/overview}{FEI: Visualization Sciences Group}.
 Access to Avizo was obtained through a collaboration with Fonterra (Food company,
@@ -901,7 +902,7 @@ The main drawbacks are two: firstly the algorithm generates spurious branches in
 these can be mitigated a-posteriori with the pruning parameter $P$, but with the high risk of missing significant branches.
 Secondly, the cost of the licence for Avizo and the needed Skeletonization package is at the range of more than fifty thousands \$ per year. The exact price is not disclosed, and may vary from the packages and user cases, but it effectively makes this skeletonization only available for big institutions or industries.
 
-\section{Results: Application of the Network Analysis Pipeline to Different Biopolymer Networks.}%
+\section{Application of the Network Analysis Pipeline to Different Biopolymer Networks.}%
 \label{sec:sg_results}
 
 % \subsubsection{Comparison with the Critical Kernels Framework}%
