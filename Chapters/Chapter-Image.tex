@@ -385,8 +385,8 @@ The most important skeletonization algorithms can broadly be classified by:
   \item \label{itm:critical} Based on the critical kernels framework \cite{couprie_asymmetric_2016}. The generated skeleton keeps the same topology than the original object, is thin, and the skeleton is much more stable compared to the removal of just simple points, generating less spurious branches. The original implementation \cite{couprie_asymmetric_2016} does not guarantee centered skeletons, but it can be enforced with the help of a distance map.
 \end{enumerate}
 
-\subsubsection{Distance maps}%
-\label{subsub:distance_maps}
+\subsection{Distance maps}%
+\label{sub:distance_maps}
 
 The distance map calculates the distance from a
 white pixel to the nearest black pixel. Every white pixel in the binary image
@@ -546,7 +546,7 @@ The \textit{Select} function chooses a voxel from a given pool. This is necessar
 \begin{itemize}[topsep=0pt]
   \item \textbf{selectRandom: } Given a set of voxels (a clique), chooses one at random.
   \item \textbf{selectFirst: } Select the first voxel in lexicographical order.
-  \item \textbf{selectMaxValue: } Select a voxel with the max value of another user-defined function. We will use this wrap to use a distance map (see \autoref{subsub:distance_maps}).
+  \item \textbf{selectMaxValue: } Select a voxel with the max value of another user-defined function. We will use this wrap to use a distance map (see \autoref{sub:distance_maps}).
 \end{itemize}
 
 The \textit{Skel} function provides a way to keep voxels that we want preserve in the final skeleton.
@@ -573,7 +573,77 @@ fixed topology methods. From Ref.\citep{bai_skeleton_2007,golland_fixed_2000}}.
 
 The original implementation \cite{couprie_asymmetric_2016} does not ensure obtaining a centered skeleton, but here we introduce the use of a distance map for our \textit{Select} skeletonization function, to first select the voxels which have max value in the distance map. This selects the voxels in the medial axis, obtaining a centered skeleton while keeping the same topology.
 
-\subsection{Testing other thinning algorithms}%
+\section{Spatial Graph Extraction}%
+\label{sec:spatial_graph_extraction}
+
+From the skeletonization using the Critical Kernels Framework (see \autoref{sub:critical_kernels_framework}) we get a thin image, where all the pixels belonging to an object in the binary image are reduced to a thin representation of it, in the sense that this generated skeleton is one-pixel wide.
+
+From here, our task is to transform this thin image or skeleton into a \gls{graph}. A set of nodes connected to each other through edges. The first step, and also contributed to the DGtal library by the author is to obtain a \textbf{raw graph}, a graph where each node is a voxel of the skeleton, and neighbor voxels have an edge connecting them.
+
+For regular images, this raw graph is enormous, imagine a voxel in the interior of an object, assuming we are working with a fully connected topology, this voxel would be in the center of a $3\times3\times3\times$ cube of voxels, having 26 connected neighbors, i.e. 26 edges or degree = 26. These neighbors voxels are nodes as well, and might be connected to others.
+But for thin images, where the number of voxels is greatly reduced, this allow us to start using tools from graph theory to extract a more meaningful graph, a \gls{Spatial Graph}.
+
+In a \gls{Spatial Graph} only nodes with degree different than 2 are considered vertices (see \autoref{fig:spatial_graph}). These end (degree = 1) and junction (degree > 2) nodes are connected to similar nodes via \glspl{Spatial Edge}, where the bending points (degree = 2) connecting those are stored in the spatial edge as \textbf{edge points} (see \autoref{fig:spatial_graph_intro_2} for an example). The rest of vertices are kept with the same connectivity as \glspl{Spatial Node}, adding its index or spatial position from the image.
+
+This transform uses a Depth First Search (\gls{DFS}) visit, starting from end-points vertices (degree=1), it follows the connected neighbors (chain-nodes of degree 2) until it reaches another end-point or another vertex with degree 3 or more. When this happens, two \glspl{Spatial Node} are added to the new \gls{Spatial Graph} (the source where we started and the end node), and one \gls{Spatial Edge}, containing all the visited 2-degree pixels.
+
+We keep visiting the raw graph with the \gls{DFS} algorithm, where the visited nodes are marked to avoid re-visiting them. We follow on with any non-visited junction nodes (degree > 2). And to finish, we search for any self-loops, circular structures where all nodes have degree 2. Because the graph doesn't allow self-loops, edges where source and target are the same node, we encode the self-loop into two nodes, the first is the original vertex, and the second one is created in the median of the \gls{Spatial Edge}. So these self loops are two nodes with two parallel edges of about the same number of edge-points between them.
+
+The \gls{DFS} algorithms is quite fast thanks to its marking of already visited nodes. There are two filters that we can apply to the process that have an impact in the generated \gls{Spatial Graph}.
+
+The original \textbf{Raw Graph} can be optionally post-processed, if there are three nodes with degree 3 connected between them, the longest edges (diagonals) are removed (see \autoref{subfig:graph_raw_merged}).
+
+
+\begin{figure}[!htb]
+  \centering
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/dgtal/voxels_raw.png}%
+    \caption{Raw Graph.}
+    \label{subfig:graph_raw}
+  \end{subfigure}%
+  \begin{subfigure}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/dgtal/voxels_raw_merged.png}%
+    \caption{Raw Graph merged}
+    \label{subfig:graph_raw_merged}
+  \end{subfigure}%
+  \caption{Extracting the raw graph from the thin image and post processed to remove the largest edges between tri-connected nodes with degree 3. Numbers show the number of edges (degree) of each node. }
+  \label{fig:raw_graph_extraction}
+\end{figure}
+
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.45\textwidth]{Figures/chapter-image/dgtal/voxels_spatial_merge.png}%
+  \caption{\gls{Spatial Graph} where vertices with degree 2 are deleted, and its position are stored as edge points in the new edges. Numbers in circles represent degree of each node.}
+  \label{fig:spatial_graph}
+\end{figure}
+
+The spatial graph gives access to the complete network geometry, and additionally allows us to analyze the architecture with sharper tools.
+
+\section{Statistical distributions of graph properties}%
+\label{sec:statistical_distributions_of_graph_properties}
+
+With the spatial graph in hand we have at our disposal all the tool-box from the field of
+complex networks to characterize the network plus all the geometrical measurements we might need due to the storage of positions of each node and edge points in the spatial graph.
+
+Following the approach of Lindstrom to characterize networks from statistical distributions \cite{lindstrom_finite-strain_2013, lindstrom_biopolymer_2010}, we compute the degree distribution, the end-to-end distance between nodes (ignoring edge points), the contour lengths between nodes (taking into account edge points), and the angles between adjacent edges and direction cosines of those angles.
+
+Also any existing short branch can be pruned when computing these properties, the spatial graph won't be affected, only the data we extract from it. We usually choose to remove extremely short branches, with only one or two edge points, to have a cleaner vision of the important branches of the network. This really short edges are not significant when getting a broad representation of network properties, but the user decides if and to what extent they are ignored.
+
+For all our networks the degree-distribution can be described by a geometric distribution (see \autoref{degree-dist}), truncated for branch-points (only nodes with degree greater than 3) .
+
+The end-to-end distance between nodes and the contour lengths distributions fits to a
+log-normal distribution, see \autoref{length-dist}. This distribution is used to describe multiplicative processes in many fields.
+In biology they are used to describe growth processes \cite{mitzenmacher_brief_2004}.
+
+These distributions are the result of the generative processes in network formation, and can be used to infer the details of such processes and patterns \cite{frank_common_2009, frank_how_2014}.
+
+The direction cosines of the angles between adjacent edges is fitted to a truncated power series \cite{lindstrom_finite-strain_2013}, that fits well for all the networks studied, see \autoref{cosines-dist}.
+
+
+\section{Testing existing thinning algorithms}%
 \label{sub:testing_other_thinning_algorithms}
 
 Thinning algorithms have been applied to confocal microscopy images containing biopolymer protein networks before \cite{stein_algorithm_2008, lindstrom_biopolymer_2010}.
@@ -831,82 +901,13 @@ The main drawbacks are two: firstly the algorithm generates spurious branches in
 these can be mitigated a-posteriori with the pruning parameter $P$, but with the high risk of missing significant branches.
 Secondly, the cost of the licence for Avizo and the needed Skeletonization package is at the range of more than fifty thousands \$ per year. The exact price is not disclosed, and may vary from the packages and user cases, but it effectively makes this skeletonization only available for big institutions or industries.
 
-\subsubsection{Comparison with the Critical Kernels Framework}%
-\label{subsub:comparison}
-
-We chose to implement the critical kernel framework from \citep{bertrand_powerful_2014} for biopolymer networks extraction instead of the mentioned cases to use bleeding edge algorithms from the digital topology research community. Being based on isthmuses instead of simple points makes it much more resilient against noise and the persistence parameter effectively removes the remaining small spurious branches.
-
-\section{Spatial Graph Extraction}%
-\label{sec:spatial_graph_extraction}
-
-From the skeletonization using the Critical Kernels Framework (see \autoref{sub:critical_kernels_framework}) we get a thin image, where all the pixels belonging to an object in the binary image are reduced to a thin representation of it, in the sense that this generated skeleton is one-pixel wide.
-
-From here, our task is to transform this thin image or skeleton into a \gls{graph}. A set of nodes connected to each other through edges. The first step, and also contributed to the DGtal library by the author is to obtain a \textbf{raw graph}, a graph where each node is a voxel of the skeleton, and neighbor voxels have an edge connecting them.
-
-For regular images, this raw graph is enormous, imagine a voxel in the interior of an object, assuming we are working with a fully connected topology, this voxel would be in the center of a $3\times3\times3\times$ cube of voxels, having 26 connected neighbors, i.e. 26 edges or degree = 26. These neighbors voxels are nodes as well, and might be connected to others.
-But for thin images, where the number of voxels is greatly reduced, this allow us to start using tools from graph theory to extract a more meaningful graph, a \gls{Spatial Graph}.
-
-In a \gls{Spatial Graph} only nodes with degree different than 2 are considered vertices (see \autoref{fig:spatial_graph}). These end (degree = 1) and junction (degree > 2) nodes are connected to similar nodes via \glspl{Spatial Edge}, where the bending points (degree = 2) connecting those are stored in the spatial edge as \textbf{edge points} (see \autoref{fig:spatial_graph_intro_2} for an example). The rest of vertices are kept with the same connectivity as \glspl{Spatial Node}, adding its index or spatial position from the image.
-
-This transform uses a Depth First Search (\gls{DFS}) visit, starting from end-points vertices (degree=1), it follows the connected neighbors (chain-nodes of degree 2) until it reaches another end-point or another vertex with degree 3 or more. When this happens, two \glspl{Spatial Node} are added to the new \gls{Spatial Graph} (the source where we started and the end node), and one \gls{Spatial Edge}, containing all the visited 2-degree pixels.
-
-We keep visiting the raw graph with the \gls{DFS} algorithm, where the visited nodes are marked to avoid re-visiting them. We follow on with any non-visited junction nodes (degree > 2). And to finish, we search for any self-loops, circular structures where all nodes have degree 2. Because the graph doesn't allow self-loops, edges where source and target are the same node, we encode the self-loop into two nodes, the first is the original vertex, and the second one is created in the median of the \gls{Spatial Edge}. So these self loops are two nodes with two parallel edges of about the same number of edge-points between them.
-
-The \gls{DFS} algorithms is quite fast thanks to its marking of already visited nodes. There are two filters that we can apply to the process that have an impact in the generated \gls{Spatial Graph}.
-
-The original \textbf{Raw Graph} can be optionally post-processed, if there are three nodes with degree 3 connected between them, the longest edges (diagonals) are removed (see \autoref{subfig:graph_raw_merged}).
-
-
-\begin{figure}[!htb]
-  \centering
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/dgtal/voxels_raw.png}%
-    \caption{Raw Graph.}
-    \label{subfig:graph_raw}
-  \end{subfigure}%
-  \begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=0.9\textwidth]{Figures/chapter-image/dgtal/voxels_raw_merged.png}%
-    \caption{Raw Graph merged}
-    \label{subfig:graph_raw_merged}
-  \end{subfigure}%
-  \caption{Extracting the raw graph from the thin image and post processed to remove the largest edges between tri-connected nodes with degree 3. Numbers show the number of edges (degree) of each node. }
-  \label{fig:raw_graph_extraction}
-\end{figure}
-
-
-\begin{figure}[!htb]
-  \centering
-  \includegraphics[width=0.45\textwidth]{Figures/chapter-image/dgtal/voxels_spatial_merge.png}%
-  \caption{\gls{Spatial Graph} where vertices with degree 2 are deleted, and its position are stored as edge points in the new edges. Numbers in circles represent degree of each node.}
-  \label{fig:spatial_graph}
-\end{figure}
-
-The spatial graph gives access to the complete network geometry, and additionally allows us to analyze the architecture with sharper tools.
-
-\section{Statistical distributions of graph properties}%
-\label{sec:statistical_distributions_of_graph_properties}
-
-With the spatial graph in hand we have at our disposal all the tool-box from the field of
-complex networks to characterize the network plus all the geometrical measurements we might need due to the storage of positions of each node and edge points in the spatial graph.
-
-Following the approach of Lindstrom to characterize networks from statistical distributions \cite{lindstrom_finite-strain_2013, lindstrom_biopolymer_2010}, we compute the degree distribution, the end-to-end distance between nodes (ignoring edge points), the contour lengths between nodes (taking into account edge points), and the angles between adjacent edges and direction cosines of those angles.
-
-Also any existing short branch can be pruned when computing these properties, the spatial graph won't be affected, only the data we extract from it. We usually choose to remove extremely short branches, with only one or two edge points, to have a cleaner vision of the important branches of the network. This really short edges are not significant when getting a broad representation of network properties, but the user decides if and to what extent they are ignored.
-
-For all our networks the degree-distribution can be described by a geometric distribution (see \autoref{degree-dist}), truncated for branch-points (only nodes with degree greater than 3) .
-
-The end-to-end distance between nodes and the contour lengths distributions fits to a
-log-normal distribution, see \autoref{length-dist}. This distribution is used to describe multiplicative processes in many fields.
-In biology they are used to describe growth processes \cite{mitzenmacher_brief_2004}.
-
-These distributions are the result of the generative processes in network formation, and can be used to infer the details of such processes and patterns \cite{frank_common_2009, frank_how_2014}.
-
-The direction cosines of the angles between adjacent edges is fitted to a truncated power series \cite{lindstrom_finite-strain_2013}, that fits well for all the networks studied, see \autoref{cosines-dist}.
-
-\section{Results}%
+\section{Application of the network analysis pipeline to biopolymer networks.}%
 \label{sec:sg_results}
+
+% \subsubsection{Comparison with the Critical Kernels Framework}%
+% \label{subsub:comparison}
+
+We chose to implement the critical kernel framework from \citep{bertrand_powerful_2014} for biopolymer networks extraction instead of the mentioned cases to use bleeding edge algorithms from the digital topology research community in an open source format, available for any researcher to use. Being based on isthmuses instead of simple points makes it much more resilient against noise and the persistence parameter effectively removes the remaining small spurious branches. In fact, the algorithm ranks first in a quantitative evaluation of the robustness of thinning algorithms \cite{bertrand_powerful_2014, couprie_3d_2015}.
 
 We apply the pipeline described in previous sections to three sets of volumetric images, obtained for three different biopolymer networks, and from the two most common 3D imaging modalities.
 
@@ -916,7 +917,7 @@ We apply the pipeline described in previous sections to three sets of volumetric
   \item \textbf{Pectin: } Image from \gls{TEM} tomography.
 \end{itemize}
 
-\subsection{Actin}%
+\subsection{Confocal Light Microscopy: Actin}%
 \label{sub:actin}
 The actin network studied was prepared using 0.3 mg/ml actin in 40 mMol MgCl2 and stained with phalloidin.
 The images were taken using Confocal Laser Scanning Microscopy (CLSM) with a Leica Instrumentat (model TCS SP5).
@@ -1145,7 +1146,7 @@ The polysaccharides carrageenan and pectin are imaged with \gls{TEM} tomography 
 
 Gels were fixed with 0.1\% Ruthenium Red and phosphate buffered 2.5\% glutaraldehyde prior to dehydration in a graded ethanol series and embedding in an epoxy resin (ProCure 812, ProSciTech, Thuringowa, Australia). Fixation mechanisms for aldehydes are known to some extent from protein crystallographic studies, where in particular covalent bonding with lysine residues is employed \cite{wine_elucidation_2007}, but no comparable studies exist for polysaccharides. We found that Ruthenium Red was essential for maintaining sample integrity during dehydration. We observed that this was due to the formation of a skin on the gel pieces. The role of glutaraldehyde in preserving or altering structure is unknown but our observations suggest that there is no effect on the bulk structure down to the level of individual molecules, where some combination of fixation and staining changes the native morphology. Indeed, some deviation from native structure must be expected due to the use of one or more of these reagents. Sections with nominal thickness of 150 nm were cut with an ultramicrotome and post-stained with 2\% uranyl acetate prior to visualisation. Previous work using tomography to acquire images from pecin gels in 3D \cite{mansel_zooming_2015} suggests that this post-staining is effective throughout the section thickness. Imaging areas were pre-irradiated for 15 minutes at low magnification prior to image acquisition. Two-dimensional micrographs were recorded on a JEOL JEM-1400 transmission electron microscope with a $\text{LaB}_6$ cathode operated at 120 kV under low-dose conditions with synchronised beam blanking and acquisition.
 
-\subsection{Carrageenan}%
+\subsection{Transmission Electron Microscopy: Carrageenan}%
 \label{sub:carrageenan}
 
 
@@ -1269,7 +1270,7 @@ Histogram bins: end-to-end distances (50), direction cosines (21) contour length
 \end{figure}
 % TODO: Two points in degree for Carrageenan.
 
-\subsection{Pectin}%
+\subsection{Transmission Electron Microscopy: Pectin}%
 \label{sub:Pectin}
 
 The gelation method exploited herein has been described in detail previously \cite{mansel_zooming_2015} and used in \cite{hernandez-cerdan_structural_2018-2}.
