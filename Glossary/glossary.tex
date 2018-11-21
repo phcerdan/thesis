@@ -43,20 +43,20 @@ $L_e\simeq d^2 \lp{}$
 \newglossaryentry{confocal}{name=confocal microscopy,description={Confocal
 microscopy }}
 
-\newglossaryentry{graph}{name=Graph,description={Mathematical graph, set of nodes connected between them by edges.}}
+\newglossaryentry{graph}{name=Graph,description={Mathematical graph, set of nodes connected between them by edges}}
 \newglossaryentry{Spatial Graph}{
 name=Spatial Graph,
-description={Graph with spatial information. Providing position of nodes, and the edge point positions for edges.}
+description={Graph with spatial information. Providing position of nodes, and the edge point positions for edges}
 plural=Spatial Graphs
 }
 \newglossaryentry{Spatial Node}{
 name=Spatial Node,
-description={Structure associated to vertices in a Spatial Graph. It contains the index or position of the node in the image.},
+description={Structure associated to vertices in a Spatial Graph. It contains the index or position of the node in the image},
 plural=Spatial Nodes
 }
 \newglossaryentry{Spatial Edge}{
 name=Spatial Edge,
-description={Structure associated to edges in a Spatial Graph. It contains an ordered set of points, reflecting the index or position from the image.},
+description={Structure associated to edges in a Spatial Graph. It contains an ordered set of points, reflecting the index or position from the image},
 plural=Spatial Edges
 }
 
@@ -64,9 +64,20 @@ plural=Spatial Edges
 
 \newglossaryentry{DFS}{
 name=DFS,
-description={Depth First Search. Strategy to visit branches of a tree or a graph. When facing a branching point, it chooses a branch and follows it in depth, even until it finds another branch point. When it reaches a dead end, it returns to the last branch point and follows another branch.The other common strategy is the Breadth First Search.}
+description={Depth First Search. Strategy to visit branches of a tree or a graph. When facing a branching point, it chooses a branch and follows it in depth, even until it finds another branch point. When it reaches a dead end, it returns to the last branch point and follows another branch.The other common strategy is the Breadth First Search}
 }
 \newglossaryentry{BFS}{
 name=BFS,
-description={Breadth First Search. Strategy to visit branches of a tree or a graph. When facing a branching point, it chooses a branch and follows it reaches another branching point, then it returns to the last branch and follows the rest of the non-visited branches. When all the branches of the first round have been visited, it continues with the next batch. The other common strategy is the Depth First Search.}
+description={Breadth First Search. Strategy to visit branches of a tree or a graph. When facing a branching point, it chooses a branch and follows it reaches another branching point, then it returns to the last branch and follows the rest of the non-visited branches. When all the branches of the first round have been visited, it continues with the next batch. The other common strategy is the Depth First Search}
 }
+
+\newglossaryentry{DFT}{
+name=DFT,
+description={Discrete Fourier Transform. Transformation of a finite sequence of inputs into the frequency domain}
+}
+
+\newglossaryentry{FFT}{
+name=FFT,
+description={Fast Fourier Transform. Algorithm computing the discrete Fourier transform DFT, reducing the complexity from $\mathcal{O}(n^{2})$ of a naive DFT implementation to $\mathcal{O}(n\log{}n)$}
+}
+

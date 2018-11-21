@@ -45,7 +45,19 @@
 \usepackage{pdfpages}
 \renewcommand\bibname{References} %TO CHANGE BIBLIOGRAPHY title TO REFERENCES
 % \usepackage[square, numbers, sort&compress,comma]{natbib} % Use the natbib
-\usepackage[natbib=true,backend=bibtex]{biblatex}
+% sortcites will order the numbering in the citation: [2,1,32] -> [1,2,32].
+% sorting=none will number refs in the order of appearence in the text.
+% maxbibnames=99 will show all the names in the bibliography
+% microtype and block=space fixes URL madness in bibliography
+\usepackage{microtype}
+\usepackage[style=numeric-comp,sorting=none,sortcites=true,natbib=true,backend=bibtex,maxbibnames=99,block=space]{biblatex}
+% From https://tex.stackexchange.com/questions/134191/line-breaks-of-long-urls-in-biblatex-bibliography
+%%% --- avoid URL madness in bibliography ----
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+% Include vol and number info: https://tex.stackexchange.com/questions/97376/missing-vol-and-no-in-biblatex-biber
+\DeclareFieldFormat{volume}{\bibstring{jourvol}\addnbspace #1}
+\DeclareFieldFormat{number}{\bibstring{number}\addnbspace #1}
 %%% Remove warnings for arxiv articles
 % From: https://tex.stackexchange.com/questions/386078/workaround-for-missing-archiveprefix-in-bib-entry
 \DeclareSourcemap{
@@ -485,26 +497,28 @@ New Zealand. }
 \listofsymbols{ll} % Include a list of Abbreviations (a table of two
 % columns)
 {
-\textbf{\gls{AFM}} &  Atomic  force  microscopy \\
+\textbf{\gls{AFM}} &  Atomic  force  microscopy. \\
 \textbf{BGL} &  Boost Graph Library. c++ library. \\
-\textbf{CEWLC} &  Clickable extensible wormlike chain \\
+\textbf{CEWLC} &  Clickable extensible wormlike chain. \\
 % \textbf{CG} &  Conjugate  gradient \\
 % \textbf{DWS} &  Diffusion  Wave  Spectroscopy \\
+\textbf{DFT} &  Discrete Fourier Transform, representation of data in frequency domain. \\
 \textbf{DGtal} &  Digital Geometry Tools and Algorithms. c++ library. \\
-\textbf{EtE} &  End to end \\
-\textbf{EWLC} &  Extensible wormlike chain \\
-\textbf{FE} &  Force extension (curve) \\
+\textbf{EtE} &  End to end. \\
+\textbf{EWLC} &  Extensible wormlike chain. \\
+\textbf{FE} &  Force extension (curve). \\
+\textbf{FFT} &  Fast Fourier Transform, specific algorithm of DFT. \\
 \textbf{ITK} &  Insight Tool-Kit. Image Analysis c++ library. \\
-\textbf{LAOS} &  Large amplitude oscillatory shear (rheology) \\
-\textbf{LMP} & Local maximum point \\
-\textbf{MRA} &  Multiresolution framework \\
-\textbf{MSD} &  Mean square displacement \\
-\textbf{NP} & Nucleation point \\
-\textbf{PME} &  Pectin-methylesterase \\
-\textbf{SAXS} &  Small angle X-ray scattering  \\
-\textbf{\gls{SEM}} &  Scanning electron microscopy \\
-\textbf{\gls{TEM}} &  Transmission electron microscopy \\
-\textbf{WLC} &  Wormlike chain \\
+\textbf{LAOS} &  Large amplitude oscillatory shear (rheology). \\
+\textbf{LMP} & Local maximum point. \\
+\textbf{MRA} &  Multiresolution framework. \\
+\textbf{MSD} &  Mean square displacement. \\
+\textbf{NP} & Nucleation point. \\
+\textbf{PME} &  Pectin-methylesterase. \\
+\textbf{SAXS} &  Small angle X-ray scattering . \\
+\textbf{\gls{SEM}} &  Scanning electron microscopy. \\
+\textbf{\gls{TEM}} &  Transmission electron microscopy. \\
+\textbf{WLC} &  Wormlike chain. \\
 \\
 
 %\textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\

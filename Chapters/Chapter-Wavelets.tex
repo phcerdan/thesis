@@ -174,7 +174,7 @@ A band-limited pyramid is created by applying, at each level, a low-pass filter 
   \label{fig:wavelet_pyramid}
 \end{figure}
 
-Usually in the literature the only one high-pass sub-band is used, the wavelet filter bank consists then in one high pass filter and one low pass filter (see\autoref{fig:pyramid_simple_2}). The advantages of the subbands is that they provide more frequency resolution \cite{held_steerable_2010}, at expenses of more computation time, and also they might generate spatial domain distortions due to multiple sharp cutoffs. For phase detection (see the application in \autoref{fig:phase_bands}), they are fundamental.
+Usually in the literature the only one high-pass sub-band is used, the wavelet filter bank consists then in one high pass filter and one low pass filter (see \autoref{fig:pyramid_simple_2}). The advantages of the subbands is that they provide more frequency resolution \cite{held_steerable_2010}, at expenses of more computation time, and also they might generate spatial domain distortions due to multiple sharp cutoffs. For phase detection (see the application in \autoref{fig:phase_bands}), they are fundamental.
 \begin{figure}[H]
   \centering
   \includestandalone{Figures/chapter-wavelets/tikz/wavelet_pyramid_analysis_simple}
@@ -185,8 +185,7 @@ Usually in the literature the only one high-pass sub-band is used, the wavelet f
 
 \subsection{Isotropic wavelets}
 \label{sub:isotropic_wavelets}
-%Bill suggested here to remove "We have implemented four, there are at least \cite{unser_steerable_2011} two isotropic wavelets missing: Papadakis \cite{romero_geometry_2009}, and Meyer \cite{daubechies_ten_1992}." for "For example" talk. TODO
-These wavelets are non-separable in Cartesian coordinates, depending on $\norm{\bm{\omega}}$. Isotropic wavelets have the same mother wavelet for each scale. All of the implemented wavelets fulfill the conditions of Prop \ref{prop:tight_conditions}, their shapes differ in the spatial decay, and vanishing moments. Which one is better depends on the application, and developing new wavelets is a research topic. We have implemented four, there are at least \cite{unser_steerable_2011} two isotropic wavelets missing: Papadakis \cite{romero_geometry_2009}, and Meyer \cite{daubechies_ten_1992}.
+These wavelets are non-separable in Cartesian coordinates, depending on $\norm{\bm{\omega}}$. Isotropic wavelets have the same mother wavelet for each scale. All of the four implemented wavelets fulfill the conditions of Prop \ref{prop:tight_conditions}, their shapes differ in the spatial decay, and vanishing moments. Which one is better depends on the application, and developing new wavelets is a research topic.
 The advantage of isotropic wavelets is that they are steerable, but in order to get directionality features, the wavelets are coupled with other filters that gather directional information, such as the Riesz transform, see \autoref{sec:riesz_transform}.
 
 The present requirement that the mother wavelet is isotropic constraints the wavelet-design. The goal is to generate a tight wavelet frame and have perfect reconstruction with the inverse pyramid.
