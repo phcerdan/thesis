@@ -18,15 +18,16 @@ Non-affine deformations are at the core of explaining the complex behaviour of b
 \label{sec:conclusions_summary}
 
 %Chapter Wavelets/image-tools
-We rely on 3D imaging, tomography or Z stacks of images, to extract the network geometry more reliably than would be possible from 2D images. We have provided lacking tools for image analysis in 3D in a high-performance computing language, and contributed them, fully tested and documented to the de-facto standard image analysis library ITK (\autoref{Chapter-Wavelets}).
+We rely on 3D imaging, tomography or Z stacks of images, to extract the network geometry more reliably than would be possible from 2D images. We provided tools for image analysis in 3D in a high-performance computing language, and contributed them, fully tested and documented to the de-facto standard image analysis library ITK (\autoref{Chapter-Wavelets}).
 
 % Chapter TEM-SAXS
-Gathering the network structure from images requires that the information extracted is reliable. We showed in \autoref{Chapter-TEMSAXS} for polysaccharide networks which require preparation intensive TEM studies, that the artifacts introduced by sample preparation don't interfere with the network architecture. We have compared on the same samples, small-angle x-ray scattering (SAXS) --that doesn't require sample preparation-- and our images, finding that above small scales, and in the range of the network geometry we are interested in, the agreement between imaging and scattering is good, so the network architecture of polysaccharides can be extracted with confidence.
+Gathering the network structure from images requires that the information extracted is reliable. In \autoref{Chapter-TEMSAXS} several distinct polysaccharide gels networks were realized. A set of these networks was further treated for study by transmission electron microscopy (TEM), which requires additional preparation. Another set of the same networks, this time unadulterated, was studied by small-angle x-ray scattering (SAXS). The comparison between the two techniques showed that careful protocols can produce datasets where information acquired by imaging above around 20 nm is broadly consistent with that obtained by SAXS studies carried out on unadulterated samples.
+The fact that at larger length scales the structure of the networks is preserved in the TEM samples, allow us to extract and quantify the network architecture and connectivity with confidence, information that is lost in scattering experiments owing to the intrinsic averaging nature of the technique.
 
 % Chapter Image / Extraction
-We pursue our task of extracting the network architectures from images in \autoref{Chapter-Image}, using a pipeline of image analysis to denoise and binarize the original images. We then developed state-of-the-art algorithms taken from the digital topology community to skeletonize the image, being aware of not changing the topology of the original network in the process. With a thin-image and introducing novel tools in this area, we create a one-to-one map between the image and a spatial graph, connecting in this way the image analysis field with the area of complex networks. We are now capable of studying and characterizing our networks of biopolymers with a wider range of tools.
+We pursued our task of extracting the network architectures from images in \autoref{Chapter-Image}, using a pipeline of image analysis to denoise and binarize the original images. We then developed state-of-the-art algorithms taken from the digital topology community to skeletonize the image, being aware of not changing the topology of the original network in the process. With a thin-image and introducing novel tools in this area, we create a one-to-one map between the image and a spatial graph, connecting in this way the image analysis field with the area of complex networks. We are now capable of studying and characterizing our networks of biopolymers with a wider range of tools.
 
-We compute the degree, end-to-end node distances, contour lengths, angle, and direction cosines of those angles to characterize our sample networks of different biopolymers, ranging from actin filaments, to polysaccharides, such as pectin and carrageenan. The statistical distributions of these properties show strong similarities between protein and polysaccharides networks. Such universalities should be further explored to understand its origin.
+We computed the degree, end-to-end node distances, contour lengths, angle, and direction cosines of those angles to characterize our sample networks of different biopolymers, ranging from actin filaments, to polysaccharides, such as pectin and carrageenan. The statistical distributions of these properties show strong similarities between protein and polysaccharides networks. Such universalities should be further explored to understand their origin.
 
 % Chapter Reconstruction
 We also provide a simulated annealing tool in \autoref{Chapter-Reconstruction} to recreate networks completely in-silico given a set of statistical distributions: degree, end-to-end distance, and director cosines. This allows the theoretical exploration of networks in-silico just changing the input distributions. Future work in this area might include adding distributions for other graph properties for finer control.
@@ -112,7 +113,7 @@ but there is still some local order \citep{cipelletti_slow_????}.
 \subsection{ITKBoostGraph}%
 \label{sub:itkboostgraph}
 
-  The work done here about mapping between images and a spatial graph might be ported in the future to the image analysis library ITK as an external module to facilitate its adoption.
+  The work contributed here about mapping between images and a spatial graph could be integrated in the future in the image analysis library ITK as an external module to facilitate its adoption.
 
 \subsection{Complex Networks Tools}%
 \label{sub:complex_networks_tools}
@@ -122,4 +123,4 @@ The spatial graphs can be further analyzed with tools from the complex networks 
 \subsection{Public Database}%
 \label{sub:public_database}
 
-  I would like to set-up or contribute to a centralized public database of volumetric images of biopolymer networks. Optionally skeletonized images, and extracted spatial graphs would be associated.
+  Set-up or contribute to a centralized public database of volumetric images of biopolymer networks, where graphs, analysis, skeletonized images, and extracted spatial graphs would be associated.
