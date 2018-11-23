@@ -12,6 +12,11 @@ Distributions}} % Change X to a consecutive number; this is for the header on ea
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
+\section{Motivation}
+\label{sec:motivation-reconstruction}
+This chapter explores the ability to reconstruct, or regenerate an in-silico network solely based on the statistical distributions of a few graph properties extracted from the spatial graph computed from 3D images in \autoref{Chapter-Image}.
+The generated 3D networks from the statistical distributions allow the theoretical and computational exploration on how the networks might behave when making fundamental changes on its properties, like length between junctions, orientation, or number of neighbors in the junctions.
+The proposed implementation is flexible, allowing to take into account any computable property from a spatial graph.
 
 \section{Methods}
 
@@ -214,6 +219,8 @@ can see a reduction of $99.9\%$ from the initial graph energy $E(H_0)$ to the
 final graph, that as we can see in Fig.
 \ref{fig:collagen-distributions} successfully follows the target distributions.
 Note that the simulated and target-distributions are superimposed with each other, no fit is involved.
+
+The resulting in-silico reconstructed network is just one instance of the many configurations that follow the same statistical distributions. For validation of the results against real in-vivo networks, in \citet{lindstrom_finite-strain_2013}, they use finite element methods (FEM) to compute simple and differential shear modules based on the geometry of the reconstructed networks. The results compare favourably with the experimental measurements of shear obtained from in-vivo networks.
 
 \begin{figure}[h!]
   \centering

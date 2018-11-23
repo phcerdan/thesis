@@ -8,6 +8,12 @@
 
 \lhead{Chapter 4. \emph{Spatial Graph Extraction}}
 
+\section{Motivation}%
+\label{sec:motivation-image}
+
+The goal of this chapter this chapter is two folds: report denoising and segmentation methods applied to 3D images of biopolymer networks, and from a binary image, obtain a spatial graph representation of the material, which encodes the connectivity and geometry of the network.
+The spatial graph abstraction can be used to characterize the network studying statistical distributions of different properties of the graph, but also as a direct way to encode the architecture in a format usable by computational models of network behaviour under strain.
+
 \section{Introduction}%
 \label{sec:introduction}
 
@@ -1391,6 +1397,8 @@ the geometric information to fully describe the network geometry.
 Computing some graph properties, degree, end-to-end distances, contour lengths and direction cosines of angles of the different biopolymers, we see that they share the same statistical distribution for those properties. These distributions were reported already for collagen and fibrin networks \cite{lindstrom_finite-strain_2013}, but never for polysaccharides. We think this universality in distributions, which suggests independence from the scale of the polymer, originates from the network formation with cross-links.
 
 The spatial graph can be used by theoreticians as a starting scaffold for dynamic simulations, instead of the over-simplified methods currently used in literature (see \autoref{sec:network_structure} for a survey). This might help for models able to predict the whole range of dynamics in non-affine networks.% micro-networks behaviours, and it is able to integrate cross-links dynamics.
+
+We can divide the chosen parameters in two, those related with the segmentation, and those related with the network extraction. In the segmentation, we include the denoising algorithms and the binarization. The segmentation should be supervised and non-automatic, but should be easy to get a good result. As a suggestion, better to get false negatives --lose biopolymer information--, than false positives --treat noise as biopolymer--. In the other set of network extraction parameters, the more influential is the persistence parameter --similar to pruning spurious branches--, and it is dependant on your data, you could even keep it zero for images with low noise in the surface of the biopolymer, but usually values from 1 to 3 are enough in most situations to remove hairy, non-existing branches introduced by noise.
 
 All the code is freely available and open to be re-used, modified and improved by interested users, with the only condition that any modification to the source code must be open, for all of us to enjoy the improvements.
 
