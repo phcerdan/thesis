@@ -12,7 +12,7 @@ The importance of the network architecture for the mechanical properties of biop
 % In order to study and compare different network geometries, a graph representation of the network is suitable, taking advantage of methods utilized in the field of complex networks. With this approach we could also explore the mechanisms of network formation,
 % and see if there are connections between similar statistical distributions of the graph and the similarities showed by protein and polysaccharide networks \cite{carrillo_nonlinear_2013}.
 
-Non-affine deformations are at the core of explaining the complex behaviour of biopolymer networks, but methods to reliably gather the geometry of the networks have been lacking and are the focus of this thesis. Affine regimes have been shown to be capable in characterizing the mechanical properties of bulk and dense materials, but in biology this is not always the case. Growing filament networks will always face a non-affine regime in their early stages for example, so it is expected that understanding the mechanisms of network formation will benefit from the tools developed here.
+Non-affine deformations are at the core of explaining the complex behaviour of biopolymer networks, but methods to reliably gather the geometry of the networks have been lacking and are the focus of this thesis. Affine regimes have been shown to be capable in characterizing the mechanical properties of bulk and dense materials, but in biology this is not always the case.
 
 \section{Summary}%
 \label{sec:conclusions_summary}
@@ -98,9 +98,8 @@ A simulation of network formation might be pursued in the future
 There are reports in the literature \citep{kajiya_slow_2013}, and also by group
 mates\citep{vincent_micro-rheological_2013, mansel_internal_2015}, that at long times, physical
 biopolymer networks can be affected by sudden de-correlations that occur over a
-few tenths of a second. The more plausible conjecture is that such quakes are associated with the release of
-chain constraints due to unbinding of cross-links.  This is reported
-experimentally in our group  with micro-rheology DWS techniques.
+few tenths of a second. This is the driven by the dynamic of the junction zones between chains. It could be either that just thermal fluctuations are opening and closing these junctions zones, or that internal stresses are driving them.
+The later is reported experimentally in our group  with micro-rheology DWS techniques \cite{mansel_internal_2015}, where such quake-like events are associated with the release of chain constraints due to unbinding of cross-links.
 Current models of networks, such as the Glassy WLC model
 \citep{kroy_glassy_2007}, cannot predict this behaviour \citep{vincent_micro-rheological_2013}.  A
 computer simulation as sketched in \autoref{sub:network_formation} may shed some light on the topic.
@@ -110,6 +109,8 @@ properties over time. This behaviour is related with non-ergodic systems and
 with glassy systems, where long orders correlations(solids) no longer exists,
 but there is still some local order \citep{cipelletti_slow_????}.
 
+This work provides the tools to study such local order in junction zones, with the full geometry and connectivity provided by the spatial graph.
+
 \subsection{ITKBoostGraph}%
 \label{sub:itkboostgraph}
 
@@ -118,7 +119,7 @@ but there is still some local order \citep{cipelletti_slow_????}.
 \subsection{Complex Networks Tools}%
 \label{sub:complex_networks_tools}
 
-The spatial graphs can be further analyzed with tools from the complex networks field, computing quantities like clustering and centrality are two lines of code away from the current status using the boost graph library (BGL). The graph can also be exported to the graphviz format (already implemented) to be used by any other network library if preferred.
+The spatial graphs can be further analyzed with tools from the complex networks field, computing quantities like clustering and centrality are two lines of code away from the current status using the boost graph library (BGL). The spatial graph can be already exported to the graphviz format to be used by any other network library for the purpose of further analysis.
 
 \subsection{Public Database}%
 \label{sub:public_database}

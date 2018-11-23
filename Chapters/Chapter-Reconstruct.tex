@@ -24,13 +24,13 @@ The software used in this chapter, has been independently developed here, but is
 idea of \citet{lindstrom_biopolymer_2010} about reconstructing the network
 architecture of polymers networks from a statistical description. They were
 based on the work of \citet{yeong_reconstructing_1998,yeong_reconstructing_1998-1}
-about reconstructing random porous media.\\
+about reconstructing random porous media. This work generalizes the implementation of \citet{lindstrom_biopolymer_2010}, allowing to add extra statistical distributions associated to any graph property.\\
 The input for the in-silico reconstruction of biopolymer networks is the
 statistical distributions of $3$ properties in this case. This is the minimal
 set of information required to reconstruct the architecture of the network to study the
 mechanical properties (but other parameters could be added to study other or
 more complex situations). For example, if the structure of the edges / chains is
-heterogeneous  (bio-functional areas, or different charge distribution), extra
+heterogeneous (e.g. chains with different properties, such persistence length), extra
 statistical distributions can be added with minimal effort.
 
 So in order to regenerate the network in-silico, the following distributions
@@ -149,7 +149,7 @@ position and the degree; and a second set of edges, which connect pair of
 nodes. The software
 does not allow parallel edges, i.e. two edges connected the same pair of nodes,
 and the network is fully connected, there are no nodes or clusters of nodes
-isolated  from the rest of the network.
+isolated from the rest of the network.
 %Not allowing parallel edges could be
 %unrealistic in some situations, to deal with that, edges could be characterized
 %by a thickness parameter, this parameter could be associated to the number of

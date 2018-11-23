@@ -198,23 +198,7 @@ separate objects from the background.
 \citet{sezgin_survey_2004} is a good review about the subject. The output of the
 thresholding process is a binary image, whose one state will indicate the
 foreground objects, while the complementary state will correspond to the
-background.\\
-\begin{equation}
-P'_i=
-   \begin{cases} 
-     1               & \mbox{if } I(\vect{p}) > T   \\
-     0               & \mbox{if } I(\vect{p}) < T
-   \end{cases}
-   \label{eq:bin2}
-\end{equation}
-Where $P'_i\,\epsilon \, \{0{,} 1\}$ is the binarized output pixel , $P_i\,
-\epsilon \,[0{,}255]$ is the gray-scale input pixel, and $T\,
-\epsilon \,[0{,}255]$ is the threshold value. Note that the max value in the
-grey scale could vary depending on the number of bits of the image. $255$ is
-the max value for $8$ bits images;
-in the case of high quality images of $16$ bits, the max value will rise to
-$2^{16} - 1 = 65535$. In both cases the max value corresponds to pure white and
-$0$ to black.
+background.
 
 \begin{figure}[!htb]
 \begin{subfigure}{0.5\textwidth}
@@ -335,10 +319,9 @@ Using \href{https://itk.org/Doxygen/html/classitk_1_1VotingBinaryIterativeHoleFi
   \item \textbf{Iterations: } Number of iterations before stopping, the algorithm also stop if no changes are generated after last iteration.
 \end{itemize}
 
-For our networks, we have found optimal values in:\newline
-Majority = 3, Radius = 1, Iterations = $\infty$ \newline
-The high value of majority and the small neighborhood only fills small holes.
-
+A high value of majority and a small neighborhood is selected to only fills small holes, but let bigger empty spaces unaffected. \newline
+For 3D images, a value of:\newline
+Majority = 3, Radius = 1, Iterations = $\infty$ works well for our purpose of removing just small holes.
 
 
 \section{Skeletonization}%
@@ -385,7 +368,7 @@ The most important skeletonization algorithms can broadly be classified by:
     \citep{ge_generation_1996}.
     % The two methods analyzed from literature are based on
     % this kind of skeletonization.
-  \item \label{itm:simple} Based on iteratively peeling off points from the boundary of the object. The only points of the object that are deletable are simple points (a point is simple if its deletion preserves
+  \item \label{itm:simple} Based on iteratively peeling off points from the boundary of the object \cite{palagyi_sequential_2001,brimkov_topology_2012}. The only points of the object that are deletable are simple points (a point is simple if its deletion preserves
     the object topology). The generated skeleton preserves the topology of the object, however is not guaranteed to be centered. The simple points can be removed sequentially or in parallel.
     The order in which these points are selected affects if the skeleton is thin and/or centered. However the skeleton is not stable except for small objects, usually generating many spurious branches.
   \item \label{itm:critical} Based on the critical kernels framework \cite{couprie_asymmetric_2016}. The generated skeleton keeps the same topology than the original object, is thin, and the skeleton is much more stable compared to the removal of just simple points, generating less spurious branches. The original implementation \cite{couprie_asymmetric_2016} does not guarantee centered skeletons, but it can be enforced with the help of a distance map.
@@ -578,6 +561,7 @@ fixed topology methods. From Ref.\citep{bai_skeleton_2007,golland_fixed_2000}}.
 \end{figure}
 
 The original implementation \cite{couprie_asymmetric_2016} does not ensure obtaining a centered skeleton, but here we introduce the use of a distance map for our \textit{Select} skeletonization function, to first select the voxels which have max value in the distance map. This selects the voxels in the medial axis, obtaining a centered skeleton while keeping the same topology.
+To our knowledge, this is the first time where such state of the art digital topology algorithms are applied to biopolymers images.
 
 \section{Spatial Graph Extraction}%
 \label{sec:spatial_graph_extraction}

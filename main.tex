@@ -51,6 +51,9 @@
 % microtype and block=space fixes URL madness in bibliography
 \usepackage{microtype}
 \usepackage[style=numeric-comp,sorting=none,sortcites=true,natbib=true,backend=bibtex,maxbibnames=99,block=space]{biblatex}
+\DefineBibliographyStrings{english}{%
+  bibliography = {References},
+}
 % From https://tex.stackexchange.com/questions/134191/line-breaks-of-long-urls-in-biblatex-bibliography
 %%% --- avoid URL madness in bibliography ----
 \setcounter{biburllcpenalty}{7000}
