@@ -57,17 +57,17 @@ The following representation fully contains all the information needed to descri
   \item Orientation distribution. i.e. angles and direction cosines of angles between adjacent edges.
 \end{enumerate}
 
-To accomplish a reliable extraction of the spatial graph from volumetric images, first we will introduce the image processing analysis used to segment the biopolymer from images, the pre-processing and denoising steps in \autoref{sec:denoising} and the binarization in \autoref{sec:segmentation}.
+Firstly, to accomplish a reliable extraction of the spatial graph from volumetric images, the image processing analysis used to segment the biopolymer from images will be introduced, this includes the pre-processing and denoising steps in \autoref{sec:denoising} and the binarization in \autoref{sec:segmentation}.
 
-Secondly, we present the thinning or skeletonization
-algorithm developed for creating a thin (one-pixel wide) image representation of the network in \autoref{sec:skeletonization}.
+Secondly, the thinning or skeletonization
+algorithm developed for creating a thin (one-pixel wide) image representation of the network in \autoref{sec:skeletonization} will be presented.
 
-Thirdly, from the thin image, we extract the abstract representation in \autoref{sec:spatial_graph_extraction}, in form of the described \gls{Spatial Graph}.
+Thirdly, from the resulting thin image, the abstract representation in form of the described \gls{Spatial Graph} will be discussed in \autoref{sec:spatial_graph_extraction}.
 
-Once extracted we can compute any \gls{graph} property from our extracted spatial graph using the tool-set of complex networks,
+Once extracted, any \gls{graph} property can be computed from our extracted spatial graph using the tool-set of complex networks,
 from degree distribution to clustering coefficient. In addition also the spatial information allows us to compute geometric quantities, such as distance between nodes or angle between adjacent edges.
 
-Finally, we will compute (in \autoref{sec:statistical_distributions_of_graph_properties}) statistical distributions from our extracted graphs: degrees, end-to-end distances, contour lengths and direction cosines, that capture, in an analytical form, the network architecture.
+Finally, statistical distributions will be computed from our extracted graphs: degrees, end-to-end distances, contour lengths and direction cosines, that capture, in an analytical form, the network architecture (\autoref{sec:statistical_distributions_of_graph_properties}.
 
 \textbf{Outline:}
 \begin{enumerate}
@@ -99,7 +99,7 @@ Finally, we will compute (in \autoref{sec:statistical_distributions_of_graph_pro
 \subsection{Notation}%
 \label{sub:notation}
 
- We define the \textbf{pixel}, \textbf{pixel position}, or \textbf{pixel index}  in the stack of images as:
+ The \textbf{pixel}, \textbf{pixel position}, or \textbf{pixel index} is defined as:
  $\vect{p}\equiv(x,y,z)\, \epsilon \,V$, where
  $x\eps{}[0,X - 1]$, $y\eps{}[0,Y - 1]$, $z\eps{}[0,Z - 1]$ are the integer coordinates and
  $V\subset \mathbb{I}^3$ is the volume of the stack of images $V=\{X\times
@@ -108,8 +108,8 @@ Finally, we will compute (in \autoref{sec:statistical_distributions_of_graph_pro
 
  \textbf{Pixel value} or \textbf{pixel intensity} refer to the value of the pixel in the corresponding
  image.
- The value could be an integer, a boolean, or a real number, depending on if we are
- talking about a gray-scale image, a binarized image or a distance map.
+ The value could be an integer, a boolean, or a real number, depending on the type of image:
+ gray-scale, binarized or a distance map.
  The original \textbf{gray-scale image} $I$ is defined as:
  $I(\vect{p}):V \longrightarrow G$ where
  $G$ is a set of integers representing the gray-scale.
@@ -141,9 +141,9 @@ cumulative histograms of $I$.
 Pre-processing the image to remove spurious noise is fundamental to obtain a good segmentation of our network in the next step.
 
 % Add/Show wavelet denoising, and TotalVariation (proxTV)
-We use the wavelet tools developed in ~\autoref{Chapter-Wavelets} to perform a phase analysis \cite{held_steerable_2010} in the image. This will equalize local brightness differences, and homogenize intensity values of foreground objects. Then we perform an anisotropic denoising, that avoids blurring information in edges of objects.
+The wavelet tools developed in ~\autoref{Chapter-Wavelets} were used to perform a phase analysis \cite{held_steerable_2010} in the image. This will equalize local brightness differences, and homogenize intensity values of foreground objects. Then, an anisotropic denoising is performed, which avoids blurring information in edges of objects.
 
-We also apply total variation \cite{barbero_fast_2011, barbero_modular_2014} methods to our 3D images, showing effective denoising and maintaining sharp transitions between edges of objects and background.
+Total variation regularization \cite{barbero_fast_2011, barbero_modular_2014} methods were applied to our 3D images, showing effective denoising and maintaining sharp transitions between edges of objects and background.
 
 % Figure with results, one for each process.
 \begin{figure}[!htb]
@@ -183,9 +183,9 @@ In our case, our images are only composed by biopolymers, so our segmentation is
 to a binarization task: separate background and noise from the biopolymer objects.
 
 Easier doesn't mean easy though, grouping all the information into two clusters is inherently hard.
-We look for an intensity value that acts as a threshold for the two groups.
+The goal is to find an intensity value that acts as a threshold for the two groups.
 If the intensity along the image is not bright-normalized, it might happen that objects with absolute lower intensity are lost.
-This is the reason we will use a local approach, using a region growing algorithm, where we first select seeds in the middle of our object of interest, and the algorithm will grow those seeds to fill the whole region of interest, based on intensity differences between neighbor pixels and the seeds.
+This is the reason why a local approach using a region growing algorithm is preferred, where first seeds in the middle of our object of interest are selected, and then, the algorithm will grow those seeds to fill the whole region of interest based on intensity differences between neighbor pixels and the seeds.
 
 Any binarization filter is seriously affected by noise present in the images. That is why the pre-processing and denoising step is fundamental to get a reliable result from this process.
 
@@ -240,7 +240,7 @@ background.
 $T_P$ is a normalized threshold value, if $G_{max}$ is the brightest pixel, then
 $T=T_P\cdot P_{max}$. According to eq \ref{eq:bin}, any pixel which value is greater than T transforms to $1$
 (white) after the binary filter.
-At low values of threshold (case \subref{bin001}), we have blurred networks, but
+At low values of threshold (case \subref{bin001}), networks are blurred, but
 at high values (case \subref{bin020}), some connectivity information is lost.
 The case \subref{binotsu} corresponds to the threshold calculated by Otsu's
 method.}
@@ -282,7 +282,7 @@ unconnected pieces. If the threshold is too low, fibers that are clearly
 separated, will become blurred together.
 
 In Fig.\ref{fig:binary}
-we compare the geometry of a small area of an actin network after
+the geometry of a small area of an actin network is compared after
 applying different binary thresholds. The stack of images of
 networks used here was obtained in our group by Dr. Allan
 Raudsepp using confocal microscopy on actin.
@@ -290,7 +290,7 @@ Raudsepp using confocal microscopy on actin.
 \subsubsection{Region Growing Segmentation}%
 \label{subsub:region_growing_segmentation}
 
-The risk of region growing algorithms is that a seed will be planted outside our foreground objects. However, we have found planting the seeds with a normalized threshold $T_p$ we don't have to fine tune the lower threshold too much. The results are quite resilient against small changes of these parameters, where a pure thresholding approach will suffer a lot of variation and be prone to noise artifacts.
+The risk of region growing algorithms is that a seed will be planted outside our foreground objects. However, I have found planting the seeds with a normalized threshold $T_p$ I don't have to fine tune the lower threshold too much. The results are quite resilient against small changes of these parameters, where a pure thresholding approach will suffer a lot of variation and be prone to noise artifacts.
 
 Using \href{https://itk.org/Doxygen/html/classitk_1_1ConnectedThresholdImageFilter.html}{itk::ConnectedThresholdImageFilter} with the script:
 \href{https://github.com/phcerdan/ITKfilters/blob/master/scripts-cpp/regionGrowingSegmentation.cxx}{regionGrowingSegmentation.cxx}
@@ -305,7 +305,7 @@ Using \href{https://itk.org/Doxygen/html/classitk_1_1ConnectedThresholdImageFilt
 \subsection{Hole Filling}%
 \label{sub:hole_filling}
 
-Due to noise, tiny holes might still be created in the binarization process. These holes (areas of OFF pixels surrounded by ON pixels) have an important effect in the following skeletonization step because they change the topology of the object and the network we want to extract. To solve it, we aggressively fill these small holes with an iterative hole filling algorithm.
+Due to noise, tiny holes might still be created in the binarization process. These holes (areas of OFF pixels surrounded by ON pixels) have an important effect in the following skeletonization step because they change the topology of the object and the network to be extracted. To solve it, an aggressive fill of these small holes with an iterative hole filling algorithm is realized.
 
 
 Using \href{https://itk.org/Doxygen/html/classitk_1_1VotingBinaryIterativeHoleFillingImageFilter.html}{itk::VotingBinaryIterativeHoleFillingImageFilter} with the script:
@@ -383,7 +383,7 @@ has now a real value calculated using any selected distance function (euclidean,
 quasi-euclidean,\ldots ). Distance maps can be calculated from a binary image, or from
 any image with shapes that are labeled differently.
 Fig.\ref{fig:distancemap} has some distance maps of actin networks.
-We can see in Fig.\ref{fig:fire_LMPS} the values of a distance map, which have
+Fig.\ref{fig:fire_LMPS} shows the values of a distance map which have
 been simplified from real to integer numbers for clarity.
 
 \begin{figure}[H]
@@ -442,7 +442,7 @@ been simplified from real to integer numbers for clarity.
   \end{subfigure}
 \end{minipage}
 \caption[Distance map - Actin]{Example of distance maps calculated from binarized images
-with different normalized thresholds $T_P$. Images (A) to (D) show binarization images with increasing threshold and (E)-(H) show the associated distance maps. In (A) the threshold is too low, getting much of the background noise, in (D), the threshold is too high, trimming the signal from the biopolymer that we are interested in.}
+with different normalized thresholds $T_P$. Images (A) to (D) show binarization images with increasing threshold and (E)-(H) show the associated distance maps. In (A) the threshold is too low, getting much of the background noise, in (D), the threshold is too high, trimming the target signal from the biopolymer.}
 \label{fig:distancemap}
 \end{figure}
 
@@ -453,12 +453,12 @@ with different normalized thresholds $T_P$. Images (A) to (D) show binarization 
     library in c++.
     The work was reviewed, accepted and merged in the library since version 0.9.4 (see~\ref{sub:contribution_dgtal} for more information).
 
-I refer the interested reader to the original work of Bertrand and Couprie about Critical Kernels \cite{bertrand_parallel_2017}. Here I will introduce a short summary of the framework, and options for the script used in this work. This summary was contributed to the \href{https://dgtal.org/doc/nightly/moduleVoxelComplex.html}{documentation of DGtal library} by the author.
+I refer the interested reader to the original work of Bertrand and Couprie about Critical Kernels \cite{bertrand_parallel_2017}. Here I will introduce a short summary of the framework, and options for the script used in this work. This summary was contributed to the \href{https://dgtal.org/doc/nightly/moduleVoxelComplex.html}{documentation of DGtal library}.
 
 \begin{itemize}[topsep=0pt]
   \item \textbf{Isthmus: } ``Intuitively a voxel x of an object X is said to be a 1-isthmus (resp. a 2-isthmus)
     if the neighborhood of x corresponds -up to a thinning- to the one of a point belonging to a curve (resp. a surface)."
-  \item \textbf{Reducible: } We say that the complex X is reducible only if it is possible to reduce it (with thinning) to a single voxel.
+  \item \textbf{Reducible: } The complex X is reducible only if it is possible to reduce it (with thinning) to a single voxel.
   \item \textbf{d-cell: }
     A d-cell where $ d \in \{0,1,2,3\} $ is a pointel for $d = 0$, a linel for $d = 1$, a surfel for
     $d = 2$, or a spel for $d = 3$.
@@ -467,17 +467,17 @@ I refer the interested reader to the original work of Bertrand and Couprie about
   \item \textbf{Clique: }
     Let $ d \in \{0,1,2,3\} $ and let $ C \in V^3 $ with $V^3$ being the collection of all
     voxel complexes (a finite set composed solely of voxels).
-    We say that C is a d-clique if the intersection of all voxels of C is a d-cell.
+    C is a d-clique if the intersection of all voxels of C is a d-cell.
 
     Any complex C made of a single voxel is a 3-clique. Furthermore, any voxel of a complex
     constitutes a 3-clique that is \textbf{essential} for X. Essential is the minimal clique for X.
   \item \textbf{K-neighborhood (of voxel S): }
     $K(S)$ is the set of all voxels adjacent to S. And $K^*(S) = K \setminus  S$.
   \item \textbf{Regular Clique: }
-    We say that the clique C is \textbf{regular} for X if $K^*(C) \cap X $ is \textit{reducible} to a
+    The clique C is \textbf{regular} for X if $K^*(C) \cap X $ is \textit{reducible} to a
     single voxel.
   \item \textbf{Critical Kernel: }
-    We say that C is \textbf{critical} for X if C is not regular.
+    C is \textbf{critical} for X if C is not regular.
     Note that if C is a single voxel x, then C is regular for X, only if x is simple for X.
 \end{itemize}
 
@@ -489,7 +489,7 @@ Removing simple voxels in parallel is known to change its topology, but using \t
 \end{theorem}
 
 The details of the algorithm can be summarized in the implementation of four masks
-$K_0$, $K_1$, $K_2$, $ K_3$, that given a d-cell (pointel, linel, surfel, spel) return a d-clique and a boolean flag with its criticality. Where $K_3$ corresponds to the well-known simplicity check of a voxel. We then apply an iterative thinning algorithm shown in \autoref{fig:algo_persistence}.
+$K_0$, $K_1$, $K_2$, $ K_3$, that given a d-cell (pointel, linel, surfel, spel) return a d-clique and a boolean flag with its criticality. Where $K_3$ corresponds to the well-known simplicity check of a voxel. An iterative thinning algorithm is then applied as shown in \autoref{fig:algo_persistence}.
 
 \begin{figure}[!htb]
   \centering
@@ -498,7 +498,7 @@ $K_0$, $K_1$, $K_2$, $ K_3$, that given a d-cell (pointel, linel, surfel, spel) 
   \label{fig:algo_persistence}
 \end{figure}
 
-Based on this framework we also implement the concept of persistence of a voxel in the thinning \cite{couprie_asymmetric_2016}. The motivation is to automatically prune those branches that do not belong to a robust skeleton.
+Based on this framework, the concept of persistence of a voxel in the thinning \cite{couprie_asymmetric_2016} is implemented. The motivation is to automatically prune those branches that do not belong to a robust skeleton.
 
 Let $i$ be the generation (see \autoref{fig:algo_persistence}) at which a voxel $x$ becomes an isthmus for the first time, we name it \textit{birth date} $b(x) = i$ of the voxel. In a later generation $j$ of the thinning process, the voxel might become deletable, we call it \textit{death date} $d(x) = j$.
 The definition of \textit{persistence} of a voxel is the difference between death and birth date, $p(x) = d(x) - b(x)$.
@@ -535,10 +535,10 @@ The \textit{Select} function chooses a voxel from a given pool. This is necessar
 \begin{itemize}[topsep=0pt]
   \item \textbf{selectRandom: } Given a set of voxels (a clique), chooses one at random.
   \item \textbf{selectFirst: } Select the first voxel in lexicographical order.
-  \item \textbf{selectMaxValue: } Select a voxel with the max value of another user-defined function. We will use this wrap to use a distance map (see \autoref{sub:distance_maps}).
+  \item \textbf{selectMaxValue: } Select a voxel with the max value of another user-defined function. This wrap will be used with a distance map (see \autoref{sub:distance_maps}).
 \end{itemize}
 
-The \textit{Skel} function provides a way to keep voxels that we want preserve in the final skeleton.
+The \textit{Skel} function provides a way to keep voxels that are wanted to be preserved in the final skeleton.
 
 \begin{itemize}[topsep=0pt]
   \item \textbf{skelUltimate: } Null, only preserve voxels whose removal alters the topology.
@@ -560,26 +560,26 @@ fixed topology methods. From Ref.\citep{bai_skeleton_2007,golland_fixed_2000}}.
 \end{center}
 \end{figure}
 
-The original implementation \cite{couprie_asymmetric_2016} does not ensure obtaining a centered skeleton, but here we introduce the use of a distance map for our \textit{Select} skeletonization function, to first select the voxels which have max value in the distance map. This selects the voxels in the medial axis, obtaining a centered skeleton while keeping the same topology.
+The original implementation \cite{couprie_asymmetric_2016} does not ensure obtaining a centered skeleton, but here I introduce the use of a distance map for our \textit{Select} skeletonization function, to first select the voxels which have max value in the distance map. This selects the voxels in the medial axis, obtaining a centered skeleton while keeping the same topology.
 To our knowledge, this is the first time where such state of the art digital topology algorithms are applied to biopolymers images.
 
 \section{Spatial Graph Extraction}%
 \label{sec:spatial_graph_extraction}
 
-From the skeletonization using the Critical Kernels Framework (see \autoref{sub:critical_kernels_framework}) we get a thin image, where all the pixels belonging to an object in the binary image are reduced to a thin representation of it, in the sense that this generated skeleton is one-pixel wide.
+From the skeletonization using the Critical Kernels Framework (see \autoref{sub:critical_kernels_framework}) a thin image is obtained, where all the pixels belonging to an object in the binary image are reduced to a thin representation of it, in the sense that this generated skeleton is one-pixel wide.
 
-From here, our task is to transform this thin image or skeleton into a \gls{graph}. A set of nodes connected to each other through edges. The first step, and also contributed to the DGtal library by the author is to obtain a \textbf{raw graph}, a graph where each node is a voxel of the skeleton, and neighbor voxels have an edge connecting them.
+From here, our task is to transform this thin image or skeleton into a \gls{graph}. A set of nodes connected to each other through edges. The first step, and also contributed to the DGtal library, is to obtain a \textbf{raw graph}, a graph where each node is a voxel of the skeleton, and neighbor voxels have an edge connecting them.
 
-For regular images, this raw graph is enormous, imagine a voxel in the interior of an object, assuming we are working with a fully connected topology, this voxel would be in the center of a $3\times3\times3\times$ cube of voxels, having 26 connected neighbors, i.e. 26 edges or degree = 26. These neighbors voxels are nodes as well, and might be connected to others.
+For regular images, this raw graph is enormous, imagine a voxel in the interior of an object, assuming a fully connected topology, this voxel would be in the center of a $3\times3\times3\times$ cube of voxels, having 26 connected neighbors, i.e. 26 edges or degree = 26. These neighbors voxels are nodes as well, and might be connected to others.
 But for thin images, where the number of voxels is greatly reduced, this allow us to start using tools from graph theory to extract a more meaningful graph, a \gls{Spatial Graph}.
 
 In a \gls{Spatial Graph} only nodes with degree different than 2 are considered vertices (see \autoref{fig:spatial_graph}). These end (degree = 1) and junction (degree > 2) nodes are connected to similar nodes via \glspl{Spatial Edge}, where the bending points (degree = 2) connecting those are stored in the spatial edge as \textbf{edge points} (see \autoref{fig:spatial_graph_intro_2} for an example). The rest of vertices are kept with the same connectivity as \glspl{Spatial Node}, adding its index or spatial position from the image.
 
-This transform uses a Depth First Search (\gls{DFS}) visit, starting from end-points vertices (degree=1), it follows the connected neighbors (chain-nodes of degree 2) until it reaches another end-point or another vertex with degree 3 or more. When this happens, two \glspl{Spatial Node} are added to the new \gls{Spatial Graph} (the source where we started and the end node), and one \gls{Spatial Edge}, containing all the visited 2-degree pixels.
+This transform uses a Depth First Search (\gls{DFS}) visit, starting from end-points vertices (degree=1), it follows the connected neighbors (chain-nodes of degree 2) until it reaches another end-point or another vertex with degree 3 or more. When this happens, two \glspl{Spatial Node} are added to the new \gls{Spatial Graph} (the starting node source and the end node), and one \gls{Spatial Edge}, containing all the visited 2-degree pixels.
 
-We keep visiting the raw graph with the \gls{DFS} algorithm, where the visited nodes are marked to avoid re-visiting them. We follow on with any non-visited junction nodes (degree > 2). And to finish, we search for any self-loops, circular structures where all nodes have degree 2. Because the graph doesn't allow self-loops, edges where source and target are the same node, we encode the self-loop into two nodes, the first is the original vertex, and the second one is created in the median of the \gls{Spatial Edge}. So these self loops are two nodes with two parallel edges of about the same number of edge-points between them.
+The \gls{DFS} algorithm is applied iteratively in the graph, but the visited nodes are marked to avoid re-visiting them. After starting with end-points, it re-starts with any non-visited junction nodes (degree > 2). And to finish, self-loops are discovered, circular structures where all nodes have degree 2. Because the graph doesn't allow self-loops, edges where source and target are the same node. These self-loops are encoded into two nodes, the first is the original vertex, and the second one is created in the median of the \gls{Spatial Edge}. So these self loops are two nodes with two parallel edges of about the same number of edge-points between them.
 
-The \gls{DFS} algorithms is quite fast thanks to its marking of already visited nodes. There are two filters that we can apply to the process that have an impact in the generated \gls{Spatial Graph}.
+The \gls{DFS} algorithms is quite fast thanks to its marking of already visited nodes. There are two filters that can be applied to the process that have an impact in the generated \gls{Spatial Graph}.
 
 The original \textbf{Raw Graph} can be optionally post-processed, if there are three nodes with degree 3 connected between them, the longest edges (diagonals) are removed (see \autoref{subfig:graph_raw_merged}).
 
@@ -616,11 +616,11 @@ The spatial graph gives access to the complete network geometry, and additionall
 \label{sec:statistical_distributions_of_graph_properties}
 
 With the spatial graph in hand we have at our disposal all the tool-box from the field of
-complex networks to characterize the network plus all the geometrical measurements we might need due to the storage of positions of each node and edge points in the spatial graph.
+complex networks to characterize the network plus all the geometrical measurements that might be needed due to the storage of positions of each node and edge points in the spatial graph.
 
-Following the approach of Lindstrom to characterize networks from statistical distributions \cite{lindstrom_finite-strain_2013, lindstrom_biopolymer_2010}, we compute the degree distribution, the end-to-end distance between nodes (ignoring edge points), the contour lengths between nodes (taking into account edge points), and the angles between adjacent edges and direction cosines of those angles.
+Following the approach of Lindstrom to characterize networks from statistical distributions \cite{lindstrom_finite-strain_2013, lindstrom_biopolymer_2010}, the degree distribution, the end-to-end distance between nodes (ignoring edge points), the contour lengths between nodes (taking into account edge points), and the angles between adjacent edges and direction cosines of those angles are computed.
 
-Also any existing short branch can be pruned when computing these properties, the spatial graph won't be affected, only the data we extract from it. We usually choose to remove extremely short branches, with only one or two edge points, to have a cleaner vision of the important branches of the network. This really short edges are not significant when getting a broad representation of network properties, but the user decides if and to what extent they are ignored.
+Also any existing short branch can be pruned when computing these properties, the spatial graph won't be affected, only the data extracted from it. Usually, the extremely short branches with only one or two edge points are chosen for removal to have a cleaner vision of the important branches of the network. These really short edges are not significant when getting a broad representation of network properties, but the user decides if and to what extent they are ignored.
 
 For all our networks the degree-distribution can be described by a geometric distribution (see \autoref{degree-dist}), truncated for branch-points (only nodes with degree greater than 3) .
 
@@ -637,7 +637,7 @@ The direction cosines of the angles between adjacent edges is fitted to a trunca
 \label{sec:testing_other_thinning_algorithms}
 
 Thinning algorithms have been applied to confocal microscopy images containing biopolymer protein networks before \cite{stein_algorithm_2008, lindstrom_biopolymer_2010}.
-In this section we test and describe the algorithms used on these extractions, and discuss why we discarded them and used the recently developed Critical Kernel Framework \cite{bertrand_powerful_2014} described in \autoref{sub:critical_kernels_framework}.
+In this section I test and describe the algorithms used on these extractions, and discuss why I discarded them and used the recently developed Critical Kernel Framework \cite{bertrand_powerful_2014} described in \autoref{sub:critical_kernels_framework}.
 
 \subsection{FIbeR Extraction -FIRE-}
 \label{sub:FIRE}
@@ -704,12 +704,12 @@ FIRE has been developed in Matlab by Andrew M. Stein
 have been cropped due to the slowness of FIRE
 processing big networks, due to being in Matlab and the nature of the algorithm itself.
 From an original image of Actin of
-$V=1024\times1024\times39$, we have cropped it to $V=200\times200\times20$.
+$V=1024\times1024\times39$, I have cropped it to $V=200\times200\times20$.
 
-In Fig.\ref{fig:fire_stepbystep} we can see the different steps of the FIRE
-algorithm. In Fig.\ref{fig:fire_histograms} we plot the statistical distribution
-of end-to-end distances and degree for different thresholds $T_P$. We
-will say more about these distributions in \autoref{sec:statistical_distributions_of_graph_properties} and \autoref{Chapter-Reconstruction}.
+Fig.\ref{fig:fire_stepbystep} shows the different steps of the FIRE
+algorithm. In Fig.\ref{fig:fire_histograms} a plot is shown with the statistical distribution
+of end-to-end distances and degree for different thresholds $T_P$.
+These distributions will be further discussed in \autoref{sec:statistical_distributions_of_graph_properties} and \autoref{Chapter-Reconstruction}.
 
 The drawback of FIRE is that the topology of the networks is not guaranteed to be conserved in the extracted skeleton. Some branches could be missed depending of its parameters,
 and noisy skeletons are generated. These are restrictions inherited from the algorithm originally developed in 2003 \cite{wu_automated_2003}.
@@ -762,7 +762,7 @@ NZ).
 Avizo uses a Distance Ordered Homotopic Thinning (DOHT) algorithm, that ensures homotopy (i.e. keeps the same topology than the original object),
 thinness and centered skeletons.
 
-\textbf{XSkeleton} is the package or module that we will use to extract the
+\textbf{XSkeleton} is the package or module that used to extract the
 network topology. The algorithm and the result are different to FIRE. Here
 follows a description step by step:
 \begin{enumerate}[label=\textbf{\Alph*}]
@@ -806,19 +806,19 @@ threshold ($5$ in the image)}
 
 
 \subsubsection{Avizo results:}
-We have analyzed the whole stack of our confocal images of actin
-($V=1024\times1024\times39$). The key parameters in Avizo are the binarization
+The whole stack of our confocal images of actin
+($V=1024\times1024\times39$) is analyzed. The key parameters in Avizo are the binarization
 $T$ and the pruning threshold $P$.
 
 In Fig.\ref{fig:avizo_workspace}, a regular workspace in Avizo can be seen. The
 different filters, the key parameters, and the result of the process, the actin
 network are visualized.
 
-In Fig.\ref{fig:avizo_histograms30} we have extracted statistical distributions
+In Fig.\ref{fig:avizo_histograms30} the statistical distributions are extracted
 from the network that will be used in chapter \ref{Chapter-Reconstruction} for
 the reconstruction of the network.
 
-In Fig.\ref{fig:avizo_histograms21} we can check that statistical distributions
+Fig.\ref{fig:avizo_histograms21} shows that statistical distributions
 are quite robust versus small changes in the key parameters $T$ and $P$.
 
 \begin{figure}[H]
@@ -878,8 +878,8 @@ are quite robust versus small changes in the key parameters $T$ and $P$.
 \caption[Distributions of length, degree, and cosines with Avizo for
 actin with T=21,P=5]{Actin data analyzed with Avizo with binary threshold
 $T=21$ and pruning parameter: $P=5$ in the first column, and  $P=8$ in the second
-column. We can see that small changes in the parameters
-does not have much effect much on the statistical distributions.}
+column. It can be appreciated that small changes in the parameters
+do not have much effect much on the statistical distributions.}
 \label{fig:avizo_histograms21}
 \end{figure}
 
@@ -898,9 +898,9 @@ Secondly, the cost of the licence for Avizo and the needed Skeletonization packa
 % \subsubsection{Comparison with the Critical Kernels Framework}%
 % \label{subsub:comparison}
 
-We chose to implement the critical kernel framework from \citep{bertrand_powerful_2014} for biopolymer networks extraction instead of the mentioned cases to use bleeding edge algorithms from the digital topology research community in an open source format, available for any researcher to use. Being based on isthmuses instead of simple points makes it much more resilient against noise and the persistence parameter effectively removes the remaining small spurious branches. In fact, the algorithm ranks first in a quantitative evaluation of the robustness of thinning algorithms \cite{bertrand_powerful_2014, couprie_3d_2015}.
+I chose to implement the critical kernel framework from \citep{bertrand_powerful_2014} for biopolymer networks extraction instead of the mentioned cases to use bleeding edge algorithms from the digital topology research community in an open source format, available for any researcher to use. Being based on isthmuses instead of simple points makes it much more resilient against noise and the persistence parameter effectively removes the remaining small spurious branches. In fact, the algorithm ranks first in a quantitative evaluation of the robustness of thinning algorithms \cite{bertrand_powerful_2014, couprie_3d_2015}.
 
-We apply the pipeline: denoising, binarization, skeletonization, extracting the spatial graph and fitting statistical distributions described in previous sections to three sets of volumetric images, obtained for three different biopolymer networks, and from the two most common 3D imaging modalities.
+The following pipeline is applied: denoising, binarization, skeletonization, extracting the spatial graph and fitting statistical distributions described in previous sections to three sets of volumetric images, obtained for three different biopolymer networks, and from the two most common 3D imaging modalities.
 
 \begin{itemize}[topsep=0pt]
   \item \textbf{Actin: } Stack of images from Confocal Light Microscopy.
@@ -930,7 +930,7 @@ rieszWaveletPhaseAnalysis -i ${INPUT_IMAGE} -o ${OUTPUT_FOLDER} \
        -w ${WAVELET_TYPE} -l ${LEVELS} -b ${BANDS}
 \end{minted}
 
-We apply an anisotropic denoise step with the itk filter CurvatureAnisotropicDiffusion,
+I apply an anisotropic denoise step with the itk filter CurvatureAnisotropicDiffusion,
 using the python script  \citetitle*{phcerdan_denoise_input_2018} \cite{phcerdan_denoise_input_2018}.
 
 \begin{minted}{bash}
@@ -1082,7 +1082,7 @@ The result is a spatial graph. \autoref{fig:actin_graph} shows a representation 
 
 \textbf{Fit graph data to distributions}
 
-We fit the graph data generated in the analysis to statistical distributions depending on the property, as described in \autoref{sec:statistical_distributions_of_graph_properties}.
+I fit the graph data generated in the analysis to statistical distributions depending on the property, as described in \autoref{sec:statistical_distributions_of_graph_properties}.
 An estimation of the $R^2$ of the fit using Effron's formula \cite{lindstrom_finite-strain_2013} is shown.
 The degree is fitted to the mentioned truncated geometric distribution also showing the percentage of end-nodes, see \autoref{subfig:actin_degree}.
 
@@ -1135,7 +1135,7 @@ Histogram bins: end-to-end distances (30), direction cosines (21) contour length
 
 The polysaccharides carrageenan and pectin are imaged with \gls{TEM} tomography with the preparation published in \citep{hernandez-cerdan_structural_2018-2} and reproduced here for completion:
 
-Gels were fixed with 0.1\% Ruthenium Red and phosphate buffered 2.5\% glutaraldehyde prior to dehydration in a graded ethanol series and embedding in an epoxy resin (ProCure 812, ProSciTech, Thuringowa, Australia). Fixation mechanisms for aldehydes are known to some extent from protein crystallographic studies, where in particular covalent bonding with lysine residues is employed \cite{wine_elucidation_2007}, but no comparable studies exist for polysaccharides. We found that Ruthenium Red \cite{sterling_crystal-structure_1970} was essential for maintaining sample integrity during dehydration. We observed that this was due to the formation of a skin on the gel pieces. The role of glutaraldehyde in preserving or altering structure is unknown but our observations suggest that there is no effect on the bulk structure down to the level of individual molecules, where some combination of fixation and staining changes the native morphology. Indeed, some deviation from native structure must be expected due to the use of one or more of these reagents. Sections with nominal thickness of 150 nm were cut with an ultramicrotome and post-stained with 2\% uranyl acetate prior to visualisation. Previous work using tomography to acquire images from pecin gels in 3D \cite{mansel_zooming_2015} suggests that this post-staining is effective throughout the section thickness. Imaging areas were pre-irradiated for 15 minutes at low magnification prior to image acquisition. Two-dimensional micrographs were recorded on a JEOL JEM-1400 transmission electron microscope with a $\text{LaB}_6$ cathode operated at 120 kV under low-dose conditions with synchronised beam blanking and acquisition.
+Gels were fixed with 0.1\% Ruthenium Red and phosphate buffered 2.5\% glutaraldehyde prior to dehydration in a graded ethanol series and embedding in an epoxy resin (ProCure 812, ProSciTech, Thuringowa, Australia). Fixation mechanisms for aldehydes are known to some extent from protein crystallographic studies, where in particular covalent bonding with lysine residues is employed \cite{wine_elucidation_2007}, but no comparable studies exist for polysaccharides. Ruthenium Red \cite{sterling_crystal-structure_1970} was found to be essential for maintaining sample integrity during dehydration. It was observed this was due to the formation of a skin on the gel pieces. The role of glutaraldehyde in preserving or altering structure is unknown but our observations suggest that there is no effect on the bulk structure down to the level of individual molecules, where some combination of fixation and staining changes the native morphology. Indeed, some deviation from native structure must be expected due to the use of one or more of these reagents. Sections with nominal thickness of 150 nm were cut with an ultramicrotome and post-stained with 2\% uranyl acetate prior to visualisation. Previous work using tomography to acquire images from pecin gels in 3D \cite{mansel_zooming_2015} suggests that this post-staining is effective throughout the section thickness. Imaging areas were pre-irradiated for 15 minutes at low magnification prior to image acquisition. Two-dimensional micrographs were recorded on a JEOL JEM-1400 transmission electron microscope with a $\text{LaB}_6$ cathode operated at 120 kV under low-dose conditions with synchronised beam blanking and acquisition.
 
 \subsection{Transmission Electron Microscopy: Carrageenan}%
 \label{sub:carrageenan}
@@ -1147,7 +1147,7 @@ The volumetric tomography image used in this study has a size of 896$\times$896$
 
 \textbf{Denoise:}
 
-We use total variation denoising in these particular TEM images using the python script \citetitle*{phcerdan_denoise_tv_2018} \cite{phcerdan_denoise_tv_2018}, which uses proxTV library \cite{barbero_modular_2014}.
+I use total variation denoising in these particular TEM images using the python script \citetitle*{phcerdan_denoise_tv_2018} \cite{phcerdan_denoise_tv_2018}, which uses proxTV library \cite{barbero_modular_2014}.
 
 \begin{minted}{bash}
 export TV_LAMBDA=20
@@ -1373,18 +1373,18 @@ Histogram bins: end-to-end distances (50), direction cosines (21) contour length
 \section{Conclusions}%
 \label{sec:conclusions_image}
 
-We were able to generate an image pipeline to extract the network architecture
+An image pipeline was generated to extract the network architecture
 of biopolymer networks of different scales, both for proteins and polysaccharides.
 The network architecture is represented as a \gls{Spatial Graph}, containing the connectivity and
 the geometric information to fully describe the network geometry.
 
-Computing some graph properties, degree, end-to-end distances, contour lengths and direction cosines of angles of the different biopolymers, we see that they share the same statistical distribution for those properties. These distributions were reported already for collagen and fibrin networks \cite{lindstrom_finite-strain_2013}, but never for polysaccharides. We think this universality in distributions, which suggests independence from the scale of the polymer, originates from the network formation with cross-links.
+Computing some graph properties, degree, end-to-end distances, contour lengths and direction cosines of angles of the different biopolymers, it is observed they share the same statistical distribution for those properties. These distributions were reported already for collagen and fibrin networks \cite{lindstrom_finite-strain_2013}, but never for polysaccharides. I think this universality in distributions, which suggests independence from the scale of the polymer, originates from the network formation with cross-links.
 
 The spatial graph can be used by theoreticians as a starting scaffold for dynamic simulations, instead of the over-simplified methods currently used in literature (see \autoref{sec:network_structure} for a survey). This might help for models able to predict the whole range of dynamics in non-affine networks.% micro-networks behaviours, and it is able to integrate cross-links dynamics.
 
-We can divide the chosen parameters in two, those related with the segmentation, and those related with the network extraction. In the segmentation, we include the denoising algorithms and the binarization. The segmentation should be supervised and non-automatic, but should be easy to get a good result. As a suggestion, better to get false negatives --lose biopolymer information--, than false positives --treat noise as biopolymer--. In the other set of network extraction parameters, the more influential is the persistence parameter --similar to pruning spurious branches--, and it is dependant on your data, you could even keep it zero for images with low noise in the surface of the biopolymer, but usually values from 1 to 3 are enough in most situations to remove hairy, non-existing branches introduced by noise.
+The set of parameters can be divided in two, those related with the segmentation, and those related with the network extraction. The segmentation set includes the denoising and the binarization algorithms. The segmentation should be supervised and non-automatic, but it is easy to get a good result. As a suggestion, better to get false negatives --lose biopolymer information--, than false positives --treat noise as biopolymer--. In the other set of network extraction parameters, the more influential is the persistence parameter --similar to pruning spurious branches--, and it is dependant on the data, it can even be kept at zero for images with low noise in the surface of the biopolymer, but usually values from 1 to 3 are enough in most situations to remove hairy, non-existing branches introduced by noise.
 
-All the code is freely available and open to be re-used, modified and improved by interested users, with the only condition that any modification to the source code must be open, for all of us to enjoy the improvements.
+All the code is freely available and open to be re-used, modified and improved by interested users.
 
 
 % The comparison between the FIRE algorithm in Matlab and Avizo is not trivial.

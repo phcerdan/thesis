@@ -28,12 +28,12 @@ and polymers''\citep{de_gennes_pierre-gilles_????}
 
 The biological soft materials span as well different length scales: from sugar
 chain structures to active gels inside cells. In the
-lowest scale, we find the biopolymers, which are classified as polysaccharides
+lowest scale the biopolymers are found, which are classified as polysaccharides
 (cellulose, pectin),  polynucleotides (RNA, DNA) or polypeptides (proteins).
 
 Most biopolymers are considered semi-flexible, something in between
 rigid rods and completely flexible (loose) chains.  To formalize this
-distinction we need to introduce $2$ parameters that characterize a polymer
+distinction two parameters are introduced that characterize a polymer
 chain: the \emph{persistence length} \gls{Lp} which is the typical length scale
 for the decay of tangent-tangent correlations, and the \emph{contour length}
 \gls{Lc}, which is defined as the maximum end-to-end distance of a linear
@@ -59,15 +59,15 @@ $$H_{bend}=\frac{\kappa}{2} \int ds|\frac{\partial \textbf{t}}{\partial s}|$$
 
 where $k\equiv\kbend{}$ is the bending modulus, \textbf{t} is a unit tangent
 vector along the chain and $s$ is the coordinate of the position along the
-backbone. In the WLC model we can relate the persistance length with the bending
+backbone. In the WLC model, the persistance length is related with the bending
 modulus via: $\lp{}=2\kbend{}/((d-1)\kbolt{}T)$ where $d$ is the space
 dimensionality.
 
 For nearly straight filaments $\frac{\partial \textbf{t}}{\partial s}$ can be
 expressed via the transverse deviation $u(x)$ of the chain from its straight
 conformation. $\frac{\partial \textbf{t}}{\partial s}=u''(x)$. If the chain is
-under a tensional force from one end (and the other end fixed), we can add the
-term $H_{external}=-fL$ to the Hamiltonian, with L being the end to end
+under a tensional force from one end (and the other end fixed), a
+term $H_{external}=-fL$ can be added to the Hamiltonian, with L being the end to end
 distance.
 The Hamiltonian with this force $f_B$ in transverse coordinates is
 \begin{equation}\label{WLC_H}
@@ -81,18 +81,18 @@ chain constituents completely \citep{hsu_breakdown_2011}. However, for very stif
 polymer these excluded volume considerations can be safely ignored.
 
 Such a chain can respond to transverse and also to longitudinal forces by either
-bending or stretching/compressing.  We can explore further the force-extension
-(FE) relationship, decomposing u in Fourier series:
+bending or stretching/compressing.  The force-extension
+(FE) relationship can be explored further, decomposing $u$ in Fourier series:
 \begin{equation}\label{WLC_ufourier}
 u(x)=\sum_q u_q \sin(qx)
 \end{equation}
-with the wave vector $q=n\pi/L_c$. We can rewrite \ref{WLC_H} as:
+with the wave vector $q=n\pi/L_c$. \ref{WLC_H} can be rewritten as:
 \begin{equation}\label{WLC_Hq}
 H=\frac{1}{2}\int_0^{L_c} dx\Big[\kappa|u''|^2 + f_B|u'|^2\Big] =
 \frac{L_c}{4}\sum_q (\kappa q^4 + f_Bq^2)u_q^2
 \end{equation}
 
-To calculate the equilibrium amplitude we shall use the equipartition theorem:
+The equipartition theorem can be used to calculate the equilibrium amplitude:
 \begin{equation}\label{equipartition}
 \Big\langle x_m\frac{\partial H}{\partial x_n} \Big\rangle= \delta_{mn}\kbolt{}T
 \end{equation}
@@ -113,7 +113,7 @@ amplitudes of the different Fourier modes $u_q^{eq} $ satisfy:
 \begin{equation}\label{equipartition_uq}
 \langle u_q^{eq}\rangle=\frac{2\kbolt{}T}{L_c(\kappa{}q^4+f_Bq^2)}
 \end{equation}
-We can now calculate $\delta L$, the difference between the filament's contour
+$\delta L$ can now be calculated as the difference between the filament's contour
 length and the equilibrium length.
 \begin{equation}\label{deltaL}
 \Delta L= \int dx \Big[ \sqrt{1+|\partial u/\partial x|^2} -1\Big]\simeq
@@ -283,8 +283,8 @@ concentration are essential.
   \item Semi-dilute. The chains do overlap but the polymer fraction
   $\phi=ca^3$ is still low $\phi*\ll\phi\ll1$. Since $\phi$ is small, the monomer-monomer interaction can
   be described very simply, such as with the excluded volume parameter
-  $\upsilon$ in \ref{excludedvolume}. In the case of dense systems we would need more complex
-  relations used in liquids/fluids systems.
+  $\upsilon$ in \ref{excludedvolume}. In the case of dense systems, more complex
+  relations used in liquids/fluids systems are needed.
 \end{enumerate}
 
 
@@ -293,15 +293,13 @@ the solvent acting similar to a liquid state, in the other hand, dense system
 are more like solids, but they are not completely frozen. The transition between
 both regimes is called the gelation point. Th gelation is a connectivity
 transition, where parts of the system becomes correlated by a path of
-inter-connexion. In the gelation point, the chains stop flowing as a liquid. We
-can think in an incipient gel, where a cluster of chains started to form (giant cluster), connecting the boundaries of the
+inter-connexion. In the gelation point, the chains stop flowing as a liquid. It
+can be thought as an incipient gel, where a cluster of chains started to form (giant cluster), connecting the boundaries of the
 material. This incipient gel will behave differently to a fully connected
 network, where the giant cluster is connecting all the chains.
 
 It is not easy to give a closed definition of
-gels\citep{gennes_scaling_1979,rubinstein_polymer_2003}, I like to think about
-it in these terms: it is the point in the phase space of parameters, where a significant correlation, between two points in the
-spatial domain, appears over a length scale of the system size.
+gels\citep{gennes_scaling_1979,rubinstein_polymer_2003}, one of them that is particularly appealing reads: the point in the phase space of parameters, where a significant correlation, between two points in the spatial domain appears over a length scale of the system size.
 %Definition of gel, wikipedia UIAC.
 
 \section{Bulk Rheology}
@@ -322,7 +320,7 @@ response is called viscolelasticity. \citep{macosko_rheology:_1994}.
 One way to study the deformation and flow of viscoelastic materials under
 strain, is to externally apply a small amplitude
 sinusoidal strain:
-$\gamma(t)=\gamma_0\sin(\omega t)$. We can expect (not always, e.g. non-linear
+$\gamma(t)=\gamma_0\sin(\omega t)$. It can be expected (not always, e.g. non-linear
 regime) that the stress output of the material will be:
 \begin{equation}\label{viscoelastic-response}
 \sigma(t) = \sigma_0 \sin(\omega t + \delta)
@@ -453,7 +451,7 @@ The information needed to fully describe a network structure is \cite{palmer_con
   \item Orientation distribution, i.e. angles between adjacent edges.
 \end{enumerate}
 
-We will go through the most used methods to emulate network structures used in dynamic simulations that explore strain and stress responses, pointing the simplifications made, and the associated limitations.
+I will go through the most used methods to emulate network structures used in dynamic simulations that explore strain and stress responses, pointing the simplifications made, and the associated limitations.
 
 \subsection{Mikado Networks}%
 \label{sub:mikado_networks}
@@ -532,11 +530,11 @@ size and persistence length are possible with these techniques. However, because
 averaging nature, it is impossible to gather more detailed information about the specific geometry
 and connectivity of the network.
 
-So we will rely on gathering structural information directly from images taken from a range microscopy techniques depending on the size of the biopolymer under study.
-One of the concerns of this approach, shared specially among the scattering community is how trustable the images are, i.e. if they provide a true representation of the material taken into account that the sample has been modified for the requirements of microscopy preparation. We will answer this, providing a way to compare SAXS data with images, setting the scale at which both techniques give similar results and providing a size range where image features can be trusted.
+I will rely on gathering structural information directly from images taken from a range microscopy techniques depending on the size of the biopolymer under study.
+One of the concerns of this approach, shared specially among the scattering community is how trustable the images are, i.e. if they provide a true representation of the material taken into account that the sample has been modified for the requirements of microscopy preparation. This will be answered, providing a way to compare SAXS data with images, setting the scale at which both techniques give similar results and providing a size range where image features can be trusted.
 
-But before, and in order to study network geometry reliably, we need to provide an image analysis tool-set with algorithms that can be applied to volumetric data, such as tomography and stacks of images.
-We will extend to 3D, and in a high-performance computing language, use state-of-the-art wavelet analysis algorithms, that will aid in our task of gathering the network architecture from images.
+But before, and in order to study network geometry reliably, an image analysis tool-set will be provided with algorithms that can be applied to volumetric data, such as tomography and stacks of images.
+State-of-the-art wavelet analysis algorithms will be extended into 3D using a high-performance computing language, which will aid in our task of gathering the network architecture from images.
 Hence realistic in-silico networks will be generated informed by real 3D images.
 These in-silico networks with full details, can then be used by theoreticians as starting points for non-affinity modeling, instead of the currently used over-simplified architectures.
 We finish by providing a method to reconstruct these networks fully in-silico, just with statistical
@@ -544,7 +542,7 @@ distributions gathered from the networks extracted from real images. This will a
 
 The research question that this work aim to answer is:
 \begin{itemize}
-  \item How can we use real 3D images to reliably extract realistic network architectures?
+  \item How realistic network architectures can be reliably extracted from 3D images?
 \end{itemize}
 
 The main motivation is to go beyond simplistic models for theoretical approaches, using instead real geometries extracted from images.
