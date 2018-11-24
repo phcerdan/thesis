@@ -20,7 +20,7 @@
 In our quest to extract structural information of biopolymer networks from microscopy images
 we need to pre-process these images to get rid of intrinsic noise and spurious information
 that arises from the different microscope techniques. One of the sharpest tools in this area is wavelet analysis, but most of the software in this field is only available in scripting languages, (especially the commercial Matlab) so it is not available for high-performance applications
-or to export to wider communities. Also, it is usually only implemented for 2D images. In this chapter we describe the implementation of isotropic wavelets for the c++ image analysis library ITK, which is open source, the most used library for medical image analysis and the best tool to handle volumetric images, providing mechanisms and helpful abstractions that allow to develop algorithms and apply them to 2D \textbf{and 3D} images.
+or to export to wider communities. Also, it is usually only implemented for 2D images. In this chapter we describe the implementation of isotropic wavelets for the c++ image analysis library Insight ToolKit (ITK), which is open source, the most used library for medical image analysis and the best tool to handle volumetric images, providing mechanisms and helpful abstractions that allow to develop algorithms and apply them to 2D \textbf{and 3D} images.
 
 We will use the wavelet phase analysis introduced here as a denoiser for 2D images in the next chapter and later on in the thesis, it will aid in the binarization of 3D images in preparation for the extraction of graph parameters.
 
